@@ -1180,6 +1180,35 @@
       color: var(--sub);
     }
     .tool-sim-foot .status strong { color: var(--lime); font-weight: 600; }
+    .path-switch {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: var(--u2);
+    }
+    .path-switch button {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 8px 12px;
+      border: 1px solid var(--bd);
+      background: var(--surface);
+      color: var(--sub);
+      cursor: pointer;
+    }
+    .path-switch button.on {
+      color: var(--lime);
+      border-color: var(--lime);
+      background: var(--lime-soft);
+    }
+    .path-switch button small {
+      display: block;
+      margin-top: 2px;
+      font-size: 9px;
+      color: var(--faint);
+      font-weight: 500;
+    }
+    .path-switch button.on small { color: var(--lime-dk); }
   </style>
 </head>
 <body>
@@ -1453,73 +1482,23 @@
 
         <!-- 0x03B TOOL SIM -->
         <section id="x03-tool-sim" data-label="0x03B / TOOL SIM" class="reveal">
-          <h2 class="h-sec">工具過程模擬 · 可重播操作動畫</h2>
+          <h2 class="h-sec">工具過程模擬 · 三條執行路徑</h2>
           <p class="sec-intro">
-            示意一條<strong style="color:var(--ink);font-weight:500;">工業 company 路徑</strong>的 tool trace：路由 → 記憶/OPC → 工具呼叫 → LLM → 預算閘門 → 封存。
-            左側為步驟狀態，右側為即時 log（非真實 API，僅動畫演示）。
+            對齊 <code>resolve_execution_path</code>：<strong style="color:var(--ink);font-weight:500;">simple</strong> 短問答、
+            <strong style="color:var(--ink);font-weight:500;">company</strong> 任務經理（含工業）、
+            <strong style="color:var(--ink);font-weight:500;">minecraft_ops</strong> 單步控制。
+            切換後左側步驟與右側 log 一起重播（演示，不呼叫 API）。
           </p>
+          <div class="path-switch" id="path-switch" role="tablist" aria-label="執行路徑">
+            <button type="button" role="tab" data-path="simple" aria-selected="false">simple<small>SSE · 多維評估</small></button>
+            <button type="button" role="tab" class="on" data-path="company" aria-selected="true">company<small>任務 · industrial_ops</small></button>
+            <button type="button" role="tab" data-path="minecraft" aria-selected="false">minecraft_ops<small>MineMCP · 評估一次</small></button>
+          </div>
           <div class="tool-sim-grid" id="tool-sim-stage">
-            <div class="tool-sim-rail" aria-label="工具鏈步驟">
-              <div class="tool-step" data-tool-step="0">
-                <span class="tool-step-idx">01</span>
-                <div class="tool-step-body">
-                  <div class="tool-step-name">路由解析</div>
-                  <div class="tool-step-sub">resolve_execution_path</div>
-                </div>
-              </div>
-              <div class="tool-step" data-tool-step="1">
-                <span class="tool-step-idx">02</span>
-                <div class="tool-step-body">
-                  <div class="tool-step-name">記憶檢索</div>
-                  <div class="tool-step-sub">chroma.query</div>
-                </div>
-              </div>
-              <div class="tool-step" data-tool-step="2">
-                <span class="tool-step-idx">03</span>
-                <div class="tool-step-body">
-                  <div class="tool-step-name">OPC 讀取</div>
-                  <div class="tool-step-sub">opc.read · guard</div>
-                </div>
-              </div>
-              <div class="tool-step" data-tool-step="3">
-                <span class="tool-step-idx">04</span>
-                <div class="tool-step-body">
-                  <div class="tool-step-name">整合召回</div>
-                  <div class="tool-step-sub">WeKnora · skip</div>
-                </div>
-              </div>
-              <div class="tool-step" data-tool-step="4">
-                <span class="tool-step-idx">05</span>
-                <div class="tool-step-body">
-                  <div class="tool-step-name">量化工具</div>
-                  <div class="tool-step-sub">quant.fetch_yahoo</div>
-                </div>
-              </div>
-              <div class="tool-step" data-tool-step="5">
-                <span class="tool-step-idx">06</span>
-                <div class="tool-step-body">
-                  <div class="tool-step-name">LLM 生成</div>
-                  <div class="tool-step-sub">call_llm · LiteLLM</div>
-                </div>
-              </div>
-              <div class="tool-step" data-tool-step="6">
-                <span class="tool-step-idx">07</span>
-                <div class="tool-step-body">
-                  <div class="tool-step-name">預算閘門</div>
-                  <div class="tool-step-sub">L03 hard stop</div>
-                </div>
-              </div>
-              <div class="tool-step" data-tool-step="7">
-                <span class="tool-step-idx">08</span>
-                <div class="tool-step-body">
-                  <div class="tool-step-name">產出封存</div>
-                  <div class="tool-step-sub">CID · hash chain</div>
-                </div>
-              </div>
-            </div>
+            <div class="tool-sim-rail" id="tool-sim-rail" aria-label="工具鏈步驟"></div>
             <div class="tool-sim-panel">
               <div class="tool-sim-bar idle" id="tool-sim-bar">
-                <span><span class="live-dot">LIVE</span> run-a3f9c2 · industrial_ops</span>
+                <span><span class="live-dot">LIVE</span> <span id="tool-sim-run">run-a3f9c2 · industrial_ops</span></span>
                 <span id="tool-sim-elapsed">0.0s</span>
               </div>
               <div class="tool-sim-progress" aria-hidden="true">
@@ -2735,62 +2714,125 @@ cp .env.linkinl.example .env.linkinl</pre>
       });
       runTrace();
 
-      var toolSimSteps = [
-        {
-          logs: [
-            { ts: '+0ms', cls: 'sys', text: 'POST /chat/stream  trace_id=run-a3f9c2' },
-            { ts: '+12ms', cls: 'sys', text: 'resolve_execution_path → company (industrial_ops template)' }
+      var TOOL_PATHS = {
+        simple: {
+          run: 'run-s1e0 · simple',
+          steps: [
+            { name: '路由解析', sub: '→ simple', logs: [
+              { ts: '+0ms', cls: 'sys', text: 'POST /chat/stream  preview=simple' },
+              { ts: '+18ms', cls: 'sys', text: 'resolve_execution_path → simple' }
+            ]},
+            { name: '記憶檢索', sub: 'chroma.query', logs: [
+              { ts: '+40ms', cls: 'tool', text: 'tool chroma.query  top_k=3' },
+              { ts: '+52ms', cls: 'ok', text: '← 1 chunk · 420 tokens' }
+            ]},
+            { name: '單次生成', sub: 'call_llm', logs: [
+              { ts: '+60ms', cls: 'llm', text: 'call_llm  tier=routine  path=simple', delay: 700 },
+              { ts: '+640ms', cls: 'ok', text: '← answer len=380' }
+            ]},
+            { name: '多維評估', sub: '長度守門', logs: [
+              { ts: '+660ms', cls: 'gate', text: 'eval score=8.4  threshold=8  iter=1/3' },
+              { ts: '+670ms', cls: 'ok', text: '達標 · 不再反思' }
+            ]},
+            { name: '產出封存', sub: 'CID', logs: [
+              { ts: '+690ms', cls: 'tool', text: 'archive.write  final_answer.md' },
+              { ts: '+710ms', cls: 'ok', text: 'CID bafybei…s1  h₁←genesis' }
+            ]}
           ]
         },
-        {
-          logs: [
-            { ts: '+84ms', cls: 'tool', text: 'tool chroma.query  top_k=8  collection=session_mem' },
-            { ts: '+96ms', cls: 'ok', text: '← 6 chunks · 2.1k tokens (injected)' }
+        company: {
+          run: 'run-a3f9c2 · industrial_ops',
+          steps: [
+            { name: '路由解析', sub: 'resolve_execution_path', logs: [
+              { ts: '+0ms', cls: 'sys', text: 'POST /chat/stream  trace_id=run-a3f9c2' },
+              { ts: '+12ms', cls: 'sys', text: 'resolve_execution_path → company (industrial_ops)' }
+            ]},
+            { name: '記憶檢索', sub: 'chroma.query', logs: [
+              { ts: '+84ms', cls: 'tool', text: 'tool chroma.query  top_k=8  collection=session_mem' },
+              { ts: '+96ms', cls: 'ok', text: '← 6 chunks · 2.1k tokens (injected)' }
+            ]},
+            { name: 'OPC 讀取', sub: 'opc.read · guard', logs: [
+              { ts: '+142ms', cls: 'tool', text: 'tool opc.read  nodes=[Temperature,Pressure,ValvePosition]' },
+              { ts: '+158ms', cls: 'ok', text: '← OPC guard read-only · sim :4840' }
+            ]},
+            { name: '整合召回', sub: 'WeKnora · skip', logs: [
+              { ts: '+201ms', cls: 'sys', text: 'integration_recall WeKnora · explicit=false → skip' }
+            ]},
+            { name: '量化工具', sub: 'quant.fetch_yahoo', logs: [
+              { ts: '+240ms', cls: 'tool', text: 'tool quant.fetch_yahoo  symbol=2330.TW' },
+              { ts: '+318ms', cls: 'ok', text: '← spot +1.2% · injected to company goal' }
+            ]},
+            { name: '任務生成', sub: 'call_llm · LiteLLM', logs: [
+              { ts: '+340ms', cls: 'llm', text: 'call_llm  model=gpt-4o  tier=routine  tokens≈842', delay: 920 },
+              { ts: '+1.84s', cls: 'ok', text: '← draft answer len=1.2k · reflect=off' }
+            ]},
+            { name: '預算閘門', sub: 'L03 hard stop', logs: [
+              { ts: '+1.86s', cls: 'gate', text: 'budget_gate  tokens=84,320/128,000  cost=$8.42/$12.00' },
+              { ts: '+1.87s', cls: 'ok', text: 'L03 PASS · rate 38/60 req·min⁻¹' }
+            ]},
+            { name: '產出封存', sub: 'CID · hash chain', logs: [
+              { ts: '+1.92s', cls: 'tool', text: 'archive.write  final_answer.md + tool_trace.json' },
+              { ts: '+1.95s', cls: 'ok', text: 'CID bafybei…k7m2  sha256=9f2c…a1  h₃←h₂' }
+            ]}
           ]
         },
-        {
-          logs: [
-            { ts: '+142ms', cls: 'tool', text: 'tool opc.read  nodes=[Temperature,Pressure,ValvePosition]' },
-            { ts: '+158ms', cls: 'ok', text: '← OPC guard read-only · sim :4840' }
-          ]
-        },
-        {
-          logs: [
-            { ts: '+201ms', cls: 'sys', text: 'integration_recall WeKnora · explicit=false → skip' }
-          ]
-        },
-        {
-          logs: [
-            { ts: '+240ms', cls: 'tool', text: 'tool quant.fetch_yahoo  symbol=2330.TW' },
-            { ts: '+318ms', cls: 'ok', text: '← spot +1.2% · injected to company goal' }
-          ]
-        },
-        {
-          logs: [
-            { ts: '+340ms', cls: 'llm', text: 'call_llm  model=gpt-4o  tier=routine  tokens≈842', delay: 920 },
-            { ts: '+1.84s', cls: 'ok', text: '← draft answer len=1.2k · cross_eval=off' }
-          ]
-        },
-        {
-          logs: [
-            { ts: '+1.86s', cls: 'gate', text: 'budget_gate  tokens=84,320/128,000  cost=$8.42/$12.00' },
-            { ts: '+1.87s', cls: 'ok', text: 'L03 PASS · rate 38/60 req·min⁻¹' }
-          ]
-        },
-        {
-          logs: [
-            { ts: '+1.92s', cls: 'tool', text: 'archive.write  final_answer.md + tool_trace.json' },
-            { ts: '+1.95s', cls: 'ok', text: 'CID bafybei…k7m2  sha256=9f2c…a1  h₃←h₂ append-only' }
+        minecraft: {
+          run: 'run-mc04 · minecraft_ops',
+          steps: [
+            { name: '路由解析', sub: '→ minecraft_ops', logs: [
+              { ts: '+0ms', cls: 'sys', text: 'POST /chat  strategy=auto  content=單步放置' },
+              { ts: '+14ms', cls: 'sys', text: 'resolve_execution_path → minecraft_ops' }
+            ]},
+            { name: '世界讀取', sub: 'MineMCP', logs: [
+              { ts: '+40ms', cls: 'tool', text: 'tool minecraft.inspect  world=world  r=8' },
+              { ts: '+88ms', cls: 'ok', text: '← player pos · 無寫入' }
+            ]},
+            { name: '單步工具', sub: 'minecraft_mcp', logs: [
+              { ts: '+100ms', cls: 'tool', text: 'tool minecraft.place  block=oak_log  n=1' },
+              { ts: '+160ms', cls: 'ok', text: '← JSON-RPC :3000 · guard ok' }
+            ]},
+            { name: '評估一次', sub: '超長才反思', logs: [
+              { ts: '+180ms', cls: 'gate', text: 'eval once · length ok · reflect skipped' },
+              { ts: '+190ms', cls: 'ok', text: '定稿' }
+            ]},
+            { name: '產出封存', sub: 'trace', logs: [
+              { ts: '+210ms', cls: 'tool', text: 'archive.write  tool_trace.json' },
+              { ts: '+230ms', cls: 'ok', text: 'CID bafybei…mc  h₁←genesis' }
+            ]}
           ]
         }
-      ];
+      };
+      var toolPath = 'company';
+      var toolSimSteps = TOOL_PATHS.company.steps;
       var toolSimTimer = null;
       var toolSimLoopTimer = null;
       var toolSimStarted = false;
 
+      function renderToolRail() {
+        var rail = document.getElementById('tool-sim-rail');
+        var spec = TOOL_PATHS[toolPath];
+        toolSimSteps = spec.steps;
+        var runEl = document.getElementById('tool-sim-run');
+        if (runEl) runEl.textContent = spec.run;
+        if (!rail) return;
+        rail.innerHTML = '';
+        spec.steps.forEach(function (step, idx) {
+          var row = document.createElement('div');
+          row.className = 'tool-step';
+          row.setAttribute('data-tool-step', String(idx));
+          var n = idx + 1;
+          row.innerHTML = '<span class="tool-step-idx">' + (n < 10 ? '0' + n : n) + '</span>' +
+            '<div class="tool-step-body"><div class="tool-step-name"></div><div class="tool-step-sub"></div></div>';
+          row.querySelector('.tool-step-name').textContent = step.name;
+          row.querySelector('.tool-step-sub').textContent = step.sub;
+          rail.appendChild(row);
+        });
+      }
+
       function resetToolSimUI() {
         if (toolSimTimer) clearTimeout(toolSimTimer);
         toolSimTimer = null;
+        renderToolRail();
         document.querySelectorAll('[data-tool-step]').forEach(function (el) {
           el.classList.remove('active', 'done');
         });
@@ -2905,6 +2947,18 @@ cp .env.linkinl.example .env.linkinl</pre>
         runStep();
       }
 
+      function selectToolPath(id, autoLoop) {
+        if (!TOOL_PATHS[id]) return;
+        toolPath = id;
+        document.querySelectorAll('#path-switch button').forEach(function (btn) {
+          var on = btn.getAttribute('data-path') === id;
+          btn.classList.toggle('on', on);
+          btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        if (toolSimLoopTimer) clearTimeout(toolSimLoopTimer);
+        runToolSim(autoLoop);
+      }
+
       var toolRerun = document.getElementById('tool-sim-rerun');
       if (toolRerun) {
         toolRerun.addEventListener('click', function () {
@@ -2912,6 +2966,12 @@ cp .env.linkinl.example .env.linkinl</pre>
           runToolSim(false);
         });
       }
+      document.querySelectorAll('#path-switch button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          selectToolPath(btn.getAttribute('data-path'), false);
+        });
+      });
+      renderToolRail();
       if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.create({
           trigger: '#x03-tool-sim',
