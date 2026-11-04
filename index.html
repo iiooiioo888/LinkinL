@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>LinkinL — 可證明的多 Agent 編排引擎</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,7 +38,7 @@
     }
     * { box-sizing: border-box; margin: 0; }
     html {
-      overflow-x: clip;
+      overflow-x: hidden;
       scroll-behavior: smooth;
     }
     html.lenis, html.lenis body { height: auto; }
@@ -51,7 +51,7 @@
       color: var(--ink);
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
-      overflow-x: clip;
+      overflow-x: hidden;
       max-width: 100%;
     }
     a { color: inherit; }
@@ -66,7 +66,8 @@
       display: flex;
       align-items: center;
       gap: var(--u2);
-      padding: 0 var(--u2);
+      padding: 0 max(var(--u2), env(safe-area-inset-right, 0px)) 0 max(var(--u2), env(safe-area-inset-left, 0px));
+      padding-top: max(0px, env(safe-area-inset-top, 0px));
       border-bottom: 1px solid var(--bd);
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       backdrop-filter: blur(10px);
@@ -291,8 +292,45 @@
       display: block;
     }
     @media (min-width: 901px) and (max-width: 1180px) {
-      .trace-body { overflow-x: auto; }
-      .dag { min-width: 640px; width: 640px; max-width: none; }
+      .trace-body {
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+      }
+      .dag {
+        min-width: 520px;
+        width: max(100%, 520px);
+        max-width: none;
+      }
+    }
+    @media (min-width: 901px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        align-items: center;
+        gap: clamp(var(--u3), 3vw, var(--u4));
+      }
+      .trace-stage {
+        max-height: min(320px, 42vh);
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .trace-body {
+        flex: 1;
+        min-height: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+      }
+      .dag {
+        aspect-ratio: 880 / 148;
+        height: auto;
+        max-height: 200px;
+      }
+      .main {
+        margin-right: max(var(--u2), calc((100vw - var(--rail) - 1120px) / 2));
+        width: min(1120px, calc(100vw - var(--rail) - var(--u2)));
+        max-width: 1120px;
+      }
     }
     .dag-node rect { fill: var(--surface-hi); stroke: var(--bd); stroke-width: 1; rx: 0; }
     .dag-node.active rect { stroke: var(--lime); fill: color-mix(in srgb, var(--lime) 8%, var(--surface-hi)); }
@@ -564,6 +602,87 @@
     }
     .reveal { opacity: 0; transform: translateY(12px); }
     .reveal.is-visible { opacity: 1; transform: none; }
+    @media (max-width: 768px) {
+      :root { --topbar: 96px; }
+      .topbar {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 52px;
+        align-content: center;
+        row-gap: var(--u);
+        padding-bottom: var(--u);
+      }
+      .brand { flex: 0 1 auto; min-width: 0; font-size: 14px; }
+      .nav {
+        order: 3;
+        flex: 1 1 100%;
+        margin-left: 0;
+        min-width: 0;
+      }
+      .topbar-actions {
+        margin-left: auto;
+        flex-shrink: 1;
+        min-width: 0;
+        gap: 6px;
+      }
+      .topbar-actions .btn.mono {
+        padding: 10px 10px;
+        font-size: 10px;
+        max-width: 9em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .nav a,
+      .btn,
+      .trace-head .btn {
+        min-height: 44px;
+        min-width: 44px;
+        font-size: 11px;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav a { display: inline-flex; padding: 10px 12px; }
+      .main {
+        padding-left: max(var(--section-pad), env(safe-area-inset-left, 0px));
+        padding-right: max(var(--section-pad), env(safe-area-inset-right, 0px));
+      }
+      .hero-grid { gap: var(--u3); }
+      .hero-copy { order: 1; }
+      .trace-stage { order: 2; max-width: 100%; }
+      .trace-body {
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .dag {
+        min-width: 560px;
+        width: 560px;
+        max-width: none;
+        flex-shrink: 0;
+      }
+      .tiles { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .compare-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .pain-card p,
+      .trust-item p,
+      .price-card ul,
+      .tile-role,
+      .faq-list p,
+      .voice blockquote { font-size: 11px; }
+    }
+    @media (max-width: 640px) {
+      .nav a[href="#compare"],
+      .nav a[href="#trust"],
+      .nav a[href="#voices"],
+      .nav a[href="#faq"] { display: none; }
+    }
+    @media (max-width: 390px) {
+      .spec-cols { grid-template-columns: 1fr; }
+      .trust-grid { grid-template-columns: 1fr; }
+      .topbar-actions .btn.mono { display: none; }
+      .tiles { grid-template-columns: 1fr; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; }
     }
