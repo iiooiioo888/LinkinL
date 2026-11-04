@@ -10,23 +10,27 @@ export function EcosystemStackSection() {
       <p className="sec-label">
         <em>Ecosystem</em> · 與 LinkinL 互補的開源棧
       </p>
-      <h2 className="h-sec">程式智能 × 決策溯源 · 疊在 Linkin 運行時之上</h2>
+      <h2 className="h-sec">程式智能 × 組隊 × 決策溯源 · 疊在 Linkin 運行時之上</h2>
       <p className="sec-intro">
         LinkinL 負責<strong>本機可證明的 Agent 執行</strong>（工具 trace、預算閘、產出 hash）。
-        下列兩個社群專案分別補上<strong>程式碼影響分析</strong>與<strong>Agent 結果往回查</strong>，
-        可與 LangGraph run 並用，而非取代 Linkin runtime。
+        下列開源專案分別補上<strong>程式碼影響</strong>、<strong>Claude Code 組隊桌面</strong>與
+        <strong>Agent 結果往回查</strong>，可與 LangGraph run 並用，而非取代 Linkin runtime。
       </p>
 
       <div className="ecosystem-flow" aria-label="建議協作順序">
-        <span className="ecosystem-flow-step">GitNexus · 改碼 / review</span>
+        <span className="ecosystem-flow-step">GitNexus · 改碼</span>
         <span className="ecosystem-flow-arrow" aria-hidden="true">
           →
         </span>
-        <span className="ecosystem-flow-step linkin">LinkinL · 執行編排</span>
+        <span className="ecosystem-flow-step">ATM · Claude 組隊</span>
         <span className="ecosystem-flow-arrow" aria-hidden="true">
           →
         </span>
-        <span className="ecosystem-flow-step">Semantica · 決策溯源</span>
+        <span className="ecosystem-flow-step linkin">LinkinL · 執行</span>
+        <span className="ecosystem-flow-arrow" aria-hidden="true">
+          →
+        </span>
+        <span className="ecosystem-flow-step">Semantica · 溯源</span>
       </div>
 
       <div className="ecosystem-grid">

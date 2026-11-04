@@ -9,7 +9,7 @@ export type EcosystemPartner = {
   role: string;
   capabilities: string[];
   linkinFit: string;
-  accent: 'code' | 'provenance';
+  accent: 'code' | 'provenance' | 'team';
 };
 
 export const ECOSYSTEM_PARTNERS: EcosystemPartner[] = [
@@ -45,5 +45,19 @@ export const ECOSYSTEM_PARTNERS: EcosystemPartner[] = [
     linkinFit:
       'Linkin 跑完一輪 Agent 後，把結論與依據寫入 Context Graph，監管 / 內審可追因果鏈。',
     accent: 'provenance',
+  },
+  {
+    id: 'atm',
+    name: 'ATM · Agent Team Manager',
+    tagline: 'Claude Code 視覺化 org chart · 一鍵 Deploy · Pipeline · 排程',
+    github: 'https://github.com/DatafyingTech/Claude-Agent-Team-Manager',
+    homepage: 'https://github.com/DatafyingTech/AUI/releases/latest',
+    install: 'ATM-Setup.exe / ATM.dmg（AUI releases）',
+    license: 'MIT',
+    role: '組隊 · 部署 Claude',
+    capabilities: ['org-chart', 'deploy', 'pipeline', 'schedule', 'variables', 'export-json'],
+    linkinFit:
+      '管理 `.claude/` 多 agent 編排與定時任務；LinkinL 則跑 LangGraph 本機 runtime 與 L01–L04 證據鏈，兩者可並存。',
+    accent: 'team',
   },
 ];
