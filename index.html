@@ -1406,6 +1406,328 @@
       .l01-map-link.active::after { animation: none; left: 50%; }
       .l01-map-bar .live-dot::before { animation: none; }
     }
+    .layer-stack-sim {
+      --lss-l04: #9d8bff;
+      --lss-l03: #ffb347;
+      --lss-l02: #2dd4bf;
+      --lss-l01: #4ade80;
+      border: 1px solid var(--bd);
+      background: var(--surface);
+      margin-top: var(--u2);
+    }
+    .layer-stack-sim .lss-head {
+      padding: var(--u2) var(--u3);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-hi);
+      text-align: center;
+    }
+    .layer-stack-sim .lss-kicker {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--lss-l02);
+      border: 1px solid var(--bd);
+      padding: 4px 12px;
+      margin-bottom: var(--u);
+      background: color-mix(in srgb, var(--lss-l02) 8%, transparent);
+    }
+    .layer-stack-sim .lss-title {
+      font-size: clamp(16px, 2.2vw, 20px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .layer-stack-sim .lss-title .grad {
+      background: linear-gradient(90deg, var(--lss-l04), var(--lss-l02));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .layer-stack-sim .lss-sub {
+      font-size: 12px;
+      color: var(--sub);
+      margin-top: 6px;
+      line-height: 1.65;
+    }
+    .layer-stack-sim .lss-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--gap);
+      padding: var(--u2);
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .layer-stack-sim .lss-stage { grid-template-columns: 1fr; }
+    }
+    .layer-stack-sim .lss-stack {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: var(--u2);
+      padding: var(--u) 0;
+    }
+    .layer-stack-sim .lss-stack::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(to bottom, var(--lss-l04), var(--lss-l03), var(--lss-l02), var(--lss-l01));
+      opacity: 0.22;
+    }
+    .layer-stack-sim .lss-layer {
+      position: relative;
+      background: var(--panel);
+      border: 1px solid var(--bd);
+      padding: var(--u2);
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: var(--u2);
+      transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+      overflow: hidden;
+    }
+    .layer-stack-sim .lss-layer[data-l='l04'] { --c: var(--lss-l04); }
+    .layer-stack-sim .lss-layer[data-l='l03'] { --c: var(--lss-l03); }
+    .layer-stack-sim .lss-layer[data-l='l02'] { --c: var(--lss-l02); }
+    .layer-stack-sim .lss-layer[data-l='l01'] { --c: var(--lss-l01); }
+    .layer-stack-sim .lss-layer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 30% 50%, color-mix(in srgb, var(--c) 22%, transparent), transparent 72%);
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+    .layer-stack-sim .lss-layer.active {
+      border-color: var(--c);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--c) 45%, transparent),
+        0 12px 40px -24px var(--c);
+      transform: translateX(3px);
+    }
+    .layer-stack-sim .lss-layer.active::before { opacity: 1; }
+    .layer-stack-sim .lss-badge {
+      align-self: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 6px;
+      border: 1px solid color-mix(in srgb, var(--c) 32%, transparent);
+      background: color-mix(in srgb, var(--c) 10%, transparent);
+      transition: background 0.35s ease, box-shadow 0.35s ease;
+    }
+    .layer-stack-sim .lss-layer.active .lss-badge {
+      background: color-mix(in srgb, var(--c) 22%, transparent);
+      box-shadow: 0 0 18px -6px var(--c);
+    }
+    .layer-stack-sim .lss-badge .id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--c);
+    }
+    .layer-stack-sim .lss-badge .tag {
+      font-size: 9px;
+      color: var(--faint);
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+    .layer-stack-sim .lss-layer h3 {
+      font-size: 14px;
+      color: var(--c);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .layer-stack-sim .lss-layer .lss-desc {
+      font-size: 12px;
+      color: var(--sub);
+      margin-bottom: var(--u);
+      line-height: 1.65;
+    }
+    .layer-stack-sim .lss-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .layer-stack-sim .lss-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 4px 8px;
+      border: 1px solid var(--bd);
+      background: var(--surface);
+      color: var(--sub);
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+    .layer-stack-sim .lss-chip b { color: var(--c); font-weight: 600; }
+    .layer-stack-sim .lss-chip.stop { border-color: rgba(255, 90, 90, 0.35); color: #ff9a9a; }
+    .layer-stack-sim .lss-chip.ok {
+      border-color: rgba(74, 222, 128, 0.55);
+      background: rgba(74, 222, 128, 0.1);
+      color: #8ef0a8;
+    }
+    .layer-stack-sim .lss-chip.ok::before { content: '✓ '; color: var(--lss-l01); font-weight: 700; }
+    .layer-stack-sim .lss-chip.stop.lock {
+      border-color: rgba(255, 90, 90, 0.85);
+      background: rgba(255, 90, 90, 0.14);
+      color: #ffb0b0;
+      box-shadow: 0 0 12px -4px rgba(255, 90, 90, 0.8);
+    }
+    .layer-stack-sim .lss-packet {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      z-index: 6;
+      pointer-events: none;
+      transform: translate(0, -30px) translateY(-50%);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, color 0.4s ease;
+      animation: lss-pulse 1.1s ease-in-out infinite;
+    }
+    .layer-stack-sim .lss-packet::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      width: 1px;
+      height: 48px;
+      transform: translateX(-50%);
+      background: linear-gradient(to top, currentColor, transparent);
+      opacity: 0.65;
+    }
+    @keyframes lss-pulse {
+      0%, 100% { box-shadow: 0 0 8px 2px currentColor, 0 0 20px 6px color-mix(in srgb, currentColor 35%, transparent); }
+      50% { box-shadow: 0 0 14px 3px currentColor, 0 0 32px 12px color-mix(in srgb, currentColor 45%, transparent); }
+    }
+    .layer-stack-sim .lss-console {
+      border: 1px solid var(--bd);
+      background: var(--panel);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--topbar) + var(--u2));
+    }
+    @media (max-width: 860px) {
+      .layer-stack-sim .lss-console { position: static; }
+    }
+    .layer-stack-sim .lss-console-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--faint);
+      background: var(--surface-hi);
+    }
+    .layer-stack-sim .lss-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .layer-stack-sim .lss-dot.r { background: #ff5f57; }
+    .layer-stack-sim .lss-dot.y { background: #febc2e; }
+    .layer-stack-sim .lss-dot.g { background: #28c840; }
+    .layer-stack-sim .lss-log {
+      height: min(376px, 52vh);
+      overflow-y: auto;
+      padding: var(--u2);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+    .layer-stack-sim .lss-log-line {
+      display: flex;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(6px);
+      animation: lss-line-in 0.35s ease forwards;
+    }
+    @keyframes lss-line-in { to { opacity: 1; transform: none; } }
+    .layer-stack-sim .lss-log-line .lt { color: var(--faint); flex: 0 0 auto; }
+    .layer-stack-sim .lss-log-line .msg { color: var(--sub); word-break: break-word; }
+    .layer-stack-sim .lss-log-line.exec .msg { color: #c4b5ff; }
+    .layer-stack-sim .lss-log-line.ctrl .msg { color: #ffc078; }
+    .layer-stack-sim .lss-log-line.ledger .msg { color: #7ee8dc; }
+    .layer-stack-sim .lss-log-line.ok .msg { color: #8ef0a8; }
+    .layer-stack-sim .lss-log-line.dim .msg { color: var(--faint); }
+    .layer-stack-sim .lss-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--u2);
+      flex-wrap: wrap;
+      padding: var(--u2) var(--u3) var(--u3);
+      border-top: 1px solid var(--line);
+    }
+    .layer-stack-sim .lss-controls .btn { padding: 8px 14px; font-size: 11px; }
+    .layer-stack-sim .lss-progress-track {
+      flex: 1;
+      min-width: 140px;
+      height: 4px;
+      background: var(--surface-hi);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .layer-stack-sim .lss-progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--lss-l04), var(--lss-l03), var(--lss-l02), var(--lss-l01));
+    }
+    .layer-stack-sim .lss-legend {
+      display: grid;
+      gap: var(--gap);
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      padding: 0 var(--u3) var(--u3);
+    }
+    .layer-stack-sim .lss-legend-item {
+      border: 1px solid var(--bd);
+      background: var(--panel);
+      padding: var(--u2);
+    }
+    .layer-stack-sim .lss-legend-item[data-l='l04'] { --c: var(--lss-l04); }
+    .layer-stack-sim .lss-legend-item[data-l='l03'] { --c: var(--lss-l03); }
+    .layer-stack-sim .lss-legend-item[data-l='l02'] { --c: var(--lss-l02); }
+    .layer-stack-sim .lss-legend-item[data-l='l01'] { --c: var(--lss-l01); }
+    .layer-stack-sim .lss-legend-item h4 {
+      font-size: 12px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .layer-stack-sim .lss-legend-item h4::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--c);
+    }
+    .layer-stack-sim .lss-legend-item p {
+      font-size: 11px;
+      color: var(--sub);
+      line-height: 1.65;
+      margin: 0;
+    }
+    @media (max-width: 560px) {
+      .layer-stack-sim .lss-layer { grid-template-columns: 1fr; gap: var(--u); }
+      .layer-stack-sim .lss-badge {
+        flex-direction: row;
+        gap: 8px;
+        padding: 6px 10px;
+        justify-content: flex-start;
+      }
+      .layer-stack-sim .lss-log { height: 220px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .layer-stack-sim .lss-packet { display: none; }
+      .layer-stack-sim .lss-packet,
+      .layer-stack-sim .lss-log-line { animation: none; opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -1566,73 +1888,95 @@
           <h2 class="h-sec">四層執行架構 · 招牌時刻</h2>
           <p class="sec-intro">
             敘事順序 <strong style="color:var(--lime);font-family:'JetBrains Mono',monospace;">L04 → L03 → L02 → L01</strong>：
-            由上而下為 AI 執行、預算閘門、共識帳本與 OSS 組件整合。
+            由上而下為 AI 執行、預算閘門、共識帳本與 OSS 組件整合。下方<strong style="color:var(--lime);font-weight:600;"> LIVE TRACE</strong> 動畫示範一次請求如何穿過四層。
           </p>
-          <div class="sig-0x02">
-            <svg class="stack-svg" viewBox="0 0 180 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <line x1="28" y1="32" x2="28" y2="268" stroke="#c6ff3d" stroke-width="1" />
-              <circle cx="28" cy="32" r="3" fill="#c6ff3d" />
-              <circle cx="28" cy="96" r="3" fill="#c6ff3d" />
-              <circle cx="28" cy="160" r="3" fill="#c6ff3d" />
-              <circle cx="28" cy="224" r="3" fill="#c6ff3d" />
-              <rect x="40" y="12" width="128" height="56" fill="none" stroke="#25262c" stroke-width="1" />
-              <text x="104" y="36" fill="#ececee" font-family="Noto Sans TC,sans-serif" font-size="11" text-anchor="middle">L04 · AI 執行層</text>
-              <text x="104" y="52" fill="#4e4e58" font-family="JetBrains Mono" font-size="8" text-anchor="middle">Agent / Graph</text>
-              <line x1="28" y1="40" x2="40" y2="40" stroke="#c6ff3d" stroke-width="1" />
-              <rect x="40" y="76" width="128" height="56" fill="none" stroke="#25262c" stroke-width="1" />
-              <text x="104" y="100" fill="#ececee" font-family="Noto Sans TC,sans-serif" font-size="11" text-anchor="middle">L03 · 預算層</text>
-              <text x="104" y="116" fill="#4e4e58" font-family="JetBrains Mono" font-size="8" text-anchor="middle">Token / GPU</text>
-              <line x1="28" y1="104" x2="40" y2="104" stroke="#c6ff3d" stroke-width="1" />
-              <rect x="40" y="140" width="128" height="56" fill="none" stroke="#25262c" stroke-width="1" />
-              <text x="104" y="164" fill="#ececee" font-family="Noto Sans TC,sans-serif" font-size="11" text-anchor="middle">L02 · 共識層</text>
-              <text x="104" y="180" fill="#4e4e58" font-family="JetBrains Mono" font-size="8" text-anchor="middle">CID / Hash</text>
-              <line x1="28" y1="168" x2="40" y2="168" stroke="#c6ff3d" stroke-width="1" />
-              <rect x="40" y="204" width="128" height="56" fill="none" stroke="#25262c" stroke-width="1" />
-              <text x="104" y="228" fill="#ececee" font-family="Noto Sans TC,sans-serif" font-size="11" text-anchor="middle">L01 · 組件層</text>
-              <text x="104" y="244" fill="#4e4e58" font-family="JetBrains Mono" font-size="8" text-anchor="middle">OSS 整合</text>
-              <line x1="28" y1="232" x2="40" y2="232" stroke="#c6ff3d" stroke-width="1" />
-              <text x="104" y="288" fill="#4e4e58" font-family="JetBrains Mono" font-size="8" text-anchor="middle">0x02 · 四層堆疊</text>
-            </svg>
-            <div class="spec-scroll" tabindex="0" aria-label="四層規格欄位（可橫向捲動）">
-            <div class="spec-cols">
-              <div class="spec-col">
-                <h4>L04 執行</h4>
-                <div class="spec-row"><span class="k">管線</span><span class="v">LangGraph</span></div>
-                <div class="spec-row"><span class="k">路由</span><span class="v">simple / company</span></div>
-                <div class="spec-row"><span class="k">LLM 閘道</span><span class="v">call_llm</span></div>
-                <div class="spec-row"><span class="k">反思</span><span class="v">EvoLoop</span></div>
-                <div class="spec-row"><span class="k">本機埠</span><span class="v">:8000</span></div>
-              </div>
-              <div class="spec-col">
-                <h4>L03 預算</h4>
-                <div class="spec-row"><span class="k">Token 池</span><span class="v">128k / run</span></div>
-                <div class="spec-row"><span class="k">GPU 配額</span><span class="v">4h / day</span></div>
-                <div class="spec-row"><span class="k">成本上限</span><span class="v">$12.00</span></div>
-                <div class="spec-row"><span class="k">速率閘門</span><span class="v">60 req/min</span></div>
-                <div class="spec-row"><span class="k">超限</span><span class="v">hard stop</span></div>
-              </div>
-              <div class="spec-col">
-                <h4>L02 共識</h4>
-                <div class="spec-row"><span class="k">封存</span><span class="v">IPFS CID</span></div>
-                <div class="spec-row"><span class="k">雜湊鏈</span><span class="v">sha256∥prev</span></div>
-                <div class="spec-row"><span class="k">簽章</span><span class="v">ed25519</span></div>
-                <div class="spec-row"><span class="k">稽核</span><span class="v">append-only</span></div>
-                <div class="spec-row"><span class="k">回放</span><span class="v">trace id</span></div>
-              </div>
-              <div class="spec-col">
-                <h4>L01 組件</h4>
-                <div class="spec-row"><span class="k">推理</span><span class="v">vLLM / SGLang</span></div>
-                <div class="spec-row"><span class="k">注意力</span><span class="v">FlashAttn</span></div>
-                <div class="spec-row"><span class="k">編排</span><span class="v">LangGraph</span></div>
-                <div class="spec-row"><span class="k">分散式</span><span class="v">Ray</span></div>
-                <div class="spec-row"><span class="k">向量</span><span class="v">Chroma</span></div>
-                <div class="spec-row"><span class="k">快取</span><span class="v">Redis</span></div>
-                <div class="spec-row"><span class="k">API</span><span class="v">FastAPI</span></div>
-              </div>
+          <div class="layer-stack-sim reveal" id="layer-stack-sim" aria-labelledby="lss-heading">
+            <div class="lss-head">
+              <span class="lss-kicker">0x02 · LIVE TRACE</span>
+              <h3 class="lss-title" id="lss-heading">四層堆疊 <span class="grad">L04 → L03 → L02 → L01</span></h3>
+              <p class="lss-sub">光點 = 一次請求。由上而下：執行 → 預算閘門 → 封存稽核 → OSS 落地（示意，非即時 trace）。</p>
             </div>
+            <div class="lss-stage">
+              <div class="lss-stack" id="lss-stack">
+                <div class="lss-layer" data-l="l04">
+                  <div class="lss-badge"><span class="id">L04</span><span class="tag">AI 執行層</span></div>
+                  <div>
+                    <h3>AI 執行層 · Agent / Graph</h3>
+                    <p class="lss-desc">決定任務怎麼跑：路由、呼叫 LLM、必要時進入反思迴圈。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">管線 <b>LangGraph</b></span>
+                      <span class="lss-chip">路由 <b>simple / company</b></span>
+                      <span class="lss-chip">LLM 閘道 <b>call_llm</b></span>
+                      <span class="lss-chip">反思 <b>EvoLoop</b></span>
+                      <span class="lss-chip">本機埠 <b>:8000</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l03">
+                  <div class="lss-badge"><span class="id">L03</span><span class="tag">預算層</span></div>
+                  <div>
+                    <h3>預算層 · Token / GPU</h3>
+                    <p class="lss-desc">執行前閘門檢查，成本與速率是硬約束，超限直接停止。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">Token 池 <b>128k / run</b></span>
+                      <span class="lss-chip">GPU 配額 <b>4h / day</b></span>
+                      <span class="lss-chip">成本上限 <b>$12.00</b></span>
+                      <span class="lss-chip">速率閘門 <b>60 req/min</b></span>
+                      <span class="lss-chip stop">超限 <b>hard stop</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l02">
+                  <div class="lss-badge"><span class="id">L02</span><span class="tag">共識層</span></div>
+                  <div>
+                    <h3>共識層 · CID / Hash</h3>
+                    <p class="lss-desc">結果與中介產物封存、簽章、稽核，可用 trace id 回放。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">封存 <b>IPFS CID</b></span>
+                      <span class="lss-chip">雜湊鏈 <b>sha256∥prev</b></span>
+                      <span class="lss-chip">簽章 <b>ed25519</b></span>
+                      <span class="lss-chip">稽核 <b>append-only</b></span>
+                      <span class="lss-chip">回放 <b>trace id</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l01">
+                  <div class="lss-badge"><span class="id">L01</span><span class="tag">組件層</span></div>
+                  <div>
+                    <h3>組件層 · OSS 整合</h3>
+                    <p class="lss-desc">實際跑在開源堆疊上：推理、注意力、編排、分散式、向量、快取、API。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">推理 <b>vLLM / SGLang</b></span>
+                      <span class="lss-chip">注意力 <b>FlashAttn</b></span>
+                      <span class="lss-chip">編排 <b>LangGraph</b></span>
+                      <span class="lss-chip">分散式 <b>Ray</b></span>
+                      <span class="lss-chip">向量 <b>Chroma</b></span>
+                      <span class="lss-chip">快取 <b>Redis</b></span>
+                      <span class="lss-chip">API <b>FastAPI</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-packet" id="lss-packet" aria-hidden="true"></div>
+              </div>
+              <aside class="lss-console" aria-label="四層 trace log">
+                <div class="lss-console-head">
+                  <span class="lss-dot r"></span><span class="lss-dot y"></span><span class="lss-dot g"></span>
+                  <span style="margin-left:6px;">TRACE LOG · run #0x7f3a</span>
+                </div>
+                <div class="lss-log" id="lss-log"></div>
+              </aside>
+            </div>
+            <div class="lss-controls">
+              <button type="button" class="btn mono" id="lss-replay">↻ 重播</button>
+              <div class="lss-progress-track" aria-hidden="true"><div class="lss-progress" id="lss-progress"></div></div>
+            </div>
+            <div class="lss-legend">
+              <div class="lss-legend-item" data-l="l04"><h4>L04 · 執行</h4><p>光點代表一次請求進入管線，先被路由再呼叫 LLM。</p></div>
+              <div class="lss-legend-item" data-l="l03"><h4>L03 · 閘門</h4><p>四個指標逐一打勾才放行；任一超限即 hard stop，不再往下。</p></div>
+              <div class="lss-legend-item" data-l="l02"><h4>L02 · 帳本</h4><p>結果上鏈封存，CID＋雜湊鏈＋簽章，append-only 可回放。</p></div>
+              <div class="lss-legend-item" data-l="l01"><h4>L01 · 落地</h4><p>真正跑在 OSS 堆疊上，推理、檢索、快取、API 一次到位。</p></div>
             </div>
           </div>
-        </section>
 
         <!-- 0x03 ENGINE — split panels -->
         <section id="x03-engine" data-label="0x03 / ENGINE" class="reveal">
@@ -2457,8 +2801,8 @@
               <div class="demo demo-chip-row"><span class="chip" style="color:var(--red);border-color:var(--bd);">不可稽核</span></div>
             </article>
             <article class="ui-specimen">
-              <h4>.sig-0x02 + .spec-scroll</h4>
-              <p>四層堆疊 SVG + 規格橫捲 · <code>.spec-row .k/.v</code></p>
+              <h4>.layer-stack-sim</h4>
+              <p>0x02 LIVE TRACE · <code>.lss-packet</code> 穿層 · <code>#lss-replay</code></p>
               <div class="demo demo-chip-row"><span class="chip">minmax(152px)</span></div>
             </article>
             <article class="ui-specimen">
@@ -2668,9 +3012,10 @@
           </table>
           <div class="guide-block">
             <h3>Hero 執行 DAG（L04 語意）</h3>
-            <p class="sec-intro" style="margin-bottom:var(--u2);">一次 run 的節點順序：意圖解析 → 檢索 → 工具呼叫 → KV 快取 → 預算檢查 → 產出物封存 → 輸出。<code>RE-RUN</code> 會依序點亮邊與節點。</p>
+            <p class="sec-intro" style="margin-bottom:var(--u2);">一次 run 的節點順序：意圖解析 → 檢索 → 工具呼叫 → KV 快取 → 預算檢查 → 產出物封存 → 輸出。<code>RE-RUN</code> 會依序點亮邊與節點。四層穿層動畫見 <a href="#x02-product" style="color:var(--lime);">#x02-product · LIVE TRACE</a>。</p>
             <div class="guide-links">
               <a href="#x00-hero">回到 Hero DAG</a>
+              <a href="#layer-stack-sim">LIVE TRACE</a>
               <a href="docs/four-layers.html">four-layers.html</a>
               <a href="docs/design/linkinl-four-layers.html" class="nav-ext" target="_blank" rel="noopener noreferrer">設計 HTML 深連結</a>
               <a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/architecture/overview.md" class="nav-ext" target="_blank" rel="noopener noreferrer">Linkin 架構總覽</a>
@@ -3561,6 +3906,187 @@ cp .env.linkinl.example .env.linkinl</pre>
           startL01MapSim();
         }
       }
+
+      (function initLayerStackSim() {
+        var root = document.getElementById('layer-stack-sim');
+        if (!root) return;
+
+        var LSS_COLORS = { l04: '#9d8bff', l03: '#ffb347', l02: '#2dd4bf', l01: '#4ade80' };
+        var LSS_ROUND_MS = 8200;
+        var stack = document.getElementById('lss-stack');
+        var packet = document.getElementById('lss-packet');
+        var logBody = document.getElementById('lss-log');
+        var progress = document.getElementById('lss-progress');
+        var replayBtn = document.getElementById('lss-replay');
+        if (!stack || !packet || !logBody || !progress) return;
+
+        var layers = {
+          l04: stack.querySelector('[data-l="l04"]'),
+          l03: stack.querySelector('[data-l="l03"]'),
+          l02: stack.querySelector('[data-l="l02"]'),
+          l01: stack.querySelector('[data-l="l01"]')
+        };
+        var timers = [];
+        var roundStart = 0;
+        var looping = false;
+        var started = false;
+
+        function schedule(fn, delay) {
+          timers.push(setTimeout(fn, delay));
+        }
+        function clearAllTimers() {
+          timers.forEach(clearTimeout);
+          timers = [];
+        }
+        function layerCenterY(el) {
+          var sr = stack.getBoundingClientRect();
+          var lr = el.getBoundingClientRect();
+          return lr.top - sr.top + lr.height / 2;
+        }
+        function movePacketTo(id) {
+          packet.dataset.at = id;
+          var y = layerCenterY(layers[id]);
+          packet.style.color = LSS_COLORS[id];
+          packet.style.transform = 'translate(0, ' + y + 'px) translateY(-50%)';
+        }
+        function activate(id) {
+          var el = layers[id];
+          el.classList.add('active');
+          schedule(function () { el.classList.remove('active'); }, 1250);
+        }
+        function appendLog(msg, type) {
+          var sec = ((performance.now() - roundStart) / 1000).toFixed(1);
+          while (sec.length < 4) sec = ' ' + sec;
+          var line = document.createElement('div');
+          line.className = 'lss-log-line ' + (type || '');
+          line.innerHTML = '<span class="lt">' + sec + 's</span><span class="msg"></span>';
+          line.querySelector('.msg').textContent = msg;
+          logBody.appendChild(line);
+          logBody.scrollTop = logBody.scrollHeight;
+        }
+        function gateScan() {
+          var chips = layers.l03.querySelectorAll('.lss-chip');
+          var i = 0;
+          chips.forEach(function (chip) {
+            if (chip.classList.contains('stop')) return;
+            var idx = i++;
+            schedule(function () { chip.classList.add('ok'); }, 120 * idx);
+          });
+          schedule(function () {
+            var stop = layers.l03.querySelector('.lss-chip.stop');
+            if (stop) {
+              stop.classList.add('lock');
+              schedule(function () { stop.classList.remove('lock'); }, 700);
+            }
+          }, 620);
+        }
+        function resetVisuals() {
+          clearAllTimers();
+          logBody.innerHTML = '';
+          Object.keys(layers).forEach(function (k) { layers[k].classList.remove('active'); });
+          root.querySelectorAll('.lss-chip.ok, .lss-chip.stop.lock').forEach(function (c) {
+            c.classList.remove('ok', 'lock');
+          });
+          packet.style.transition = 'none';
+          packet.style.opacity = '0';
+          packet.style.transform = 'translate(0, -30px) translateY(-50%)';
+          void packet.offsetHeight;
+          packet.style.transition = '';
+          progress.style.transition = 'none';
+          progress.style.width = '0%';
+        }
+        function runReducedStatic() {
+          resetVisuals();
+          Object.keys(layers).forEach(function (k) { layers[k].classList.add('active'); });
+          appendLog('▶ run 示意 · L04→L03→L02→L01（減少動態效果）', 'dim');
+          appendLog('L04 路由 · L03 閘門 · L02 封存 · L01 OSS 落地', 'ok');
+          progress.style.width = '100%';
+        }
+        function runRound() {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            runReducedStatic();
+            return;
+          }
+          resetVisuals();
+          roundStart = performance.now();
+          requestAnimationFrame(function () {
+            progress.style.transition = 'width ' + LSS_ROUND_MS + 'ms linear';
+            progress.style.width = '100%';
+          });
+          schedule(function () {
+            packet.style.opacity = '1';
+            movePacketTo('l04');
+            activate('l04');
+            appendLog('▶ run 開始 · 收到請求 → 進入 L04', 'dim');
+          }, 120);
+          schedule(function () { appendLog('L04 · 路由 simple → call_llm · LangGraph 編排中', 'exec'); }, 420);
+          schedule(function () { movePacketTo('l03'); }, 1350);
+          schedule(function () {
+            activate('l03');
+            appendLog('L03 · 進入預算閘門，逐項檢查配額…', 'ctrl');
+            gateScan();
+          }, 1600);
+          schedule(function () { appendLog('  ├ token   3.2k / 128k   ✓', 'ctrl'); }, 1760);
+          schedule(function () { appendLog('  ├ GPU     12m  / 4h     ✓', 'ctrl'); }, 1900);
+          schedule(function () { appendLog('  ├ cost    $0.04 / $12.00 ✓', 'ctrl'); }, 2040);
+          schedule(function () { appendLog('  └ rate    8    / 60rpm  ✓', 'ctrl'); }, 2180);
+          schedule(function () { appendLog('L03 · 閘門放行（未觸發 hard stop）', 'ok'); }, 2450);
+          schedule(function () { movePacketTo('l02'); }, 2950);
+          schedule(function () {
+            activate('l02');
+            appendLog('L02 · 結果封存上鏈…', 'ledger');
+          }, 3200);
+          schedule(function () { appendLog('  ├ IPFS CID  bafybeig…7q2x', 'ledger'); }, 3420);
+          schedule(function () { appendLog('  ├ hash      sha256(prev ∥ payload)', 'ledger'); }, 3580);
+          schedule(function () { appendLog('  ├ sign      ed25519 ✓', 'ledger'); }, 3740);
+          schedule(function () { appendLog('  └ audit     append-only · 可回放', 'ledger'); }, 3900);
+          schedule(function () { movePacketTo('l01'); }, 4400);
+          schedule(function () {
+            activate('l01');
+            appendLog('L01 · OSS 組件執行中…', 'exec');
+          }, 4650);
+          schedule(function () { appendLog('  vLLM 推理 → FlashAttn 注意力 → Ray 分散式', 'exec'); }, 4880);
+          schedule(function () { appendLog('  Chroma 向量檢索 → Redis 快取 → FastAPI 回傳', 'exec'); }, 5060);
+          schedule(function () {
+            appendLog('✓ 完成 · trace id 0x7f3a… · 可回放審計', 'ok');
+            appendLog('──────── 等待下一次請求 ────────', 'dim');
+          }, 5700);
+          schedule(function () {
+            if (looping) runRound();
+          }, LSS_ROUND_MS);
+        }
+        function startSim() {
+          if (started) return;
+          started = true;
+          looping = true;
+          runRound();
+        }
+        if (replayBtn) {
+          replayBtn.addEventListener('click', function () {
+            looping = true;
+            runRound();
+          });
+        }
+        var rzTimer = null;
+        window.addEventListener('resize', function () {
+          clearTimeout(rzTimer);
+          rzTimer = setTimeout(function () {
+            var cur = packet.dataset.at;
+            if (cur && layers[cur]) movePacketTo(cur);
+          }, 150);
+        });
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.create({
+            trigger: '#layer-stack-sim',
+            start: 'top 90%',
+            once: true,
+            onEnter: startSim
+          });
+          if (root.getBoundingClientRect().top < window.innerHeight * 0.9) startSim();
+        } else {
+          startSim();
+        }
+      })();
 
       var meters = { token: 65.9, gpu: 60, cost: 70.2, rate: 63.3 };
       function animateMeters() {
