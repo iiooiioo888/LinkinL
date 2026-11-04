@@ -17,6 +17,7 @@ export function EcosystemPipelineAnim({
   const [logLines, setLogLines] = useState<string[]>([]);
   const [tick, setTick] = useState(0);
   const [running, setRunning] = useState(false);
+  const [runEpoch, setRunEpoch] = useState(0);
   const hostRef = useRef<HTMLDivElement>(null);
   const startedRef = useRef(false);
 
@@ -66,7 +67,7 @@ export function EcosystemPipelineAnim({
       cleanup();
       cancel();
     };
-  }, [running, stageIdx, runStage, advance]);
+  }, [running, stageIdx, runEpoch, runStage, advance]);
 
   useEffect(() => {
     if (startedRef.current) return;
@@ -107,8 +108,8 @@ export function EcosystemPipelineAnim({
           onClick={() => {
             startedRef.current = true;
             setRunning(true);
-            runStage(0);
             setStageIdx(0);
+            setRunEpoch((e) => e + 1);
           }}
         >
           RE-RUN
