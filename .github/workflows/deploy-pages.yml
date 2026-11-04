@@ -18,7 +18,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -27,26 +27,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Build site (Vite + React)
+        working-directory: site
+        run: npm ci && npm run build
 
       - name: Prepare static site
         run: |
-          touch .nojekyll
+          touch site/dist/.nojekyll
           SHORT="${GITHUB_SHA::7}"
-          cat > version.json <<EOF
+          cat > site/dist/version.json <<EOF
           {
             "build": "${GITHUB_SHA}",
             "short": "${SHORT}",
             "railNodes": 18,
-            "deployedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+            "deployedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "stack": "vite-react"
           }
           EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: site/dist
 
       - name: Deploy to GitHub Pages
         id: deployment

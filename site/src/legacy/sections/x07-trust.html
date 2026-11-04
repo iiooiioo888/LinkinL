@@ -1,0 +1,21 @@
+<section id="x07-trust" data-label="0x07 / TRUST" class="reveal">
+          <h2 class="h-sec">信任與護欄</h2>
+          <div class="trust-grid">
+            <div class="trust-item">
+              <h4>LLM 單一閘道</h4>
+              <p>一律經 <code>call_llm</code>，禁止直連供應商 SDK。</p>
+            </div>
+            <div class="trust-item">
+              <h4>OPC 寫入護欄</h4>
+              <p>工業寫入必經 <code>opc_service/guard.py</code>。</p>
+            </div>
+            <div class="trust-item">
+              <h4>Minecraft MCP</h4>
+              <p>工具寫入經 MCP 鐵律，不暴露檔案系統寫入。</p>
+            </div>
+            <div class="trust-item">
+              <h4>測試隔離</h4>
+              <p>pytest monkeypatch 無需真實 API 金鑰即可驗收。</p>
+            </div>
+          </div>
+        </section>

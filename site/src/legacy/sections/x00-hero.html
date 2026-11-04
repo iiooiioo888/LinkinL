@@ -1,0 +1,95 @@
+<section id="x00-hero" data-label="0x00 / HERO" class="reveal gs-reveal is-visible">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="sec-label"><em>LinkinL</em> · 本地執行版</p>
+              <h1 class="display">可證明的多 <span>Agent</span> 編排引擎</h1>
+              <p class="lede lead">
+                在本機跑完整 LangGraph 反思閉環：每一跳工具呼叫、每一次預算閘門、每一筆產出物封存都可追溯。
+                不是黑箱聊天，而是可重播的執行證據鏈。
+              </p>
+              <div class="hero-stack-strip" aria-label="Linkin 運行時核心組件">
+                <span class="pill"><em>LangGraph</em> ≥1.0.10</span>
+                <span class="pill"><em>LiteLLM</em> · Hub</span>
+                <span class="pill"><em>FastAPI</em> :8000</span>
+                <span class="pill"><em>React 19</em> · <em>Vite 8</em> :3001</span>
+                <span class="pill"><em>Redis</em> :6379</span>
+                <span class="pill"><em>Chroma</em> :8100</span>
+                <span class="pill"><em>OPC</em> :8001</span>
+                <span class="pill"><em>Monaco</em> · <em>XYFlow</em></span>
+                <span class="pill"><em>ECharts</em> · <em>Mermaid</em></span>
+                <span class="pill"><em>104+</em> Agent skills</span>
+              </div>
+              <div class="hero-chips">
+                <span class="chip lime">Convultra · #C6FF3D</span>
+                <span class="chip">72px 執行軸</span>
+                <span class="chip">1px hairline grid</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:var(--u);">
+                <a class="btn primary" href="#x02-product">看四層架構</a>
+                <button type="button" class="btn mono" id="hero-rerun">RE-RUN 軌跡</button>
+              </div>
+            </div>
+            <div class="trace-stage" id="trace-stage">
+              <div class="trace-head">
+                <span>trace-stage · Agent 執行管線</span>
+                <button type="button" class="btn mono" id="trace-rerun" style="padding:4px 10px;font-size:9px;">RE-RUN</button>
+              </div>
+              <div class="trace-body">
+                <svg class="dag" id="hero-dag" viewBox="0 0 880 148" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent 執行 DAG">
+                  <defs>
+                    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                      <path d="M0,0 L6,3 L0,6 Z" fill="#25262c" />
+                    </marker>
+                    <marker id="arrow-lime" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                      <path d="M0,0 L6,3 L0,6 Z" fill="#c6ff3d" />
+                    </marker>
+                  </defs>
+                  <g class="dag-edges">
+                    <path class="dag-edge" data-edge="0" d="M 98 74 L 118 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="1" d="M 198 74 L 218 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="2" d="M 298 74 L 318 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="3" d="M 398 74 L 418 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="4" d="M 498 74 L 518 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="5" d="M 598 74 L 618 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="6" d="M 698 74 L 718 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" d="M 348 74 L 348 102 L 448 102 L 448 92" marker-end="url(#arrow)" stroke-dasharray="3 2" opacity="0.5" />
+                  </g>
+                  <g class="dag-node" data-stage="0" transform="translate(8,52)">
+                    <rect width="90" height="44" />
+                    <text x="45" y="18" text-anchor="middle">意圖解析</text>
+                    <text class="mono" x="45" y="32" text-anchor="middle">12ms</text>
+                  </g>
+                  <g class="dag-node" data-stage="1" transform="translate(118,52)">
+                    <rect width="80" height="44" />
+                    <text x="40" y="18" text-anchor="middle">檢索</text>
+                    <text class="mono" x="40" y="32" text-anchor="middle">84ms</text>
+                  </g>
+                  <g class="dag-node" data-stage="2" transform="translate(218,52)">
+                    <rect width="80" height="44" />
+                    <text x="40" y="18" text-anchor="middle">工具呼叫</text>
+                    <text class="mono" x="40" y="32" text-anchor="middle">live</text>
+                  </g>
+                  <g class="dag-node" data-stage="3" transform="translate(318,52)">
+                    <rect width="80" height="44" />
+                    <text x="40" y="18" text-anchor="middle">KV 快取</text>
+                    <text class="mono" x="40" y="32" text-anchor="middle">hit 62%</text>
+                  </g>
+                  <g class="dag-node" data-stage="4" transform="translate(418,52)">
+                    <rect width="80" height="44" />
+                    <text x="40" y="18" text-anchor="middle">預算檢查</text>
+                    <text class="mono" x="40" y="32" text-anchor="middle">ok</text>
+                  </g>
+                  <g class="dag-node" data-stage="5" transform="translate(518,52)">
+                    <rect width="96" height="44" />
+                    <text x="48" y="18" text-anchor="middle">產出物封存</text>
+                    <text class="mono" x="48" y="32" text-anchor="middle">CID</text>
+                  </g>
+                  <g class="dag-node" data-stage="6" transform="translate(628,52)">
+                    <rect width="72" height="44" />
+                    <text x="36" y="22" text-anchor="middle">輸出</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>

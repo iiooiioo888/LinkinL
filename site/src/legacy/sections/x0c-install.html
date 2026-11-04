@@ -1,0 +1,52 @@
+<section id="x0c-install" data-label="0x0C / INSTALL" class="reveal">
+          <h2 class="h-sec">本機安裝 · LinkinL 腳本與 Linkin 主倉</h2>
+          <p class="sec-intro">
+            摘錄 <a href="docs/getting-started.html" style="color:var(--lime);">docs/getting-started.html</a>；
+            完整步驟與 WSL 說明請開子頁。錨點 <code>x0c-install</code>。
+          </p>
+          <div class="install-grid">
+            <div class="install-panel">
+              <h3>平台</h3>
+              <table class="compare-table">
+                <tbody>
+                  <tr><td>macOS / Linux</td><td>bash 執行 <code>scripts/install.sh</code></td></tr>
+                  <tr><td>Windows</td><td><strong>WSL2</strong>（未支援原生 PowerShell）</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="install-panel">
+              <h3>環境需求</h3>
+              <table class="compare-table">
+                <tbody>
+                  <tr><td>Python</td><td><strong>3.12+</strong></td></tr>
+                  <tr><td>Node.js</td><td><strong>20+</strong></td></tr>
+                  <tr><td>Docker</td><td>可選 · redis / chroma / 全棧</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="install-panel">
+              <h3>LinkinL 安裝 / 更新</h3>
+              <pre style="background:#050608;border:1px solid var(--bd);padding:var(--u2);font-family:'JetBrains Mono',monospace;font-size:11px;overflow-x:auto;margin:0;color:var(--sub);">git clone https://github.com/iiooiioo888/LinkinL.git
+cd LinkinL && chmod +x scripts/*.sh
+./scripts/install.sh
+./scripts/update.sh --npm
+cp .env.linkinl.example .env.linkinl</pre>
+            </div>
+            <div class="install-panel">
+              <h3>埠號速查</h3>
+              <table class="compare-table">
+                <tbody>
+                  <tr><td>後端 API</td><td><strong>8000</strong></td></tr>
+                  <tr><td>前端 Vite</td><td><strong>3001</strong></td></tr>
+                  <tr><td>OPC 微服務</td><td>8001</td></tr>
+                  <tr><td>Redis / Chroma</td><td>6379 / 8100</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="guide-links" style="margin-top:var(--u3);">
+            <a href="docs/getting-started.html">getting-started.html</a>
+            <a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/deployment/guide.md" class="nav-ext" target="_blank" rel="noopener noreferrer">Linkin 部署指南</a>
+            <a href="#x0a-faq">FAQ + Terminal</a>
+          </div>
+        </section>
