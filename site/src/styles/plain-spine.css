@@ -39,6 +39,74 @@
   max-width: 36em;
 }
 
+.hero-outcomes {
+  margin: var(--u2) 0 var(--u3);
+  padding-left: 1.2em;
+  max-width: 36em;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--sub);
+}
+
+.hero-outcomes li + li {
+  margin-top: var(--u);
+}
+
+.task-outcome-cards {
+  list-style: none;
+  margin: var(--u2) 0;
+  padding: 0;
+  display: grid;
+  gap: var(--u);
+}
+
+@media (min-width: 720px) {
+  .task-outcome-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.task-outcome-cards li {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: var(--u2);
+  font-size: 12px;
+  color: var(--sub);
+  line-height: 1.5;
+}
+
+.task-outcome-cards strong {
+  display: block;
+  color: var(--ink);
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.task-outcome-live {
+  font-size: 13px;
+  color: var(--ink);
+  padding: var(--u) var(--u2);
+  border-left: 3px solid var(--lime-dk);
+  background: color-mix(in srgb, var(--lime) 4%, var(--panel));
+  margin-bottom: var(--u2);
+}
+
+.start-steps {
+  max-width: 40em;
+}
+
+.install-tech-fold {
+  margin-top: var(--u2);
+  font-size: 12px;
+  color: var(--sub);
+}
+
+.install-tech-fold summary {
+  cursor: pointer;
+  color: var(--faint);
+  margin-bottom: var(--u);
+}
+
 .spine-block {
   padding: var(--section-pad);
   border-bottom: 1px solid var(--line);

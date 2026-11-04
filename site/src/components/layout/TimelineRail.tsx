@@ -1,9 +1,9 @@
 const RAIL_NODES: { href: string; title: string; label: string; active?: boolean }[] = [
   { href: '#x00-hero', title: '首頁', label: '首', active: true },
-  { href: '#x01-what', title: '它做什麼', label: '做' },
-  { href: '#x03-tool-sim', title: '三種用法', label: '用' },
-  { href: '#x0c-install', title: '怎麼安裝', label: '裝' },
-  { href: '#x00c-ecosystem', title: '和誰搭配', label: '伴' },
+  { href: '#x01-what', title: '你能得到什麼', label: '得' },
+  { href: '#x03-tool-sim', title: '三種常見任務', label: '任' },
+  { href: '#x0c-install', title: '開始使用', label: '始' },
+  { href: '#x00c-ecosystem', title: '可選加購工具', label: '購' },
   { href: '#x0a-faq', title: '常見問題', label: '問' },
 ];
 

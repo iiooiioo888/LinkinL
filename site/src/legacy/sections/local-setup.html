@@ -1,17 +1,19 @@
 <section id="x0c-install" class="reveal spine-block">
-          <h2 class="h-sec">怎麼安裝</h2>
-          <p class="sec-intro">
-            在 Mac 或 Linux 打開終端機，複製下面指令即可（Windows 請先用 WSL2）。安裝腳本會另抓 <strong>Linkin 主程式</strong> 到本機資料夾，金鑰只寫在那裡，不經過這個官網。
-          </p>
-          <pre class="install-snippet">git clone https://github.com/iiooiioo888/LinkinL.git
+          <h2 class="h-sec">開始使用</h2>
+          <p class="sec-intro spine-lede">下載安裝腳本 → 一鍵裝好 → 用瀏覽器開本機頁面就能開始。</p>
+          <ol class="plain-steps start-steps">
+            <li><strong>下載腳本</strong> — 取得 LinkinL 安裝包（Mac / Linux；Windows 請先用 WSL2）。</li>
+            <li><strong>一鍵安裝</strong> — 執行 <code>./scripts/install.sh</code>，程式會裝在你電腦的資料夾。</li>
+            <li><strong>開網頁</strong> — 依教學啟動後，用瀏覽器開本機網址即可使用 AI 幫手。</li>
+          </ol>
+          <details class="install-tech-fold">
+            <summary>給進階使用者：終端機指令</summary>
+            <pre class="install-snippet">git clone https://github.com/iiooiioo888/LinkinL.git
 cd LinkinL && chmod +x scripts/*.sh
 ./scripts/install.sh</pre>
-          <p class="spine-note">
-            <strong>LinkinL</strong> = 說明與安裝腳本（這個網站）。<strong>linkin-runtime</strong> = 真正跑智能助手的工作目錄。詳細步驟見
-            <a href="docs/getting-started.html">getting-started</a>。
-          </p>
+          </details>
           <div style="display:flex;flex-wrap:wrap;gap:var(--u);margin-top:var(--u2);">
-            <a class="btn primary" href="docs/getting-started.html">完整安裝教學</a>
+            <a class="btn primary" href="docs/getting-started.html">圖文教學</a>
             <a class="btn" href="https://github.com/iiooiioo888/LinkinL" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
         </section>

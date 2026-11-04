@@ -199,9 +199,18 @@
       });
       runTrace();
 
+      var TASK_OUTCOMES = {
+        simple: '目前示範：<strong>寫報告</strong> — 得到一份清楚答案，且每一步怎麼寫的都能回看。',
+        company: '目前示範：<strong>查產線</strong> — 營運或設備問題有結論，查過的資料與結論都有紀錄。',
+        minecraft: '目前示範：<strong>玩 Minecraft</strong> — 遊戲裡該做的動作完成，每一步指令也留檔可查。'
+      };
+      function updateTaskOutcomeCaption(id) {
+        var el = document.getElementById('tool-outcome-caption');
+        if (el) el.innerHTML = TASK_OUTCOMES[id] || TASK_OUTCOMES.company;
+      }
       var TOOL_PATHS = {
         simple: {
-          run: 'run-s1e0 · simple',
+          run: '寫報告 · 示範中',
           steps: [
             { name: '路由解析', sub: '→ simple', logs: [
               { ts: '+0ms', cls: 'sys', text: 'POST /chat/stream  preview=simple' },
@@ -226,7 +235,7 @@
           ]
         },
         company: {
-          run: 'run-a3f9c2 · industrial_ops',
+          run: '查產線 · 示範中',
           steps: [
             { name: '路由解析', sub: 'resolve_execution_path', logs: [
               { ts: '+0ms', cls: 'sys', text: 'POST /chat/stream  trace_id=run-a3f9c2' },
@@ -262,7 +271,7 @@
           ]
         },
         minecraft: {
-          run: 'run-mc04 · minecraft_ops',
+          run: '玩 Minecraft · 示範中',
           steps: [
             { name: '路由解析', sub: '→ minecraft_ops', logs: [
               { ts: '+0ms', cls: 'sys', text: 'POST /chat  strategy=auto  content=單步放置' },
@@ -336,9 +345,9 @@
         var el = document.getElementById('tool-sim-status');
         if (!el) return;
         var labels = {
-          idle: 'idle · 可 RE-RUN',
-          running: 'running · 工具鏈執行中',
-          done: 'complete · trace 可重播'
+          idle: '準備好了，可按「再看一次」',
+          running: '示範進行中…',
+          done: '示範完成 · 完整紀錄可回看（示意）'
         };
         el.innerHTML = '狀態：<strong>' + (labels[mode] || mode) + '</strong>';
       }
