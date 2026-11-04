@@ -1,36 +1,34 @@
-import { useTechMetrics } from './TechMetricsContext';
-
-const HASH_SNIPPETS = [
-  'bafybei…4a2f',
-  '0x9f3c…e811',
-  'sha256:8c…01',
-  'trace:7b…aa',
-  'cid:Qm…9x2',
-  'span:4d…f0',
-];
+import { useTechMetrics, useTechObservability } from './TechMetricsContext';
 
 export function TelemetryRibbon() {
   const m = useTechMetrics();
+  const { ledgerHints } = useTechObservability();
+
+  const modeLabel = m.dataMode === 'live' ? 'RUNTIME LIVE' : 'PAGES + IDLE';
+  const queueLabel = m.linkinBackendReachable ? 'queue' : 'idle-q';
 
   return (
     <div className="telemetry-ribbon" role="status" aria-live="polite">
       <div className="telemetry-ribbon-inner">
-        <span className="telemetry-tag mono">LIVE TELEMETRY</span>
+        <span className="telemetry-tag mono">{modeLabel}</span>
         <span className="telemetry-stat">
-          agents <strong className="mono">{m.activeAgents}</strong>
+          build <strong className="mono">{m.pagesShort}</strong>
         </span>
         <span className="telemetry-stat">
-          queue <strong className="mono">{m.queueDepth}</strong>
+          pages RTT <strong className="mono">{m.pagesRttMs != null ? `${m.pagesRttMs}ms` : '—'}</strong>
+        </span>
+        <span className="telemetry-stat">
+          {queueLabel} <strong className="mono">{m.workerQueue}</strong>
         </span>
         <span className="telemetry-stat">
           p99 <strong className="mono">{m.p99Ms}ms</strong>
         </span>
         <span className="telemetry-stat">
-          spans/s <strong className="mono">{m.spansPerSec}</strong>
+          session <strong className="mono">{m.sessionSec}s</strong>
         </span>
         <div className="telemetry-marquee" aria-hidden="true">
           <div className="telemetry-marquee-track">
-            {[...HASH_SNIPPETS, ...HASH_SNIPPETS].map((h, i) => (
+            {[...ledgerHints, ...ledgerHints].map((h, i) => (
               <span key={`${h}-${i}`} className="mono">
                 {h}
               </span>

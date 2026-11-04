@@ -296,9 +296,9 @@
 
 .tech-cap-row {
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
+  grid-template-columns: auto auto minmax(0, 1.1fr) minmax(0, 1.4fr);
   gap: var(--u);
-  align-items: center;
+  align-items: start;
   padding: 8px 10px;
   border: 1px solid var(--line);
   font-size: 10px;
@@ -317,15 +317,60 @@
   white-space: nowrap;
 }
 
-.tech-cap-state.ok {
-  color: var(--lime);
+.tech-cap-detail {
+  color: var(--sub);
+  font-size: 9px;
+  text-align: right;
+  line-height: 1.35;
 }
 
-.tech-cap-state.warn {
+.tech-cap-detail.ok {
+  color: var(--lime-dk);
+}
+
+.tech-cap-detail.warn {
   color: var(--amber);
 }
 
-.tech-cap-state.idle {
+.tech-cap-detail.idle {
+  color: var(--faint);
+}
+
+.tech-cap-detail.offline {
+  color: var(--red);
+}
+
+.tech-mode-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--u);
+  margin-top: var(--u2);
+  padding: var(--u) var(--u2);
+  border: 1px solid var(--bd);
+  font-size: 10px;
+  color: var(--sub);
+  background: var(--panel);
+}
+
+.tech-mode-banner.live {
+  border-color: var(--lime-dk);
+  background: color-mix(in srgb, var(--lime) 6%, var(--panel));
+}
+
+.tech-mode-banner.idle-sample {
+  border-color: var(--line-hi);
+}
+
+.tech-mode-banner .mono {
+  color: var(--lime);
+  letter-spacing: 0.06em;
+}
+
+.tech-metric-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 8px;
   color: var(--faint);
 }
 
