@@ -1,5 +1,6 @@
 const RAIL_NODES: { href: string; title: string; label: string; active?: boolean }[] = [
   { href: '#x00-hero', title: '首頁', label: '00', active: true },
+  { href: '#x00c-ecosystem', title: 'GitNexus · Semantica', label: '生' },
   { href: '#x01-pain', title: '痛點', label: '01' },
   { href: '#x02-product', title: 'L04 四層', label: 'L4' },
   { href: '#x03-engine', title: '引擎', label: '擎' },

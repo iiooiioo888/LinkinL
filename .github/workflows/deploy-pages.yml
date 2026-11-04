@@ -46,7 +46,7 @@ jobs:
           {
             "build": "${GITHUB_SHA}",
             "short": "${SHORT}",
-            "railNodes": 18,
+            "railNodes": 19,
             "deployedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
             "stack": "vite-react"
           }

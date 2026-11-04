@@ -21,6 +21,8 @@ export const SITE_SECTIONS: SiteSection[] = [
 
 export const RAIL_SECTIONS = [
   '#x00-hero',
+  '#x00b-tech-fabric',
+  '#x00c-ecosystem',
   '#x01-pain',
   '#x02-product',
   '#x03-engine',
