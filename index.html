@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="linkinl-build" content="905f4fd" />
   <title>LinkinL — 可證明的多 Agent 編排引擎</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -979,6 +980,23 @@
       color: var(--faint);
       font-family: 'JetBrains Mono', monospace;
     }
+    .cache-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      padding: 10px 14px;
+      background: var(--lime);
+      color: #0a0b0d;
+      font-size: 12px;
+      line-height: 1.55;
+      text-align: center;
+      border-top: 1px solid #9fd62f;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.45);
+    }
+    .cache-banner a { color: #0a0b0d; font-weight: 600; }
+    body.has-cache-banner { padding-bottom: 52px; }
     .reveal, .gs-reveal { opacity: 0; transform: translateY(12px); }
     .reveal.is-visible, .gs-reveal.is-visible { opacity: 1; transform: none; }
     #x00-hero.reveal, #x00-hero.gs-reveal {
@@ -2666,12 +2684,40 @@ cp .env.linkinl.example .env.linkinl</pre>
           錨點：<a href="#x0b-layers" style="color:var(--faint);">x0b-layers</a> ·
           <a href="#x0c-install" style="color:var(--faint);">x0c-install</a> ·
           <a href="#x0d-where" style="color:var(--faint);">x0d-where</a> ·
-          <a href="docs/getting-started.html" style="color:var(--faint);">getting-started</a>
+          <a href="docs/getting-started.html" style="color:var(--faint);">getting-started</a><br />
+          Pages 建置 <span id="site-build-label">905f4fd</span> · 左軌應有 18 節點 ·
+          <a href="version.json" style="color:var(--faint);">version.json</a>
         </p>
       </main>
     </div>
   </div>
 
+  <script>
+    (function () {
+      var metaBuild = document.querySelector('meta[name="linkinl-build"]');
+      var label = document.getElementById('site-build-label');
+      fetch('version.json?_=' + Date.now(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (v) {
+          if (!v) return;
+          if (label) label.textContent = v.short + (v.deployedAt ? ' · ' + v.deployedAt.slice(0, 10) : '');
+          if (metaBuild) metaBuild.setAttribute('content', v.short);
+          var rail = document.querySelectorAll('.timeline-rail .rail-node').length;
+          if (v.railNodes && rail > 0 && rail < v.railNodes) {
+            var bar = document.createElement('div');
+            bar.className = 'cache-banner';
+            bar.setAttribute('role', 'status');
+            bar.innerHTML =
+              '偵測到舊版快取（左軌 ' + rail + ' 節點，最新為 ' + v.railNodes +
+              '）。請 <strong>Ctrl+Shift+R</strong>（Mac：<strong>⌘+Shift+R</strong>）硬重新整理，或 ' +
+              '<a href="index.html?_=' + encodeURIComponent(v.short) + '">用此連結</a> 開新版本。';
+            document.body.classList.add('has-cache-banner');
+            document.body.appendChild(bar);
+          }
+        })
+        .catch(function () {});
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
