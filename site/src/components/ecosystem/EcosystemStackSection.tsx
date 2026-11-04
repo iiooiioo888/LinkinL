@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { ECOSYSTEM_PARTNERS } from '@/data/ecosystemPartners';
+import type { PipelineStageId } from '@/data/ecosystemPipelineStages';
+import { EcosystemPipelineAnim } from './EcosystemPipelineAnim';
 import { EcosystemShowcasePreview } from './EcosystemShowcasePreview';
 
 export function EcosystemStackSection() {
+  const [pipelineStage, setPipelineStage] = useState<PipelineStageId>('gitnexus');
   return (
     <section
       id="x00c-ecosystem"
@@ -26,25 +30,14 @@ export function EcosystemStackSection() {
         </span>
       </div>
 
-      <div className="ecosystem-flow" aria-label="建議協作順序">
-        <span className="ecosystem-flow-step">GitNexus · 改碼</span>
-        <span className="ecosystem-flow-arrow" aria-hidden="true">
-          →
-        </span>
-        <span className="ecosystem-flow-step">ATM · Claude 組隊</span>
-        <span className="ecosystem-flow-arrow" aria-hidden="true">
-          →
-        </span>
-        <span className="ecosystem-flow-step linkin">LinkinL · 執行</span>
-        <span className="ecosystem-flow-arrow" aria-hidden="true">
-          →
-        </span>
-        <span className="ecosystem-flow-step">Semantica · 溯源</span>
-      </div>
+      <EcosystemPipelineAnim onStageChange={setPipelineStage} />
 
       <div className="ecosystem-grid">
         {ECOSYSTEM_PARTNERS.map((p) => (
-          <article key={p.id} className={`ecosystem-card accent-${p.accent}`}>
+          <article
+            key={p.id}
+            className={`ecosystem-card accent-${p.accent}${pipelineStage === p.id ? ' pipeline-active' : ''}`}
+          >
             <header className="ecosystem-card-head">
               <div>
                 <h3 className="ecosystem-name">{p.name}</h3>
