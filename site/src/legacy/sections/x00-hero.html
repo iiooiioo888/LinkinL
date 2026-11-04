@@ -1,39 +1,27 @@
 <section id="x00-hero" data-label="0x00 / HERO" class="reveal gs-reveal is-visible">
           <div class="hero-grid">
             <div class="hero-copy">
-              <p class="sec-label"><em>LinkinL</em> · 本地執行版</p>
-              <h1 class="display">可證明的多 <span>Agent</span> 編排引擎</h1>
+              <p class="sec-label"><em>LinkinL</em> · 本機 AI 外骨骼</p>
+              <h1 class="display">穿戴式執行層 · 可證明的 <span>Agent</span> runtime</h1>
               <p class="lede lead">
-                在本機跑完整 LangGraph 反思閉環：每一跳工具呼叫、每一次預算閘門、每一筆產出物封存都可追溯。
-                不是黑箱聊天，而是可重播的執行證據鏈。
+                LinkinL 不是雲端聊天殼，也不是 OSS 型錄：它是<strong>增強操作者</strong>的本機外骨骼——
+                LangGraph 管線、工具 trace、L03 預算護欄、L02 封存與 L01 組件落地；資料與金鑰留在你的機器上，每一跳可重播。
               </p>
-              <div class="hero-stack-strip" aria-label="Linkin 運行時核心組件">
-                <span class="pill"><em>LangGraph</em> ≥1.0.10</span>
-                <span class="pill"><em>LiteLLM</em> · Hub</span>
-                <span class="pill"><em>FastAPI</em> :8000</span>
-                <span class="pill"><em>React 19</em> · <em>Vite 8</em> :3001</span>
-                <span class="pill"><em>Redis</em> :6379</span>
-                <span class="pill"><em>Chroma</em> :8100</span>
-                <span class="pill"><em>OPC</em> :8001</span>
-                <span class="pill"><em>Monaco</em> · <em>XYFlow</em></span>
-                <span class="pill"><em>ECharts</em> · <em>Mermaid</em></span>
-                <span class="pill"><em>104+</em> Agent skills</span>
-              </div>
               <div class="hero-chips">
-                <span class="chip lime">Convultra · #C6FF3D</span>
+                <span class="chip lime">本機資料 · 不外傳</span>
+                <span class="chip">可重播 trace</span>
+                <span class="chip">四層護欄 L04→L01</span>
                 <span class="chip">72px 執行軸</span>
-                <span class="chip">1px hairline grid</span>
-                <a class="chip lime" href="#x00b-tech-fabric" style="text-decoration:none;">Tech Fabric ↓</a>
-                <a class="chip" href="#x00c-ecosystem" style="text-decoration:none;">生態 · pipeline-sim 四段</a>
               </div>
               <div style="display:flex;flex-wrap:wrap;gap:var(--u);">
-                <a class="btn primary" href="#x02-product">看四層架構</a>
+                <a class="btn primary" href="#x02-product">四層怎麼穿</a>
+                <a class="btn mono" href="#x03-tool-sim">三條執行路徑</a>
                 <button type="button" class="btn mono" id="hero-rerun">RE-RUN 軌跡</button>
               </div>
             </div>
             <div class="trace-stage" id="trace-stage">
               <div class="trace-head">
-                <span>trace-stage · Agent 執行管線</span>
+                <span>trace-stage · 一次 run 怎麼被「穿」過</span>
                 <button type="button" class="btn mono" id="trace-rerun" style="padding:4px 10px;font-size:9px;">RE-RUN</button>
               </div>
               <div class="trace-body">

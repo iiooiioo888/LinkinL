@@ -4,6 +4,7 @@ import { App } from '@/app/App';
 import '@/styles/global.css';
 import '@/styles/tech-components.css';
 import '@/styles/ecosystem-stack.css';
+import '@/styles/site-fold.css';
 
 const rootEl = document.getElementById('root');
 if (!rootEl) throw new Error('#root missing');

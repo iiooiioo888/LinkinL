@@ -15,10 +15,10 @@ export function TechFabricSection() {
       <p className="sec-label">
         <em>Runtime</em> · 可觀測性與匯流排
       </p>
-      <h2 className="h-sec">科技運維面 · 量測優先 · 探測連線</h2>
+      <h2 className="h-sec">本機 runtime 探測 · 誠實量測</h2>
       <p className="sec-intro">
-        儀表以 <strong>可驗證來源</strong> 為主：<code>version.json</code> 往返時間、GitHub Pages 建置 SHA、
-        瀏覽器工作階段長度；並每 8s 探測 <code>127.0.0.1:8000/docs</code> 是否為本機 Linkin API。
+        選展開面板：<strong>可驗證來源</strong> 含 <code>version.json</code> RTT、Pages 建置 SHA，以及
+        <code>127.0.0.1:8000/docs</code> 是否連上本機 Linkin API。
         {m.linkinBackendReachable ? (
           <> 目前已連上本機 runtime，下列佇列／span 率為<strong>低振幅估算</strong>。</>
         ) : (

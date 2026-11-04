@@ -1,0 +1,155 @@
+<section id="x01-pain" data-label="0x01 / EXOSKELETON" class="reveal">
+          <p class="sec-label"><em>外骨骼</em> · 操作者仍在環路內</p>
+          <h2 class="h-sec">LinkinL 是什麼？</h2>
+          <p class="sec-intro">
+            外骨骼<strong>不取代</strong>你下判斷，而是把 Agent 執行、護欄與證據鏈<strong>穿</strong>在本機 runtime 上——像工業外骨骼放大力量，但力矩與止點由你設定。
+          </p>
+          <div class="pain-grid">
+            <article class="pain-card">
+              <div class="tag">可證明</div>
+              <h3>每一跳工具與封存可重播</h3>
+              <p>不是聊天截圖：trace id、預算決策、產出 hash 留在本機帳本。</p>
+            </article>
+            <article class="pain-card">
+              <div class="tag" style="color:var(--amber);">有護欄</div>
+              <h3>Token / GPU hard stop</h3>
+              <p>L03 在執行路徑上設止點，多 Agent 並行也不會 silent 燒穿配額。</p>
+            </article>
+            <article class="pain-card">
+              <div class="tag" style="color:var(--blue);">本機資料</div>
+              <h3>金鑰與向量不過官網</h3>
+              <p>LinkinL 只負責安裝敘事；runtime、Chroma、Redis 在你的 <code>linkin-runtime</code> 目錄。</p>
+            </article>
+          </div>
+        </section>
+
+
+<section id="x02-product" data-label="0x02 / PRODUCT" class="reveal">
+          <h2 class="h-sec">四層怎麼「穿」在身上</h2>
+          <p class="sec-intro">
+            順序 <strong style="color:var(--lime);font-family:'JetBrains Mono',monospace;">L04 → L03 → L02 → L01</strong>：
+            執行 → 預算護欄 → 封存帳本 → OSS 落地。Hero 橫向 trace 看<strong>一跳</strong>；這裡縱向堆疊看<strong>一請求穿層</strong>（示意，非即時 API）。
+          </p>
+          <div class="layer-stack-sim reveal" id="layer-stack-sim" aria-labelledby="lss-heading">
+            <div class="lss-head">
+              <span class="lss-kicker">0x02 · LIVE TRACE</span>
+              <h3 class="lss-title" id="lss-heading">四層堆疊 <span class="grad">L04 → L03 → L02 → L01</span></h3>
+              <p class="lss-sub">光點 = 一次請求。由上而下：執行 → 預算閘門 → 封存稽核 → OSS 落地（示意，非即時 trace）。</p>
+            </div>
+            <div class="lss-stage">
+              <div class="lss-stack" id="lss-stack">
+                <div class="lss-layer" data-l="l04">
+                  <div class="lss-badge"><span class="id">L04</span><span class="tag">AI 執行層</span></div>
+                  <div>
+                    <h3>AI 執行層 · Agent / Graph</h3>
+                    <p class="lss-desc">決定任務怎麼跑：路由、呼叫 LLM、必要時進入反思迴圈。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">管線 <b>LangGraph</b></span>
+                      <span class="lss-chip">路由 <b>simple / company</b></span>
+                      <span class="lss-chip">LLM 閘道 <b>call_llm</b></span>
+                      <span class="lss-chip">反思 <b>EvoLoop</b></span>
+                      <span class="lss-chip">本機埠 <b>:8000</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l03">
+                  <div class="lss-badge"><span class="id">L03</span><span class="tag">預算層</span></div>
+                  <div>
+                    <h3>預算層 · Token / GPU</h3>
+                    <p class="lss-desc">執行前閘門檢查，成本與速率是硬約束，超限直接停止。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">Token 池 <b>128k / run</b></span>
+                      <span class="lss-chip">GPU 配額 <b>4h / day</b></span>
+                      <span class="lss-chip">成本上限 <b>$12.00</b></span>
+                      <span class="lss-chip">速率閘門 <b>60 req/min</b></span>
+                      <span class="lss-chip stop">超限 <b>hard stop</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l02">
+                  <div class="lss-badge"><span class="id">L02</span><span class="tag">共識層</span></div>
+                  <div>
+                    <h3>共識層 · CID / Hash</h3>
+                    <p class="lss-desc">結果與中介產物封存、簽章、稽核，可用 trace id 回放。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">封存 <b>IPFS CID</b></span>
+                      <span class="lss-chip">雜湊鏈 <b>sha256∥prev</b></span>
+                      <span class="lss-chip">簽章 <b>ed25519</b></span>
+                      <span class="lss-chip">稽核 <b>append-only</b></span>
+                      <span class="lss-chip">回放 <b>trace id</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l01">
+                  <div class="lss-badge"><span class="id">L01</span><span class="tag">組件層</span></div>
+                  <div>
+                    <h3>組件層 · OSS 整合</h3>
+                    <p class="lss-desc">實際跑在開源堆疊上：推理、注意力、編排、分散式、向量、快取、API。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">推理 <b>vLLM / SGLang</b></span>
+                      <span class="lss-chip">注意力 <b>FlashAttn</b></span>
+                      <span class="lss-chip">編排 <b>LangGraph</b></span>
+                      <span class="lss-chip">分散式 <b>Ray</b></span>
+                      <span class="lss-chip">向量 <b>Chroma</b></span>
+                      <span class="lss-chip">快取 <b>Redis</b></span>
+                      <span class="lss-chip">API <b>FastAPI</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-packet" id="lss-packet" aria-hidden="true"></div>
+              </div>
+              <aside class="lss-console" aria-label="四層 trace log">
+                <div class="lss-console-head">
+                  <span class="lss-dot r"></span><span class="lss-dot y"></span><span class="lss-dot g"></span>
+                  <span style="margin-left:6px;">TRACE LOG · run #0x7f3a</span>
+                </div>
+                <div class="lss-log" id="lss-log"></div>
+              </aside>
+            </div>
+            <div class="lss-controls">
+              <button type="button" class="btn mono" id="lss-replay">↻ 重播</button>
+              <div class="lss-progress-track" aria-hidden="true"><div class="lss-progress" id="lss-progress"></div></div>
+            </div>
+            <div class="lss-legend">
+              <div class="lss-legend-item" data-l="l04"><h4>L04 · 執行</h4><p>光點代表一次請求進入管線，先被路由再呼叫 LLM。</p></div>
+              <div class="lss-legend-item" data-l="l03"><h4>L03 · 閘門</h4><p>四個指標逐一打勾才放行；任一超限即 hard stop，不再往下。</p></div>
+              <div class="lss-legend-item" data-l="l02"><h4>L02 · 帳本</h4><p>結果上鏈封存，CID＋雜湊鏈＋簽章，append-only 可回放。</p></div>
+              <div class="lss-legend-item" data-l="l01"><h4>L01 · 落地</h4><p>真正跑在 OSS 堆疊上，推理、檢索、快取、API 一次到位。</p></div>
+            </div>
+          </div>
+        </section>
+
+
+<section id="x03-tool-sim" data-label="0x03B / TOOL SIM" class="reveal">
+          <h2 class="h-sec">工具過程模擬 · 三條執行路徑</h2>
+          <p class="sec-intro">
+            對齊 <code>resolve_execution_path</code>：<strong style="color:var(--ink);font-weight:500;">simple</strong> 短問答、
+            <strong style="color:var(--ink);font-weight:500;">company</strong> 任務經理（含工業）、
+            <strong style="color:var(--ink);font-weight:500;">minecraft_ops</strong> 單步控制。
+            切換後左側步驟與右側 log 一起重播（演示，不呼叫 API）。
+          </p>
+          <div class="path-switch" id="path-switch" role="tablist" aria-label="執行路徑">
+            <button type="button" role="tab" data-path="simple" aria-selected="false">simple<small>SSE · 多維評估</small></button>
+            <button type="button" role="tab" class="on" data-path="company" aria-selected="true">company<small>任務 · industrial_ops</small></button>
+            <button type="button" role="tab" data-path="minecraft" aria-selected="false">minecraft_ops<small>MineMCP · 評估一次</small></button>
+          </div>
+          <div class="tool-sim-grid" id="tool-sim-stage">
+            <div class="tool-sim-rail" id="tool-sim-rail" aria-label="工具鏈步驟"></div>
+            <div class="tool-sim-panel">
+              <div class="tool-sim-bar idle" id="tool-sim-bar">
+                <span><span class="live-dot">LIVE</span> <span id="tool-sim-run">run-a3f9c2 · industrial_ops</span></span>
+                <span id="tool-sim-elapsed">0.0s</span>
+              </div>
+              <div class="tool-sim-progress" aria-hidden="true">
+                <div class="tool-sim-progress-fill" id="tool-sim-progress"></div>
+              </div>
+              <div class="tool-sim-viewport" id="tool-sim-viewport" aria-live="polite" aria-label="工具操作 log">
+                <div id="tool-log"></div>
+              </div>
+              <div class="tool-sim-foot">
+                <span class="status" id="tool-sim-status">狀態：<strong>idle</strong> · 進入頁面即播放</span>
+                <button type="button" class="btn mono" id="tool-sim-rerun" style="padding:6px 12px;font-size:10px;">RE-RUN 工具鏈</button>
+              </div>
+            </div>
+          </div>
+        </section>
