@@ -7,8 +7,9 @@
 | 項目 | 連結 |
 |------|------|
 | 產品首頁 | **https://iiooiioo888.github.io/LinkinL/** |
-| 本機安裝 | [docs/getting-started.md](docs/getting-started.md) |
-| 四層架構 | [docs/four-layers.md](docs/four-layers.md) |
+| 本機安裝（首頁） | [#x0c-install](https://iiooiioo888.github.io/LinkinL/#x0c-install) · [getting-started.md](docs/getting-started.md) |
+| 四層架構（首頁） | [#x0b-layers](https://iiooiioo888.github.io/LinkinL/#x0b-layers) · [four-layers.md](docs/four-layers.md) |
+| 錨點索引 | [docs/README.md](docs/README.md) |
 
 > 若 Pages 尚未部署，請至 **Settings → Pages → Build and deployment → Source: GitHub Actions**，並確認 `main` 上的 `Deploy to GitHub Pages` workflow 已成功。
 
