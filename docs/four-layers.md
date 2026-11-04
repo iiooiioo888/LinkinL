@@ -25,17 +25,23 @@ LinkinL 將多 Agent 編排敘事為**由上而下**四層堆疊；頁面左側 
 
 官網 trace-stage 上的 **RE-RUN** 會依序點亮 DAG 節點與邊，示範可重播軌跡。
 
-## 頁面區塊對照（0x00–0x0A）
+## 頁面區塊對照（首頁錨點 xNN-slug）
 
 | 錨點 | 內容 |
 |------|------|
-| Header / Hero | 頂欄、DAG、RE-RUN |
-| Pain | 三欄痛點 |
-| Product | 四層堆疊圖 + 規格欄 |
-| Engine | 預算 meter（L03）· 共識帳本（L02） |
-| Evidence | 延遲／成功率圖表 |
-| Integrations | L01 OSS 整合磚 |
-| Compare / Trust / Voices / Pricing / FAQ | 能力對照、護欄、引述、定價敘事、終端快速開始 |
+| `#x00-hero` | 頂欄、DAG、RE-RUN |
+| `#x01-pain` | 三欄痛點 |
+| `#x02-product` | 四層堆疊圖 + 規格欄 |
+| `#x03-engine` / `#x03-budget` / `#x03-consensus` | 引擎 · L03 meter · L02 帳本 |
+| `#x03-tool-sim` | 工具鏈模擬動畫 |
+| `#x04-evidence` | 延遲／成功率圖表 |
+| `#x05-integrations` / `#x05-ui-atlas` | L01 OSS · HTML 組件圖鑑 |
+| `#x06-compare` … `#x09-pricing` | 對照、信任、聲音、定價 |
+| `#x0b-layers` | 四層詳解（本子頁摘要合入首頁） |
+| `#x0c-install` | 本機安裝（getting-started 摘要） |
+| `#x0a-faq` | FAQ + terminal |
+
+舊錨點（如 `#hero`）會自動轉址至上表。
 
 ## 視覺系統（官網 HTML）
 
