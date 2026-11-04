@@ -35,6 +35,7 @@
       --topbar: 52px;
       --radius: 0px;
       --section-pad: clamp(var(--u3), 4vw, var(--u6));
+      --gap: var(--u3);
     }
     * { box-sizing: border-box; margin: 0; }
     html {
@@ -49,7 +50,7 @@
       font-variant-numeric: tabular-nums;
       background: var(--canvas);
       color: var(--ink);
-      line-height: 1.55;
+      line-height: 1.65;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       max-width: 100%;
@@ -218,7 +219,10 @@
       margin-bottom: var(--u2);
     }
     .sec-label em { color: var(--lime); font-style: normal; }
-    section[data-label] { margin-bottom: calc(var(--u6) + var(--u2)); scroll-margin-top: calc(var(--topbar) + var(--u2)); }
+    section[data-label] {
+      margin-bottom: calc(var(--u6) + var(--gap));
+      scroll-margin-top: calc(var(--topbar) + var(--u2));
+    }
     section[data-label]::before {
       content: attr(data-label);
       display: block;
@@ -226,7 +230,27 @@
       font-size: 10px;
       letter-spacing: 0.1em;
       color: var(--faint);
-      margin-bottom: var(--u2);
+      margin-bottom: var(--gap);
+    }
+    .h-sec {
+      font-size: clamp(18px, 2.2vw, 20px);
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: var(--gap);
+      letter-spacing: -0.02em;
+    }
+    .lead, .lede, .sec-intro {
+      color: var(--sub);
+      font-size: clamp(14px, 1.6vw, 15px);
+      line-height: 1.8;
+      max-width: 52em;
+      margin-bottom: var(--gap);
+    }
+    .cap p, .panel-body > p {
+      line-height: 1.75;
+    }
+    code, .ledger, .terminal pre, .chip {
+      font-weight: 500;
     }
     section[data-label]::before em { color: var(--lime); font-style: normal; }
     .hero-grid {
@@ -245,20 +269,20 @@
       }
     }
     .hero-grid > * { min-width: 0; }
-    .hero-copy h1 {
-      font-size: clamp(28px, 4vw, 40px);
+    .hero-copy h1, .hero-copy .display {
+      font-size: clamp(26px, 3.2vw, 36px);
       font-weight: 700;
       letter-spacing: -0.03em;
-      line-height: 1.15;
-      margin-bottom: var(--u2);
+      line-height: 1.28;
+      margin-bottom: var(--gap);
     }
     .hero-copy h1 span { color: var(--lime); }
-    .hero-copy .lede { color: var(--sub); font-size: 15px; max-width: 36em; margin-bottom: var(--u3); }
+    .hero-copy .lede { max-width: 36em; }
     .hero-chips { display: flex; flex-wrap: wrap; gap: var(--u); margin-bottom: var(--u3); }
     .chip {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      padding: 4px 8px;
+      font-size: 11px;
+      padding: 5px 9px;
       border: 1px solid var(--bd);
       border-radius: var(--radius);
       color: var(--sub);
@@ -334,30 +358,40 @@
     }
     .dag-node rect { fill: var(--surface-hi); stroke: var(--bd); stroke-width: 1; rx: 0; }
     .dag-node.active rect { stroke: var(--lime); fill: color-mix(in srgb, var(--lime) 8%, var(--surface-hi)); }
-    .dag-node text { fill: var(--ink); font-family: 'Noto Sans TC', sans-serif; font-size: 10px; }
-    .dag-node .mono { fill: var(--faint); font-family: 'JetBrains Mono', monospace; font-size: 8px; }
+    .dag-node text { fill: var(--ink); font-family: 'Noto Sans TC', sans-serif; font-size: 11px; font-weight: 500; }
+    .dag-node .mono { fill: var(--sub); font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 500; }
     .dag-edge { stroke: var(--bd); stroke-width: 1; fill: none; }
     .dag-edge.active { stroke: var(--lime); }
     .pain-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1px;
-      background: var(--line);
+      background: var(--bd);
       border: 1px solid var(--bd);
+      align-items: stretch;
     }
     @media (max-width: 768px) { .pain-grid { grid-template-columns: 1fr; } }
     .pain-card {
       background: var(--panel);
       padding: var(--u3);
       border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 100%;
     }
-    .pain-card h3 { font-size: 14px; margin-bottom: 8px; }
-    .pain-card p { color: var(--sub); font-size: 12px; }
+    .pain-card h3 { font-size: 14px; margin-bottom: 8px; line-height: 1.4; }
+    .pain-card p {
+      color: var(--sub);
+      font-size: 13px;
+      line-height: 1.8;
+      flex: 1;
+    }
     .pain-card .tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--red); margin-bottom: 10px; }
     .sig-0x02 {
       display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: var(--u3);
+      grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+      gap: var(--gap);
       align-items: start;
       border: 1px solid var(--bd);
       background: var(--panel);
@@ -365,45 +399,78 @@
       border-radius: var(--radius);
     }
     @media (max-width: 900px) { .sig-0x02 { grid-template-columns: 1fr; } }
-    .stack-svg { width: 100%; max-width: 220px; }
+    .stack-svg { width: 100%; max-width: 220px; margin: 0 auto; }
+    .spec-scroll {
+      min-width: 0;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
     .spec-cols {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1px;
-      background: var(--line);
+      background: var(--bd);
       border: 1px solid var(--bd);
+      min-width: 0;
     }
-    @media (max-width: 768px) { .spec-cols { grid-template-columns: 1fr 1fr; } }
-    .spec-col { background: var(--surface); padding: var(--u2); min-height: 200px; }
+    @media (max-width: 768px) {
+      .spec-cols {
+        grid-template-columns: repeat(4, minmax(152px, 1fr));
+        width: max-content;
+        min-width: 100%;
+      }
+    }
+    .spec-col {
+      background: var(--surface);
+      padding: var(--u2);
+      min-height: 200px;
+    }
     .spec-col h4 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 600;
       color: var(--lime);
       margin-bottom: 10px;
       padding-bottom: 8px;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--bd);
     }
     .spec-row {
       display: flex;
       justify-content: space-between;
-      gap: 8px;
-      padding: 5px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 10px;
+      align-items: baseline;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--bd);
+      font-size: 12px;
+      line-height: 1.5;
     }
     .spec-row:last-child { border-bottom: none; }
-    .spec-row .k { color: var(--faint); flex-shrink: 0; }
-    .spec-row .v { color: var(--sub); text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 9px; }
+    .spec-row .k { color: var(--sub); flex-shrink: 0; }
+    .spec-row .v {
+      color: var(--ink);
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      word-break: break-word;
+    }
     .engine-cols {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--u3);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gap);
+      align-items: stretch;
     }
     @media (max-width: 768px) { .engine-cols { grid-template-columns: 1fr; } }
     .panel {
       border: 1px solid var(--bd);
       background: var(--surface);
       border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      height: 100%;
     }
     .panel-head {
       padding: 8px 12px;
@@ -415,10 +482,24 @@
       color: var(--faint);
       background: var(--surface-hi);
     }
-    .panel-body { padding: 12px; }
+    .panel-body {
+      padding: 12px 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
     .meter { margin-bottom: 14px; }
     .meter:last-child { margin-bottom: 0; }
-    .meter-top { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 6px; }
+    .meter-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px 8px;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
     .meter-top .lbl { color: var(--sub); }
     .meter-top .val { font-family: 'JetBrains Mono', monospace; color: var(--ink); }
     .meter-track {
@@ -437,13 +518,13 @@
     }
     .meter-fill.warn { background: var(--blue); box-shadow: none; }
     .meter-fill.crit { background: var(--red); box-shadow: none; }
-    .ledger { font-family: 'JetBrains Mono', monospace; font-size: 9px; }
+    .ledger { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; flex: 1; }
     .ledger-row {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 8px;
       padding: 8px 0;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--bd);
       align-items: start;
     }
     .ledger-row:last-child { border-bottom: none; }
@@ -493,8 +574,9 @@
     }
     .compare-table th, .compare-table td {
       padding: 10px 12px;
-      border-bottom: 1px solid var(--line);
+      border: 1px solid var(--bd);
       text-align: left;
+      line-height: 1.65;
     }
     .compare-table th {
       font-family: 'JetBrains Mono', monospace;
@@ -506,8 +588,9 @@
     .compare-table .no { color: var(--faint); }
     .trust-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--u2);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--gap);
+      align-items: stretch;
     }
     @media (max-width: 768px) { .trust-grid { grid-template-columns: 1fr 1fr; } }
     .trust-item {
@@ -515,9 +598,12 @@
       padding: var(--u2);
       background: var(--panel);
       border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
-    .trust-item h4 { font-size: 12px; margin-bottom: 6px; }
-    .trust-item p { font-size: 11px; color: var(--sub); }
+    .trust-item h4 { font-size: 12px; margin-bottom: 6px; line-height: 1.4; }
+    .trust-item p { font-size: 12px; color: var(--sub); line-height: 1.75; flex: 1; }
     .voices {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -534,16 +620,20 @@
     .voice cite { font-size: 11px; color: var(--faint); font-style: normal; }
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1px;
-      background: var(--line);
+      background: var(--bd);
       border: 1px solid var(--bd);
+      align-items: stretch;
     }
     @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
     .price-card {
       background: var(--panel);
       padding: var(--u3);
       border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .price-card.featured { background: var(--surface); box-shadow: inset 0 0 0 1px var(--lime-dk); }
     .price-card h3 { font-size: 14px; margin-bottom: 4px; }
@@ -553,7 +643,7 @@
       color: var(--lime);
       margin: var(--u2) 0;
     }
-    .price-card ul { list-style: none; font-size: 11px; color: var(--sub); }
+    .price-card ul { list-style: none; font-size: 12px; color: var(--sub); line-height: 1.75; flex: 1; }
     .price-card li { padding: 4px 0; border-bottom: 1px solid var(--line); }
     .faq-list details {
       border: 1px solid var(--bd);
@@ -568,14 +658,15 @@
       list-style: none;
     }
     .faq-list summary::-webkit-details-marker { display: none; }
-    .faq-list p { padding: 0 14px 14px; color: var(--sub); font-size: 12px; }
+    .faq-list p { padding: 0 14px 14px; color: var(--sub); font-size: 13px; line-height: 1.8; }
     .terminal {
       margin-top: var(--u3);
       border: 1px solid var(--bd);
       background: #050608;
       border-radius: var(--radius);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 500;
       overflow: hidden;
     }
     .terminal-bar {
@@ -600,8 +691,12 @@
       color: var(--faint);
       font-family: 'JetBrains Mono', monospace;
     }
-    .reveal { opacity: 0; transform: translateY(12px); }
-    .reveal.is-visible { opacity: 1; transform: none; }
+    .reveal, .gs-reveal { opacity: 0; transform: translateY(12px); }
+    .reveal.is-visible, .gs-reveal.is-visible { opacity: 1; transform: none; }
+    #hero.reveal, #hero.gs-reveal {
+      opacity: 1;
+      transform: none;
+    }
     @media (max-width: 768px) {
       :root { --topbar: 96px; }
       .topbar {
@@ -678,13 +773,17 @@
       .nav a[href="#faq"] { display: none; }
     }
     @media (max-width: 390px) {
-      .spec-cols { grid-template-columns: 1fr; }
       .trust-grid { grid-template-columns: 1fr; }
       .topbar-actions .btn.mono { display: none; }
       .tiles { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; }
+      .reveal, .gs-reveal { opacity: 1; transform: none; }
+    }
+    .compare-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
     }
   </style>
 </head>
@@ -722,12 +821,12 @@
 
       <main class="main">
         <!-- 0x00 HERO -->
-        <section id="hero" data-label="0x00 / HERO" class="reveal">
+        <section id="hero" data-label="0x00 / HERO" class="reveal gs-reveal is-visible">
           <div class="hero-grid">
             <div class="hero-copy">
               <p class="sec-label"><em>LinkinL</em> · 本地執行版</p>
-              <h1>可證明的多 <span>Agent</span> 編排引擎</h1>
-              <p class="lede">
+              <h1 class="display">可證明的多 <span>Agent</span> 編排引擎</h1>
+              <p class="lede lead">
                 在本機跑完整 LangGraph 反思閉環：每一跳工具呼叫、每一次預算閘門、每一筆產出物封存都可追溯。
                 不是黑箱聊天，而是可重播的執行證據鏈。
               </p>
@@ -808,7 +907,7 @@
 
         <!-- 0x01 PAIN -->
         <section id="pain" data-label="0x01 / PAIN" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u3);font-weight:600;">為什麼需要 LinkinL？</h2>
+          <h2 class="h-sec">為什麼需要 LinkinL？</h2>
           <div class="pain-grid">
             <article class="pain-card">
               <div class="tag">不可稽核</div>
@@ -830,8 +929,8 @@
 
         <!-- 0x02 PRODUCT -->
         <section id="product" data-label="0x02 / PRODUCT" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u2);font-weight:600;">四層執行架構 · 招牌時刻</h2>
-          <p style="color:var(--sub);margin-bottom:var(--u3);max-width:52em;">
+          <h2 class="h-sec">四層執行架構 · 招牌時刻</h2>
+          <p class="sec-intro">
             敘事順序 <strong style="color:var(--lime);font-family:'JetBrains Mono',monospace;">L04 → L03 → L02 → L01</strong>：
             由上而下為 AI 執行、預算閘門、共識帳本與 OSS 組件整合。
           </p>
@@ -860,6 +959,7 @@
               <line x1="28" y1="232" x2="40" y2="232" stroke="#c6ff3d" stroke-width="1" />
               <text x="104" y="288" fill="#4e4e58" font-family="JetBrains Mono" font-size="8" text-anchor="middle">0x02 · 四層堆疊</text>
             </svg>
+            <div class="spec-scroll" tabindex="0" aria-label="四層規格欄位（可橫向捲動）">
             <div class="spec-cols">
               <div class="spec-col">
                 <h4>L04 執行</h4>
@@ -894,12 +994,13 @@
                 <div class="spec-row"><span class="k">向量</span><span class="v">Chroma</span></div>
               </div>
             </div>
+            </div>
           </div>
         </section>
 
         <!-- 0x03 ENGINE — split panels -->
         <section id="engine" data-label="0x03 / ENGINE" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u3);font-weight:600;">執行引擎 · 預算與共識分離</h2>
+          <h2 class="h-sec">執行引擎 · 預算與共識分離</h2>
           <div class="engine-cols">
             <div class="panel" id="engine-budget">
               <div class="panel-head">L03 預算層 · 資源量表</div>
@@ -953,7 +1054,7 @@
 
         <!-- 0x04 EVIDENCE -->
         <section id="evidence" data-label="0x04 / EVIDENCE" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u3);font-weight:600;">可重播的執行實證</h2>
+          <h2 class="h-sec">可重播的執行實證</h2>
           <div class="chart-wrap">
             <canvas id="evidence-chart" aria-label="近七日本機 run 延遲與成功率"></canvas>
           </div>
@@ -961,8 +1062,8 @@
 
         <!-- 0x05 INTEGRATIONS -->
         <section id="integrations" data-label="0x05 / INTEGRATIONS" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u2);font-weight:600;">L01 組件層 · GitHub OSS 推理與編排棧</h2>
-          <p style="color:var(--sub);margin-bottom:var(--u3);font-size:12px;">可替換、可審計的開源底座；點擊直達 upstream repo。</p>
+          <h2 class="h-sec">L01 組件層 · GitHub OSS 推理與編排棧</h2>
+          <p class="sec-intro" style="font-size:13px;">可替換、可審計的開源底座；點擊直達 upstream repo。</p>
           <div class="tiles">
             <a class="tile" href="https://github.com/vllm-project/vllm" target="_blank" rel="noopener noreferrer">
               <span class="tile-name">vLLM</span>
@@ -1009,7 +1110,8 @@
 
         <!-- 0x06 COMPARE -->
         <section id="compare" data-label="0x06 / COMPARE" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u3);font-weight:600;">與典型方案對照</h2>
+          <h2 class="h-sec">與典型方案對照</h2>
+          <div class="compare-scroll">
           <table class="compare-table">
             <thead>
               <tr>
@@ -1031,7 +1133,7 @@
 
         <!-- 0x07 TRUST -->
         <section id="trust" data-label="0x07 / TRUST" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u3);font-weight:600;">信任與護欄</h2>
+          <h2 class="h-sec">信任與護欄</h2>
           <div class="trust-grid">
             <div class="trust-item">
               <h4>LLM 單一閘道</h4>
@@ -1054,7 +1156,7 @@
 
         <!-- 0x08 VOICES -->
         <section id="voices" data-label="0x08 / VOICES" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u3);font-weight:600;">使用者聲音</h2>
+          <h2 class="h-sec">使用者聲音</h2>
           <div class="voices">
             <figure class="voice">
               <blockquote>「終於能在本機重播整條 Agent run，而不只是複製貼上 Chat 紀錄。」</blockquote>
@@ -1069,7 +1171,7 @@
 
         <!-- 0x09 PRICING -->
         <section id="pricing" data-label="0x09 / PRICING" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u3);font-weight:600;">定價敘事（設計稿）</h2>
+          <h2 class="h-sec">定價敘事（設計稿）</h2>
           <div class="pricing-grid">
             <div class="price-card">
               <h3>本機社群</h3>
@@ -1103,7 +1205,7 @@
 
         <!-- 0x0A FAQ + TERMINAL -->
         <section id="faq" data-label="0x0A / FAQ" class="reveal">
-          <h2 style="font-size:20px;margin-bottom:var(--u3);font-weight:600;">常見問題</h2>
+          <h2 class="h-sec">常見問題</h2>
           <div class="faq-list">
             <details open>
               <summary>LinkinL 和 Linkin 有什麼不同？</summary>
@@ -1131,7 +1233,7 @@
         <p class="foot">
           LinkinL 官網 · 運行時請 clone <a href="https://github.com/iiooiioo888/Linkin" style="color:var(--sub);">github.com/iiooiioo888/Linkin</a><br />
           <a href="../four-layers.html" style="color:var(--faint);">四層架構摘要</a> ·
-          <a href="../../index.html" style="color:var(--faint);">回到官網首頁</a>
+          <a href="../../index.html" style="color:var(--faint);">設計 HTML 深連結</a>
         </p>
       </main>
     </div>
@@ -1181,7 +1283,7 @@
       }
 
       function setupReveals() {
-        var els = document.querySelectorAll('.reveal');
+        var els = document.querySelectorAll('.reveal, .gs-reveal');
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           els.forEach(markVisible);
           return;
