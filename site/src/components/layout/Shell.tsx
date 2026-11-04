@@ -1,15 +1,20 @@
 import type { ReactNode } from 'react';
+import { TechMetricsProvider } from '@/components/tech/TechMetricsContext';
+import { TelemetryRibbon } from '@/components/tech/TelemetryRibbon';
 import { TimelineRail } from './TimelineRail';
 import { Topbar } from './Topbar';
 
 export function Shell({ children }: { children: ReactNode }) {
   return (
-    <div className="shell">
-      <Topbar />
-      <div className="body-wrap">
-        <TimelineRail />
-        <main className="main">{children}</main>
+    <TechMetricsProvider>
+      <div className="shell has-telemetry">
+        <Topbar />
+        <TelemetryRibbon />
+        <div className="body-wrap">
+          <TimelineRail />
+          <main className="main">{children}</main>
+        </div>
       </div>
-    </div>
+    </TechMetricsProvider>
   );
 }
