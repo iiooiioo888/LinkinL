@@ -199,9 +199,111 @@
       });
       runTrace();
 
+      var TASK_OUTCOMES = {
+        simple: '目前示範：<strong>寫報告</strong> — 得到一份清楚答案，且每一步怎麼寫的都能回看。',
+        company: '目前示範：<strong>查產線</strong> — 營運或設備問題有結論，查過的資料與結論都有紀錄。',
+        minecraft: '目前示範：<strong>玩 Minecraft</strong> — 遊戲裡該做的動作完成，每一步指令也留檔可查。'
+      };
+      function updateTaskOutcomeCaption(id) {
+        var el = document.getElementById('tool-outcome-caption');
+        if (el) el.innerHTML = TASK_OUTCOMES[id] || TASK_OUTCOMES.company;
+      }
+      var PLAIN_SIM = {
+        simple: {
+          steps: ['理解你的問題', '查相關資料', '寫出答案', '檢查是否合格', '存檔留紀錄'],
+          result: {
+            ok: true,
+            title: '報告寫好了',
+            artifact: '週報答案.txt',
+            desc: '得到一份可以直接使用的回答。'
+          }
+        },
+        company: {
+          steps: ['理解現場問題', '讀取設備與數據', '整理結論', '確認未超支', '存檔留紀錄'],
+          result: {
+            ok: true,
+            title: '產線分析完成',
+            artifact: '設備異常說明.md',
+            desc: '有結論、有依據，之後還能回看過程。'
+          }
+        },
+        minecraft: {
+          steps: ['理解你的指令', '查看遊戲狀態', '執行一個動作', '確認結果', '存檔留紀錄'],
+          result: {
+            ok: true,
+            title: '動作完成了',
+            artifact: '遊戲操作紀錄.json',
+            desc: '方塊已放好，每一步都有紀錄。'
+          }
+        }
+      };
+      function renderPlainSteps() {
+        var list = document.getElementById('tool-plain-steps');
+        var spec = PLAIN_SIM[toolPath];
+        if (!list || !spec) return;
+        list.innerHTML = '';
+        spec.steps.forEach(function (label, idx) {
+          var li = document.createElement('li');
+          li.setAttribute('data-plain-step', String(idx));
+          li.innerHTML = '<span class="step-badge"><span>' + (idx + 1) + '</span></span><span class="step-label"></span>';
+          li.querySelector('.step-label').textContent = label;
+          list.appendChild(li);
+        });
+      }
+      function syncPlainSteps(techStepIdx, phase) {
+        var spec = PLAIN_SIM[toolPath];
+        if (!spec) return;
+        var total = toolSimSteps.length;
+        var plainCount = spec.steps.length;
+        var activePlain =
+          phase === 'done'
+            ? plainCount
+            : Math.min(plainCount - 1, Math.floor((techStepIdx / Math.max(1, total)) * plainCount));
+        document.querySelectorAll('[data-plain-step]').forEach(function (el, idx) {
+          el.classList.remove('active', 'done');
+          if (phase === 'done' || idx < activePlain) el.classList.add('done');
+          else if (idx === activePlain && phase !== 'done') el.classList.add('active');
+        });
+      }
+      function setResultCardPending() {
+        var card = document.getElementById('tool-result-card');
+        if (!card) return;
+        card.classList.remove('is-done');
+        card.classList.add('is-pending');
+        var t = document.getElementById('tool-result-title');
+        var a = document.getElementById('tool-result-artifact');
+        var d = document.getElementById('tool-result-desc');
+        var s = document.getElementById('tool-result-status');
+        if (t) t.textContent = '完成後會顯示在這裡';
+        if (a) a.textContent = '產出物：—';
+        if (d) d.textContent = '示範跑完後，會用一句話說明你拿到什麼。';
+        if (s) {
+          s.textContent = '';
+          s.className = 'tool-result-status';
+        }
+      }
+      function showResultCard() {
+        var spec = PLAIN_SIM[toolPath];
+        var card = document.getElementById('tool-result-card');
+        if (!spec || !card) return;
+        card.classList.remove('is-pending');
+        card.classList.add('is-done');
+        var r = spec.result;
+        var t = document.getElementById('tool-result-title');
+        var a = document.getElementById('tool-result-artifact');
+        var d = document.getElementById('tool-result-desc');
+        var s = document.getElementById('tool-result-status');
+        if (t) t.textContent = r.title;
+        if (a) a.textContent = '產出物：' + r.artifact;
+        if (d) d.textContent = r.desc;
+        if (s) {
+          s.textContent = r.ok ? '狀態：成功' : '狀態：未完成';
+          s.className = 'tool-result-status' + (r.ok ? ' ok' : '');
+        }
+      }
       var TOOL_PATHS = {
         simple: {
-          run: 'run-s1e0 · simple',
+          run: '寫報告 · 示範中',
           steps: [
             { name: '路由解析', sub: '→ simple', logs: [
               { ts: '+0ms', cls: 'sys', text: 'POST /chat/stream  preview=simple' },
@@ -226,7 +328,7 @@
           ]
         },
         company: {
-          run: 'run-a3f9c2 · industrial_ops',
+          run: '查產線 · 示範中',
           steps: [
             { name: '路由解析', sub: 'resolve_execution_path', logs: [
               { ts: '+0ms', cls: 'sys', text: 'POST /chat/stream  trace_id=run-a3f9c2' },
@@ -262,7 +364,7 @@
           ]
         },
         minecraft: {
-          run: 'run-mc04 · minecraft_ops',
+          run: '玩 Minecraft · 示範中',
           steps: [
             { name: '路由解析', sub: '→ minecraft_ops', logs: [
               { ts: '+0ms', cls: 'sys', text: 'POST /chat  strategy=auto  content=單步放置' },
@@ -318,6 +420,9 @@
         cancelLinkinlDelay(toolSimTimer);
         toolSimTimer = null;
         renderToolRail();
+        renderPlainSteps();
+        setResultCardPending();
+        syncPlainSteps(0, 'run');
         document.querySelectorAll('[data-tool-step]').forEach(function (el) {
           el.classList.remove('active', 'done');
         });
@@ -336,9 +441,9 @@
         var el = document.getElementById('tool-sim-status');
         if (!el) return;
         var labels = {
-          idle: 'idle · 可 RE-RUN',
-          running: 'running · 工具鏈執行中',
-          done: 'complete · trace 可重播'
+          idle: '準備好了，可按「再看一次」',
+          running: '示範進行中…',
+          done: '示範完成 · 完整紀錄可回看（示意）'
         };
         el.innerHTML = '狀態：<strong>' + (labels[mode] || mode) + '</strong>';
       }
@@ -362,6 +467,8 @@
             if (el) el.classList.add('done');
             step.logs.forEach(appendToolLogLine);
           });
+          syncPlainSteps(toolSimSteps.length, 'done');
+          showResultCard();
           var prog = document.getElementById('tool-sim-progress');
           if (prog) prog.style.width = '100%';
           setToolSimStatus('done');
@@ -384,6 +491,8 @@
             el.classList.remove('active');
             el.classList.add('done');
           });
+          syncPlainSteps(toolSimSteps.length, 'done');
+          showResultCard();
           var prog = document.getElementById('tool-sim-progress');
           if (prog) prog.style.width = '100%';
           if (bar) bar.classList.add('idle');
@@ -398,6 +507,7 @@
 
         function runStep() {
           tickElapsed();
+          syncPlainSteps(stepIdx, 'run');
           document.querySelectorAll('[data-tool-step]').forEach(function (el, idx) {
             el.classList.toggle('active', idx === stepIdx);
             el.classList.toggle('done', idx < stepIdx);
@@ -434,6 +544,7 @@
       function selectToolPath(id, autoLoop) {
         if (!TOOL_PATHS[id]) return;
         toolPath = id;
+        updateTaskOutcomeCaption(id);
         document.querySelectorAll('#path-switch button').forEach(function (btn) {
           var on = btn.getAttribute('data-path') === id;
           btn.classList.toggle('on', on);
@@ -456,7 +567,9 @@
         });
       });
       renderToolRail();
-      runToolSim(true);
+      renderPlainSteps();
+      setResultCardPending();
+      runToolSim(false);
       toolSimStarted = true;
 
       var L01_MAP_LANES = [

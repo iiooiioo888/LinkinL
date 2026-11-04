@@ -2,10 +2,10 @@ export type SiteSection = { id: string; label: string };
 
 export const SITE_SECTIONS: SiteSection[] = [
   { id: 'x00-hero', label: '首頁' },
-  { id: 'x01-what', label: '做什麼' },
-  { id: 'x03-tool-sim', label: '三種用法' },
-  { id: 'x0c-install', label: '安裝' },
-  { id: 'x00c-ecosystem', label: '搭配' },
+  { id: 'x01-what', label: '得到' },
+  { id: 'x03-tool-sim', label: '任務' },
+  { id: 'x0c-install', label: '開始' },
+  { id: 'x00c-ecosystem', label: '加購' },
   { id: 'x0a-faq', label: 'FAQ' },
 ];
 

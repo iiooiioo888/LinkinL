@@ -2,7 +2,7 @@ import { SITE_SECTIONS } from '@/data/siteSections';
 
 export function Topbar() {
   return (
-    <header className="topbar" id="header" data-label="0x00 / HEADER">
+    <header className="topbar" id="header">
       <div className="brand">
         靈境·Linkin<span className="L">L</span>
       </div>
@@ -20,15 +20,15 @@ export function Topbar() {
       </nav>
       <div className="topbar-actions">
         <a
-          className="btn mono"
-          href="https://github.com/iiooiioo888/Linkin"
+          className="btn"
+          href="https://github.com/iiooiioo888/LinkinL"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Linkin 原始碼
+          GitHub
         </a>
         <a className="btn primary" href="#x0c-install">
-          本機安裝
+          開始使用
         </a>
       </div>
     </header>

@@ -1,54 +1,73 @@
 <section id="x01-what" class="reveal spine-block">
-          <h2 class="h-sec">它做什麼</h2>
-          <p class="sec-intro spine-lede">
-            LinkinL 裝在你電腦上，讓智能助手<strong>真的去執行</strong>步驟（查資料、呼叫工具、寫檔），並把過程記下來，方便你事後核對。
-          </p>
-          <ul class="plain-list">
-            <li><strong>跑完</strong> — 任務拆成步驟，一步一步執行，不是只聊天。</li>
-            <li><strong>留下紀錄</strong> — 做過什麼、停在哪裡，之後還能回放。</li>
-            <li><strong>不出本機</strong> — 金鑰與工作資料留在你的電腦，不必先上傳到別人的伺服器。</li>
+          <h2 class="h-sec">你能得到什麼</h2>
+          <p class="sec-intro spine-lede">你會拿到完成的事、可查的過程，而且資料不用先交給別人的雲端。</p>
+          <ul class="plain-list outcome-first">
+            <li><strong>事情做完</strong> — 不是聊完就散，AI 幫手會真的去查、去寫、去執行步驟。</li>
+            <li><strong>完整紀錄可回看</strong> — 事後能回答「當時怎麼得到這個結果」。</li>
+            <li><strong>資料在你電腦</strong> — 對話與工作檔留在本機，不必先上傳到別人的伺服器。</li>
           </ul>
         </section>
 
 
 <section id="x02-how" class="reveal spine-block">
-          <h2 class="h-sec">怎麼運作</h2>
-          <p class="sec-intro">不用記技術名詞，想像成<strong>四道關卡</strong>（由外而內）：</p>
-          <ol class="plain-steps">
-            <li><strong>執行</strong> — 決定這次任務怎麼跑、要不要呼叫工具。</li>
-            <li><strong>護欄</strong> — 時間與花費到了上限就停，避免失控。</li>
-            <li><strong>存檔</strong> — 結果與過程寫進本機紀錄，方便追查。</li>
-            <li><strong>底層工具</strong> — 真正跑在開源軟體上（安裝腳本會幫你準備）。</li>
-          </ol>
-          <p class="spine-note">想看動畫示意？請展開頁尾的<strong>「進階」</strong>區塊。</p>
+          <h2 class="h-sec">背後怎麼幫你</h2>
+          <p class="sec-intro spine-lede">
+            AI 幫手在你電腦裡依序做事；花費或時間到了你設的上限就會停下；做完會存檔，方便你之後回看。細部技術說明在頁尾<strong>「進階」</strong>，一般使用不必看。
+          </p>
         </section>
 
 
 <section id="x03-tool-sim" class="reveal spine-block">
-          <h2 class="h-sec">三種用法</h2>
-          <p class="sec-intro">同一套外骨骼，可依任務切換三種模式（下方為<strong>示意動畫</strong>，不會真的動你的電腦）。</p>
-          <div class="path-switch" id="path-switch" role="tablist" aria-label="三種用法">
-            <button type="button" role="tab" data-path="simple" aria-selected="false">簡短問答<small>快問快答</small></button>
-            <button type="button" role="tab" class="on" data-path="company" aria-selected="true">公司任務<small>多步驟協作</small></button>
-            <button type="button" role="tab" data-path="minecraft" aria-selected="false">遊戲單步<small>一次一個動作</small></button>
+          <h2 class="h-sec">三種常見任務</h2>
+          <p class="sec-intro spine-lede">同一套能力，換成寫報告、查產線、或遊戲裡一步一步下指令；結果都一樣：做完、留紀錄。（下方為示意，不會真的動你的電腦。）</p>
+          <ul class="task-outcome-cards" aria-label="三種任務完成後的結果">
+            <li>
+              <strong>寫報告</strong>
+              <span>得到一份清楚答案，且每一步怎麼寫的都能回看。</span>
+            </li>
+            <li>
+              <strong>查產線</strong>
+              <span>營運或設備問題有結論，查過的資料與結論都有紀錄。</span>
+            </li>
+            <li>
+              <strong>玩 Minecraft</strong>
+              <span>遊戲裡該做的動作完成，每一步指令也留檔可查。</span>
+            </li>
+          </ul>
+          <p class="task-outcome-live" id="tool-outcome-caption">目前示範：<strong>查產線</strong> — 營運或設備問題有結論，查過的資料與結論都有紀錄。</p>
+          <div class="path-switch" id="path-switch" role="tablist" aria-label="三種常見任務">
+            <button type="button" role="tab" data-path="simple" aria-selected="false">寫報告<small>快問快答</small></button>
+            <button type="button" role="tab" class="on" data-path="company" aria-selected="true">查產線<small>多步驟工作</small></button>
+            <button type="button" role="tab" data-path="minecraft" aria-selected="false">玩 Minecraft<small>一次一個動作</small></button>
           </div>
-          <div class="tool-sim-grid" id="tool-sim-stage">
-            <div class="tool-sim-rail" id="tool-sim-rail" aria-label="步驟"></div>
-            <div class="tool-sim-panel">
-              <div class="tool-sim-bar idle" id="tool-sim-bar">
-                <span><span class="live-dot">示範</span> <span id="tool-sim-run">公司任務 · 進行中</span></span>
-                <span id="tool-sim-elapsed">0.0s</span>
+          <div class="tool-sim-outcome" id="tool-sim-stage">
+            <div class="tool-sim-bar idle" id="tool-sim-bar">
+              <span><span class="live-dot">示範</span> <span id="tool-sim-run">查產線 · 示範中</span></span>
+              <span id="tool-sim-elapsed">0.0s</span>
+            </div>
+            <div class="tool-sim-progress" aria-hidden="true">
+              <div class="tool-sim-progress-fill" id="tool-sim-progress"></div>
+            </div>
+            <ol class="tool-plain-steps" id="tool-plain-steps" aria-label="過程（白話）"></ol>
+            <article class="tool-result-card" id="tool-result-card" aria-live="polite">
+              <p class="tool-result-kicker">成果摘要</p>
+              <h3 class="tool-result-title" id="tool-result-title">完成後會顯示在這裡</h3>
+              <p class="tool-result-artifact" id="tool-result-artifact">產出物：—</p>
+              <p class="tool-result-desc" id="tool-result-desc">示範跑完後，會用一句話說明你拿到什麼。</p>
+              <p class="tool-result-status" id="tool-result-status"></p>
+            </article>
+            <details class="tool-log-fold">
+              <summary>查看完整過程（技術紀錄）</summary>
+              <div class="tool-sim-tech">
+                <div class="tool-sim-rail tool-sim-rail--tech" id="tool-sim-rail" aria-hidden="true"></div>
+                <div class="tool-sim-viewport" id="tool-sim-viewport" aria-live="polite">
+                  <div id="tool-log"></div>
+                </div>
               </div>
-              <div class="tool-sim-progress" aria-hidden="true">
-                <div class="tool-sim-progress-fill" id="tool-sim-progress"></div>
-              </div>
-              <div class="tool-sim-viewport" id="tool-sim-viewport" aria-live="polite" aria-label="示意 log">
-                <div id="tool-log"></div>
-              </div>
-              <div class="tool-sim-foot">
-                <span class="status" id="tool-sim-status">狀態：<strong>idle</strong></span>
-                <button type="button" class="btn mono" id="tool-sim-rerun" style="padding:6px 12px;font-size:10px;">再看一次</button>
-              </div>
+            </details>
+            <div class="tool-sim-foot">
+              <span class="status" id="tool-sim-status">狀態：<strong>準備好了，進入此區會自動示範</strong></span>
+              <button type="button" class="btn mono" id="tool-sim-rerun" style="padding:6px 12px;font-size:10px;">再看一次</button>
             </div>
           </div>
         </section>
