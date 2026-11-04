@@ -1,4 +1,5 @@
 import { ECOSYSTEM_PARTNERS } from '@/data/ecosystemPartners';
+import { EcosystemShowcasePreview } from './EcosystemShowcasePreview';
 
 export function EcosystemStackSection() {
   return (
@@ -16,6 +17,14 @@ export function EcosystemStackSection() {
         下列開源專案分別補上<strong>程式碼影響</strong>、<strong>Claude Code 組隊桌面</strong>與
         <strong>Agent 結果往回查</strong>，可與 LangGraph run 並用，而非取代 Linkin runtime。
       </p>
+
+      <div className="ecosystem-slot-banner" role="note">
+        <span className="mono">SHOWCASE SLOT</span>
+        <span>
+          首頁固定展示位 <code>#x00c-ecosystem</code> · 左軌「生」· 每卡含 Convultra 風格 UI 示意（非 live
+          embed）
+        </span>
+      </div>
 
       <div className="ecosystem-flow" aria-label="建議協作順序">
         <span className="ecosystem-flow-step">GitNexus · 改碼</span>
@@ -43,6 +52,15 @@ export function EcosystemStackSection() {
               </div>
               <span className="ecosystem-role mono">{p.role}</span>
             </header>
+
+            <div className="ecosystem-showcase">
+              <div className="ecosystem-showcase-head">
+                <span className="mono">{p.uiScene}</span>
+                <span className="ui-specimen-tag">ui-specimen</span>
+              </div>
+              <EcosystemShowcasePreview partnerId={p.id} />
+              <p className="ecosystem-showcase-caption">{p.uiCaption}</p>
+            </div>
 
             <dl className="ecosystem-meta">
               <div>

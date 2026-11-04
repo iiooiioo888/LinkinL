@@ -9,6 +9,8 @@ export type EcosystemPartner = {
   role: string;
   capabilities: string[];
   linkinFit: string;
+  uiScene: string;
+  uiCaption: string;
   accent: 'code' | 'provenance' | 'team';
 };
 
@@ -24,6 +26,8 @@ export const ECOSYSTEM_PARTNERS: EcosystemPartner[] = [
     role: '改碼前 · 影響面',
     capabilities: ['query', 'context', 'impact', 'trace', 'detect_changes', 'rename'],
     linkinFit: '與 LinkinL 開發 Linkin 本體或 skill 時，用 MCP 查「誰呼叫誰、diff 會波及哪裡」。',
+    uiScene: '0x00C-A · 程式影響面',
+    uiCaption: '類似首頁 Hero DAG / tool-sim：在改 Linkin 程式前先看 upstream impact。',
     accent: 'code',
   },
   {
@@ -44,6 +48,8 @@ export const ECOSYSTEM_PARTNERS: EcosystemPartner[] = [
     ],
     linkinFit:
       'Linkin 跑完一輪 Agent 後，把結論與依據寫入 Context Graph，監管 / 內審可追因果鏈。',
+    uiScene: '0x00C-C · 決策帳本',
+    uiCaption: '類似 ledger-row / tech-span-list：每次 Agent 結論是一個可 trace 的節點。',
     accent: 'provenance',
   },
   {
@@ -58,6 +64,8 @@ export const ECOSYSTEM_PARTNERS: EcosystemPartner[] = [
     capabilities: ['org-chart', 'deploy', 'pipeline', 'schedule', 'variables', 'export-json'],
     linkinFit:
       '管理 `.claude/` 多 agent 編排與定時任務；LinkinL 則跑 LangGraph 本機 runtime 與 L01–L04 證據鏈，兩者可並存。',
+    uiScene: '0x00C-B · 組隊畫布',
+    uiCaption: '類似 XYFlow 引擎區：org chart 即真實部署結構，一鍵 Deploy + 排程。',
     accent: 'team',
   },
 ];
