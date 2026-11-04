@@ -37,6 +37,10 @@
       --section-pad: clamp(var(--u3), 4vw, var(--u6));
     }
     * { box-sizing: border-box; margin: 0; }
+    html {
+      overflow-x: clip;
+      scroll-behavior: smooth;
+    }
     html.lenis, html.lenis body { height: auto; }
     .lenis.lenis-smooth { scroll-behavior: auto !important; }
     body {
@@ -47,6 +51,8 @@
       color: var(--ink);
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+      max-width: 100%;
     }
     a { color: inherit; }
     .shell { display: flex; flex-direction: column; min-height: 100vh; }
@@ -129,6 +135,9 @@
       display: flex;
       flex: 1;
       padding-top: var(--topbar);
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
     }
     .timeline-rail {
       width: var(--rail);
@@ -194,7 +203,8 @@
       flex: 1;
       min-width: 0;
       margin-left: var(--rail);
-      max-width: 1120px;
+      width: calc(100% - var(--rail));
+      max-width: min(1120px, calc(100vw - var(--rail)));
       padding: var(--section-pad);
       padding-bottom: calc(var(--u6) * 2);
     }
@@ -227,8 +237,13 @@
     @media (max-width: 900px) {
       .hero-grid { grid-template-columns: 1fr; }
       .timeline-rail { display: none; }
-      .main { margin-left: 0; }
+      .main {
+        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+      }
     }
+    .hero-grid > * { min-width: 0; }
     .hero-copy h1 {
       font-size: clamp(28px, 4vw, 40px);
       font-weight: 700;
@@ -263,8 +278,22 @@
       background: var(--surface-hi);
     }
     .trace-head span { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--faint); }
-    .trace-body { padding: var(--u2); overflow-x: auto; }
-    .dag { min-width: 720px; height: 148px; display: block; }
+    .trace-body {
+      padding: var(--u2);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .dag {
+      width: 100%;
+      min-width: 0;
+      height: auto;
+      aspect-ratio: 880 / 148;
+      display: block;
+    }
+    @media (min-width: 901px) and (max-width: 1180px) {
+      .trace-body { overflow-x: auto; }
+      .dag { min-width: 640px; width: 640px; max-width: none; }
+    }
     .dag-node rect { fill: var(--surface-hi); stroke: var(--bd); stroke-width: 1; rx: 0; }
     .dag-node.active rect { stroke: var(--lime); fill: color-mix(in srgb, var(--lime) 8%, var(--surface-hi)); }
     .dag-node text { fill: var(--ink); font-family: 'Noto Sans TC', sans-serif; font-size: 10px; }
@@ -534,6 +563,10 @@
       font-family: 'JetBrains Mono', monospace;
     }
     .reveal { opacity: 0; transform: translateY(12px); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -555,7 +588,7 @@
       </nav>
       <div class="topbar-actions">
         <a class="btn mono" href="https://github.com/iiooiioo888/Linkin" target="_blank" rel="noopener noreferrer">Linkin 原始碼</a>
-        <a class="btn primary" href="docs/getting-started.md">本機安裝</a>
+        <a class="btn primary" href="docs/getting-started.html">本機安裝</a>
       </div>
     </header>
 
@@ -955,7 +988,7 @@
           <div class="faq-list">
             <details open>
               <summary>LinkinL 和 Linkin 有什麼不同？</summary>
-              <p>LinkinL 是本機執行版的產品代號與官網（此 GitHub Pages）；可執行的運行時、API 與前端請 clone <a href="https://github.com/iiooiioo888/Linkin" style="color:var(--lime);">Linkin 主倉</a>。詳見 <a href="docs/getting-started.md" style="color:var(--lime);">getting-started</a>。</p>
+              <p>LinkinL 是本機執行版的產品代號與官網（此 GitHub Pages）；可執行的運行時、API 與前端請 clone <a href="https://github.com/iiooiioo888/Linkin" style="color:var(--lime);">Linkin 主倉</a>。詳見 <a href="docs/getting-started.html" style="color:var(--lime);">getting-started</a>。</p>
             </details>
             <details>
               <summary>一定要 GPU 嗎？</summary>
@@ -978,7 +1011,7 @@
 
         <p class="foot">
           LinkinL 官網 · 運行時請 clone <a href="https://github.com/iiooiioo888/Linkin" style="color:var(--sub);">github.com/iiooiioo888/Linkin</a><br />
-          <a href="docs/four-layers.md" style="color:var(--faint);">四層架構摘要</a> ·
+          <a href="docs/four-layers.html" style="color:var(--faint);">四層架構摘要</a> ·
           <a href="docs/design/linkinl-four-layers.html" style="color:var(--faint);">設計 HTML 深連結</a>
         </p>
       </main>
@@ -991,37 +1024,72 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
   <script>
     (function () {
-      if (typeof Lenis !== 'undefined') {
-        const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
-        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
+      var topbarOffset = function () {
+        var v = getComputedStyle(document.documentElement).getPropertyValue('--topbar').trim();
+        return (parseInt(v, 10) || 52) + 8;
+      };
+
+      var lenis = null;
+      if (typeof Lenis !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        lenis = new Lenis({ lerp: 0.08, smoothWheel: true, wheelMultiplier: 0.9 });
+        if (typeof gsap !== 'undefined') {
+          lenis.on('scroll', function () {
+            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
+          });
+          gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+          gsap.ticker.lagSmoothing(0);
+        } else {
+          function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+          requestAnimationFrame(raf);
+        }
         document.querySelectorAll('a[href^="#"]').forEach(function (a) {
           a.addEventListener('click', function (e) {
-            const id = a.getAttribute('href');
+            var id = a.getAttribute('href');
             if (!id || id === '#') return;
-            const el = document.querySelector(id);
-            if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -8 }); }
+            var el = document.querySelector(id);
+            if (el) {
+              e.preventDefault();
+              lenis.scrollTo(el, { offset: -topbarOffset() });
+            }
           });
         });
       }
 
-      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.reveal').forEach(function (el) {
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true }
-          });
-        });
-      } else {
-        document.querySelectorAll('.reveal').forEach(function (el) {
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-        });
+      function markVisible(el) {
+        el.classList.add('is-visible');
+        el.style.opacity = '1';
+        el.style.transform = 'none';
       }
+
+      function setupReveals() {
+        var els = document.querySelectorAll('.reveal');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          els.forEach(markVisible);
+          return;
+        }
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+          gsap.registerPlugin(ScrollTrigger);
+          els.forEach(function (el) {
+            if (el.getBoundingClientRect().top < window.innerHeight * 0.94) {
+              gsap.set(el, { opacity: 1, y: 0 });
+              el.classList.add('is-visible');
+              return;
+            }
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: 'power2.out',
+              scrollTrigger: { trigger: el, start: 'top 94%', once: true },
+              onComplete: function () { el.classList.add('is-visible'); }
+            });
+          });
+          ScrollTrigger.refresh();
+        } else {
+          els.forEach(markVisible);
+        }
+      }
+      setupReveals();
 
       var stageCount = 7;
       var traceTimer = null;

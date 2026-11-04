@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>本機執行 Linkin — LinkinL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --canvas: #07080a;
+      --panel: #0a0b0d;
+      --bd: #25262c;
+      --ink: #ececee;
+      --sub: #8b8b96;
+      --lime: #c6ff3d;
+      --u2: 16px;
+      --u3: 24px;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: 'Noto Sans TC', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      background: var(--canvas);
+      color: var(--ink);
+      padding: var(--u3);
+      max-width: 52rem;
+      margin: 0 auto;
+    }
+    a { color: var(--lime); }
+    h1 { font-size: 1.75rem; margin-bottom: var(--u2); }
+    h2 { font-size: 1.15rem; margin: var(--u3) 0 var(--u2); color: var(--ink); }
+    p, li { color: var(--sub); margin-bottom: 0.75em; }
+    ul { padding-left: 1.25rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: var(--u2) 0;
+      border: 1px solid var(--bd);
+    }
+    th, td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--bd);
+      text-align: left;
+    }
+    th { background: var(--panel); color: var(--sub); font-weight: 500; }
+    pre {
+      background: #050608;
+      border: 1px solid var(--bd);
+      padding: var(--u2);
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      margin: var(--u2) 0;
+    }
+    .nav {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      margin-bottom: var(--u3);
+      color: var(--sub);
+    }
+    .nav a { color: var(--sub); text-decoration: none; }
+    .nav a:hover { color: var(--lime); }
+  </style>
+</head>
+<body>
+  <p class="nav"><a href="../index.html">← LinkinL 首頁</a> · <a href="four-layers.html">四層架構</a></p>
+  <h1>本機執行 Linkin</h1>
+  <p>LinkinL 官網說明<strong style="color:var(--ink);font-weight:500;">產品與架構</strong>；實際運行時請使用 <a href="https://github.com/iiooiioo888/Linkin">Linkin 主倉</a>。</p>
+
+  <h2>1. Clone 主倉</h2>
+  <pre>git clone https://github.com/iiooiioo888/Linkin.git
+cd Linkin</pre>
+
+  <h2>2. 環境需求</h2>
+  <table>
+    <thead><tr><th>工具</th><th>版本</th></tr></thead>
+    <tbody>
+      <tr><td>Python</td><td><strong>3.12+</strong></td></tr>
+      <tr><td>Node.js</td><td><strong>20+</strong></td></tr>
+      <tr><td>Docker</td><td>可選（Redis、Chroma 或整棧）</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. 方式 A — Docker Compose</h2>
+  <table>
+    <thead><tr><th>情境</th><th>指令</th></tr></thead>
+    <tbody>
+      <tr><td>全棧</td><td><code>docker compose up -d</code></td></tr>
+      <tr><td>只起 Redis 與 Chroma</td><td><code>docker compose up -d redis chroma</code></td></tr>
+    </tbody>
+  </table>
+  <p>詳見主倉 <a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/deployment/guide.md">docs/deployment/guide.md</a> 與 <a href="https://github.com/iiooiioo888/Linkin/blob/master/DEPLOYMENT.md">DEPLOYMENT.md</a>。</p>
+
+  <h2>4. 方式 B — 本機 Python + 前端</h2>
+  <pre>python3 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+cp .env.example .env
+# 填入 API 金鑰
+
+# 後端 http://localhost:8000
+python -m backend.main
+
+# 另開終端：前端 http://localhost:3001
+cd frontend && npm install && npm run dev</pre>
+  <p>可選：先起依賴再跑後端（與官網 terminal 區塊一致）：</p>
+  <pre>docker compose up -d redis chroma
+python -m backend.main</pre>
+
+  <h2>5. 埠號速查</h2>
+  <table>
+    <thead><tr><th>服務</th><th>埠</th></tr></thead>
+    <tbody>
+      <tr><td>前端（Vite）</td><td><strong>3001</strong></td></tr>
+      <tr><td>後端 API</td><td><strong>8000</strong></td></tr>
+      <tr><td>OPC</td><td>8001</td></tr>
+      <tr><td>Redis</td><td>6379</td></tr>
+      <tr><td>Chroma</td><td>8100</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6. 下一步（主倉文件）</h2>
+  <table>
+    <thead><tr><th>你要做的事</th><th>打開</th></tr></thead>
+    <tbody>
+      <tr><td>第一次進倉</td><td><a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/onboarding.md">docs/onboarding.md</a></td></tr>
+      <tr><td>改程式</td><td><a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/development/guide.md">docs/development/guide.md</a></td></tr>
+      <tr><td>API / 環境變數</td><td><a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/api/reference.md">API</a> · <a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/config/reference.md">config</a></td></tr>
+      <tr><td>常見問題</td><td><a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/faq.md">docs/faq.md</a></td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. LinkinL 與 Linkin</h2>
+  <ul>
+    <li><strong style="color:var(--ink);">LinkinL</strong>（本 repo）：GitHub Pages 官網、四層敘事、getting-started 捷徑。</li>
+    <li><strong style="color:var(--ink);">Linkin</strong>（主倉）：LangGraph 管線、控制台、部署與全部運行時程式碼。</li>
+  </ul>
+  <p>架構摘要：<a href="four-layers.html">four-layers.html</a></p>
+</body>
+</html>

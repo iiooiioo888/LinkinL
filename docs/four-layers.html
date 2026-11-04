@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>四層執行架構 — LinkinL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --canvas: #07080a;
+      --panel: #0a0b0d;
+      --bd: #25262c;
+      --ink: #ececee;
+      --sub: #8b8b96;
+      --lime: #c6ff3d;
+      --u2: 16px;
+      --u3: 24px;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: 'Noto Sans TC', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      background: var(--canvas);
+      color: var(--ink);
+      padding: var(--u3);
+      max-width: 52rem;
+      margin: 0 auto;
+    }
+    a { color: var(--lime); }
+    h1 { font-size: 1.75rem; margin-bottom: var(--u2); }
+    h2 { font-size: 1.15rem; margin: var(--u3) 0 var(--u2); }
+    p, li { color: var(--sub); margin-bottom: 0.75em; }
+    ol, ul { padding-left: 1.25rem; color: var(--sub); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: var(--u2) 0;
+      border: 1px solid var(--bd);
+    }
+    th, td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--bd);
+      text-align: left;
+    }
+    th { background: var(--panel); color: var(--sub); font-weight: 500; }
+    .nav {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      margin-bottom: var(--u3);
+      color: var(--sub);
+    }
+    .nav a { color: var(--sub); text-decoration: none; }
+    .nav a:hover { color: var(--lime); }
+  </style>
+</head>
+<body>
+  <p class="nav"><a href="../index.html">← LinkinL 首頁</a> · <a href="getting-started.html">本機安裝</a> · <a href="design/linkinl-four-layers.html">設計 HTML</a></p>
+  <h1>四層執行架構（L04 → L01）</h1>
+  <p>LinkinL 將多 Agent 編排敘事為<strong style="color:var(--ink);">由上而下</strong>四層堆疊；頁面左側 72px rail 與產品區 SVG 皆為 <strong style="color:var(--ink);">L04 → L03 → L02 → L01</strong> 順序。</p>
+
+  <h2>總覽</h2>
+  <table>
+    <thead><tr><th>層級</th><th>名稱</th><th>職責</th></tr></thead>
+    <tbody>
+      <tr><td><strong>L04</strong></td><td>AI 執行層</td><td>LangGraph 管線、本機 Agent 執行與反思閉環</td></tr>
+      <tr><td><strong>L03</strong></td><td>預算層</td><td>token / GPU / 成本 metering，超限即停</td></tr>
+      <tr><td><strong>L02</strong></td><td>共識層</td><td>append-only 產出物帳本（CID + hash chain）</td></tr>
+      <tr><td><strong>L01</strong></td><td>組件層</td><td>vLLM、SGLang、LangGraph、Ray、Chroma 等 OSS 栈</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Hero 執行 DAG（L04 語意）</h2>
+  <ol>
+    <li>意圖解析</li>
+    <li>檢索</li>
+    <li>工具呼叫</li>
+    <li>KV 快取</li>
+    <li>預算檢查</li>
+    <li>產出物封存</li>
+    <li>輸出</li>
+  </ol>
+  <p>官網 trace-stage 上的 <strong style="color:var(--ink);">RE-RUN</strong> 會依序點亮 DAG 節點與邊，示範可重播軌跡。</p>
+
+  <h2>頁面區塊對照（0x00–0x0A）</h2>
+  <table>
+    <thead><tr><th>錨點</th><th>內容</th></tr></thead>
+    <tbody>
+      <tr><td>Header / Hero</td><td>頂欄、DAG、RE-RUN</td></tr>
+      <tr><td>Pain</td><td>三欄痛點</td></tr>
+      <tr><td>Product</td><td>四層堆疊圖 + 規格欄</td></tr>
+      <tr><td>Engine</td><td>預算 meter（L03）· 共識帳本（L02）</td></tr>
+      <tr><td>Evidence</td><td>延遲／成功率圖表</td></tr>
+      <tr><td>Integrations</td><td>L01 OSS 整合磚</td></tr>
+      <tr><td>Compare / Trust / Voices / Pricing / FAQ</td><td>能力對照、護欄、引述、定價敘事、終端快速開始</td></tr>
+    </tbody>
+  </table>
+
+  <h2>視覺系統（官網 HTML）</h2>
+  <ul>
+    <li>畫布 <code>#07080A</code>、accent <code>#C6FF3D</code></li>
+    <li><strong>0px</strong> 圓角、<strong>1px</strong> hairline 邊框</li>
+    <li>字型：<strong>Noto Sans TC</strong> + JetBrains Mono</li>
+  </ul>
+
+  <h2>深入閱讀</h2>
+  <ul>
+    <li>互動首頁：<a href="../index.html">LinkinL GitHub Pages</a></li>
+    <li>設計 HTML：<a href="design/linkinl-four-layers.html">linkinl-four-layers.html</a></li>
+    <li>Linkin 主倉架構：<a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/architecture/overview.md">overview.md</a></li>
+  </ul>
+</body>
+</html>
