@@ -1001,33 +1001,7 @@
   </div>
 </details>
 
-<section id="x0a-faq" data-label="0x0A / FAQ" class="reveal">
-          <h2 class="h-sec">常見問題</h2>
-          <div class="faq-list">
-            <details open>
-              <summary>LinkinL 和 Linkin 有什麼不同？</summary>
-              <p>LinkinL 是本機執行版的產品代號與官網（此 GitHub Pages）；可執行的運行時、API 與前端請 clone <a href="https://github.com/iiooiioo888/Linkin" style="color:var(--lime);">Linkin 主倉</a>。詳見 <a href="#x0c-install" style="color:var(--lime);">#x0c-install</a> 或 <a href="docs/getting-started.html" style="color:var(--lime);">getting-started.html</a>。</p>
-            </details>
-            <details>
-              <summary>一定要 GPU 嗎？</summary>
-              <p>否。可接雲端 API 或本機 CPU 推理；GPU 時數由 L03 預算層 metering。</p>
-            </details>
-            <details>
-              <summary>產出物帳本存在哪？</summary>
-              <p>設計上為 append-only ledger（CID + hash chain）；實作可對接本機檔案或 IPFS 節點。</p>
-            </details>
-          </div>
-          <div class="terminal" id="terminal">
-            <div class="terminal-bar">0x0A / TERMINAL · 本機快速開始</div>
-            <pre><span class="prompt">$</span> git clone https://github.com/iiooiioo888/LinkinL.git && cd LinkinL
-<span class="prompt">$</span> ./scripts/install.sh              # → ./linkin-runtime + linkinl.json
-<span class="prompt">$</span> cd linkin-runtime && cp .env.example .env
-<span class="prompt">$</span> docker compose up -d redis chroma
-<span class="prompt">$</span> python -m backend.main
-<span class="prompt">$</span> cd frontend && npm run dev
-<span class="prompt">#</span> 後端 :8000 · 前端 :3001 · ./scripts/update.sh · docs/getting-started.html</pre>
-          </div>
-        </section>
+
 
 
 <p class="foot">
@@ -1036,6 +1010,6 @@
           <a href="#x0c-install" style="color:var(--faint);">x0c-install</a> ·
           <a href="#x0d-where" style="color:var(--faint);">x0d-where</a> ·
           <a href="docs/getting-started.html" style="color:var(--faint);">getting-started</a><br />
-          Pages 建置 <span id="site-build-label">905f4fd</span> · 左軌應有 19 節點 ·
+          Pages 建置 <span id="site-build-label">905f4fd</span> · 左軌 6 節點 ·
           <a href="version.json" style="color:var(--faint);">version.json</a>
         </p>

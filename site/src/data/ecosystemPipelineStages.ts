@@ -11,9 +11,9 @@ export type PipelineStage = {
 export const ECOSYSTEM_PIPELINE_STAGES: PipelineStage[] = [
   {
     id: 'gitnexus',
-    shortLabel: 'GitNexus · 改碼',
-    title: '改碼前先算影響面',
-    blurb: '索引 repo → MCP query / impact / trace，避免改 A 爆 B。',
+    shortLabel: '1 · 改程式',
+    title: '改程式前先評估影響',
+    blurb: '先看改動會波及哪裡，減少改 A 壞 B。',
     logs: [
       'gitnexus analyze',
       'query "call_llm upstream"',
@@ -22,9 +22,9 @@ export const ECOSYSTEM_PIPELINE_STAGES: PipelineStage[] = [
   },
   {
     id: 'atm',
-    shortLabel: 'ATM · Claude 組隊',
-    title: '視覺化 org chart · 一鍵 Deploy',
-    blurb: '拖拽組隊、共用變數、排程 cron，編譯 deployment primer 開終端。',
+    shortLabel: '2 · 組隊',
+    title: '視覺化組隊與部署',
+    blurb: '把多個助手排好隊，一鍵開始工作。',
     logs: [
       'org-chart: SOC Team + 3 agents',
       'Deploy · primer compiled',
@@ -33,9 +33,9 @@ export const ECOSYSTEM_PIPELINE_STAGES: PipelineStage[] = [
   },
   {
     id: 'linkin',
-    shortLabel: 'LinkinL · 執行',
-    title: 'LangGraph 本機 runtime 閉環',
-    blurb: '工具 trace、L03 預算閘、L02 账本、產出物 hash — 可重播 run。',
+    shortLabel: '3 · LinkinL',
+    title: '在本機跑完並存紀錄',
+    blurb: '外骨骼本體：執行、護欄、封存都在你的電腦。',
     logs: [
       'graph.invoke · tool.mcp',
       'budget.gate · pass',
@@ -44,9 +44,9 @@ export const ECOSYSTEM_PIPELINE_STAGES: PipelineStage[] = [
   },
   {
     id: 'semantica',
-    shortLabel: 'Semantica · 溯源',
-    title: 'Agent 結果往回查',
-    blurb: 'record_decision → trace_decision_chain → PROV-O 匯出監管格式。',
+    shortLabel: '4 · 查紀錄',
+    title: '事後往回追',
+    blurb: '回答「當初為什麼這樣決定」。',
     logs: [
       'record_decision(d-1043)',
       'trace_decision_chain ↑ 3 hops',

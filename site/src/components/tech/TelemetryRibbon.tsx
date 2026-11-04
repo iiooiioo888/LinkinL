@@ -27,8 +27,8 @@ export function TelemetryRibbon() {
           session <strong className="mono">{m.sessionSec}s</strong>
         </span>
         <span className="telemetry-stat">
-          API :8000{' '}
-          <strong className="mono">{m.linkinBackendReachable ? 'reachable' : 'offline'}</strong>
+          本機程式{' '}
+          <strong className="mono">{m.linkinBackendReachable ? '已連上' : '未啟動'}</strong>
         </span>
         <div className="telemetry-marquee" aria-hidden="true">
           <div className="telemetry-marquee-track">

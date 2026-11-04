@@ -992,7 +992,7 @@
         });
       }
 
-      var RAIL_SECTIONS = ['#x00-hero', '#x01-pain', '#x02-product', '#x03-tool-sim', '#x0c-install', '#x0d-where', '#x00c-ecosystem', '#x-appendix-deep', '#x0a-faq'];
+      var RAIL_SECTIONS = ['#x00-hero', '#x01-what', '#x03-tool-sim', '#x0c-install', '#x00c-ecosystem', '#x0a-faq'];
       var railNodes = document.querySelectorAll('.timeline-rail .rail-node');
       var navLinks = function () { return document.querySelectorAll('#site-nav a[data-nav-id]'); };
 

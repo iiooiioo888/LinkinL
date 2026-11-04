@@ -1,0 +1,145 @@
+.hero-plain {
+  padding: var(--section-pad);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-grid-plain {
+  grid-template-columns: 1fr minmax(200px, 280px);
+}
+
+@media (max-width: 900px) {
+  .hero-grid-plain {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero-aside-plain {
+  border: 1px solid var(--bd);
+  background: var(--surface);
+  padding: var(--u3);
+  align-self: center;
+}
+
+.hero-aside-title {
+  font-size: 10px;
+  color: var(--lime);
+  letter-spacing: 0.06em;
+  margin-bottom: var(--u);
+}
+
+.hero-aside-body {
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.product-one-liner {
+  font-size: 15px;
+  max-width: 36em;
+}
+
+.spine-block {
+  padding: var(--section-pad);
+  border-bottom: 1px solid var(--line);
+}
+
+.plain-list,
+.plain-steps {
+  margin: var(--u2) 0 0;
+  padding-left: 1.2em;
+  color: var(--sub);
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 40em;
+}
+
+.plain-list li + li,
+.plain-steps li + li {
+  margin-top: var(--u);
+}
+
+.spine-note {
+  margin-top: var(--u2);
+  font-size: 12px;
+  color: var(--faint);
+  max-width: 40em;
+}
+
+.install-snippet {
+  background: #050608;
+  border: 1px solid var(--bd);
+  padding: var(--u2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  overflow-x: auto;
+  margin: var(--u2) 0 0;
+  color: var(--sub);
+}
+
+.ecosystem-plain {
+  padding: var(--section-pad);
+  border-bottom: 1px solid var(--line);
+}
+
+.eco-partner-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--u);
+  margin-top: var(--u3);
+}
+
+@media (max-width: 720px) {
+  .eco-partner-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.eco-partner-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--u2);
+  border: 1px solid var(--bd);
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s;
+}
+
+.eco-partner-pill:hover {
+  border-color: var(--lime-dk);
+}
+
+.eco-partner-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.eco-partner-hint {
+  font-size: 11px;
+  color: var(--sub);
+}
+
+.eco-pipeline-fold {
+  margin-top: var(--u3);
+}
+
+.eco-pipeline-summary {
+  margin: var(--u2) 0;
+  padding: var(--u2);
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.site-advanced {
+  margin: var(--section-pad);
+  border-color: var(--line);
+}
+
+.advanced-demos-host {
+  padding: var(--u2) 0;
+}

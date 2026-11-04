@@ -8,15 +8,21 @@ import { scheduleSim } from '@/sim/schedulerClient';
 const STAGE_MS = 3200;
 const LOG_STEP_MS = 520;
 
+const PLAY_ONCE_SUMMARY =
+  '改程式 → 組隊 → LinkinL 執行 → 查紀錄：四步可一起用，但外骨骼本體仍是 LinkinL，資料在你電腦上。';
+
 export function EcosystemPipelineAnim({
   onStageChange,
+  playOnce = false,
 }: {
   onStageChange?: (id: PipelineStageId) => void;
+  playOnce?: boolean;
 }) {
   const [stageIdx, setStageIdx] = useState(0);
   const [logLines, setLogLines] = useState<string[]>([]);
   const [tick, setTick] = useState(0);
   const [running, setRunning] = useState(false);
+  const [finished, setFinished] = useState(false);
   const [runEpoch, setRunEpoch] = useState(0);
   const hostRef = useRef<HTMLDivElement>(null);
   const startedRef = useRef(false);
@@ -54,10 +60,14 @@ export function EcosystemPipelineAnim({
 
   const advance = useCallback(() => {
     setStageIdx((i) => {
-      const next = (i + 1) % ECOSYSTEM_PIPELINE_STAGES.length;
-      return next;
+      if (playOnce && i >= ECOSYSTEM_PIPELINE_STAGES.length - 1) {
+        setRunning(false);
+        setFinished(true);
+        return i;
+      }
+      return (i + 1) % ECOSYSTEM_PIPELINE_STAGES.length;
     });
-  }, []);
+  }, [playOnce]);
 
   useEffect(() => {
     if (!running) return;
@@ -96,11 +106,24 @@ export function EcosystemPipelineAnim({
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!playOnce || !running) return;
+    const cap = scheduleSim(15000, () => {
+      setRunning(false);
+      setFinished(true);
+    });
+    return cap;
+  }, [playOnce, running, runEpoch]);
+
+  if (playOnce && finished) {
+    return <p className="eco-pipeline-summary">{PLAY_ONCE_SUMMARY}</p>;
+  }
+
   return (
     <div className="eco-pipeline" ref={hostRef} aria-label="生態協作流程動畫">
       <div className="eco-pipeline-head">
         <span className="mono">
-          <span className="live-dot">LIVE</span> pipeline-sim · 四段協作
+          <span className="live-dot">示範</span> 四步協作
         </span>
         <button
           type="button"
