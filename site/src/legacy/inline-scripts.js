@@ -992,7 +992,7 @@
         });
       }
 
-      var RAIL_SECTIONS = ['#x00-hero', '#x01-pain', '#x02-product', '#x03-engine', '#x03-budget', '#x03-consensus', '#x03-tool-sim', '#x04-evidence', '#x05-integrations', '#x05-ui-atlas', '#x06-compare', '#x07-trust', '#x08-voices', '#x09-pricing', '#x0b-layers', '#x0c-install', '#x0d-where', '#x0a-faq'];
+      var RAIL_SECTIONS = ['#x00-hero', '#x00b-tech-fabric', '#x00c-ecosystem', '#x01-pain', '#x02-product', '#x03-engine', '#x03-budget', '#x03-consensus', '#x03-tool-sim', '#x04-evidence', '#x05-integrations', '#x05-ui-atlas', '#x06-compare', '#x07-trust', '#x08-voices', '#x09-pricing', '#x0b-layers', '#x0c-install', '#x0d-where', '#x0a-faq'];
       var railNodes = document.querySelectorAll('.timeline-rail .rail-node');
       var navLinks = function () { return document.querySelectorAll('#site-nav a[data-nav-id]'); };
 
