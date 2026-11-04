@@ -942,6 +942,7 @@
       .nav a[href="#trust"],
       .nav a[href="#voices"],
       .nav a[href="#ui-atlas"],
+      .nav a[href="#tool-sim"],
       .nav a[href="#faq"] { display: none; }
     }
     @media (max-width: 390px) {
@@ -957,6 +958,170 @@
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-x: contain;
     }
+    .tool-sim-grid {
+      display: grid;
+      grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+      gap: var(--gap);
+      align-items: stretch;
+      border: 1px solid var(--bd);
+      background: var(--panel);
+    }
+    @media (max-width: 768px) {
+      .tool-sim-grid { grid-template-columns: 1fr; }
+    }
+    .tool-sim-rail {
+      border-right: 1px solid var(--bd);
+      padding: var(--u2);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--surface);
+    }
+    @media (max-width: 768px) {
+      .tool-sim-rail {
+        border-right: none;
+        border-bottom: 1px solid var(--bd);
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+    .tool-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 10px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      font-size: 11px;
+      line-height: 1.45;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      opacity: 0.45;
+    }
+    .tool-step.done { opacity: 0.75; }
+    .tool-step.active {
+      opacity: 1;
+      border-color: var(--lime);
+      background: color-mix(in srgb, var(--lime) 6%, var(--surface));
+      box-shadow: inset 0 0 0 1px var(--lime-soft);
+    }
+    .tool-step.done .tool-step-idx { color: var(--lime-dk); border-color: var(--lime-dk); }
+    .tool-step-idx {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      border: 1px solid var(--bd);
+      color: var(--faint);
+    }
+    .tool-step.active .tool-step-idx {
+      color: var(--lime);
+      border-color: var(--lime);
+    }
+    .tool-step-body { min-width: 0; }
+    .tool-step-name { font-weight: 600; color: var(--ink); font-size: 11px; }
+    .tool-step-sub { font-size: 9px; color: var(--faint); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+    .tool-sim-panel {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 320px;
+    }
+    .tool-sim-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--u);
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-hi);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--faint);
+    }
+    .tool-sim-bar .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--lime);
+    }
+    .tool-sim-bar .live-dot::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lime);
+      animation: tool-pulse 1.2s ease-in-out infinite;
+    }
+    .tool-sim-bar.idle .live-dot::before { animation: none; opacity: 0.35; }
+    .tool-sim-bar.idle .live-dot { color: var(--faint); }
+    @keyframes tool-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tool-sim-bar .live-dot::before { animation: none; }
+    }
+    .tool-sim-progress {
+      height: 3px;
+      background: var(--dim);
+      overflow: hidden;
+    }
+    .tool-sim-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--lime);
+      transition: width 0.35s ease;
+      box-shadow: 0 0 10px color-mix(in srgb, var(--lime) 50%, transparent);
+    }
+    .tool-sim-viewport {
+      flex: 1;
+      padding: var(--u2);
+      overflow: auto;
+      max-height: 280px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.55;
+      background: #050608;
+    }
+    .tool-log-line {
+      padding: 3px 0;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .tool-log-line.show {
+      opacity: 1;
+      transform: none;
+    }
+    .tool-log-line .ts { color: var(--faint); margin-right: 8px; }
+    .tool-log-line .lvl-tool { color: var(--blue); }
+    .tool-log-line .lvl-llm { color: var(--lime); }
+    .tool-log-line .lvl-gate { color: var(--amber); }
+    .tool-log-line .lvl-ok { color: var(--lime); }
+    .tool-log-line .lvl-sys { color: var(--sub); }
+    .tool-sim-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--u);
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      background: var(--surface-hi);
+    }
+    .tool-sim-foot .status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--sub);
+    }
+    .tool-sim-foot .status strong { color: var(--lime); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -968,6 +1133,7 @@
         <a href="#pain">痛點</a>
         <a href="#product">產品</a>
         <a href="#engine">引擎</a>
+        <a href="#tool-sim">工具</a>
         <a href="#evidence">實證</a>
         <a href="#integrations">整合</a>
         <a href="#ui-atlas">組件</a>
@@ -1234,6 +1400,91 @@
                   <span class="hash">h₀ ← ∅</span>
                   <span class="meta">L03 閘門通過紀錄 · 與圖表分離</span>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 0x03B TOOL SIM -->
+        <section id="tool-sim" data-label="0x03B / TOOL SIM" class="reveal">
+          <h2 class="h-sec">工具過程模擬 · 可重播操作動畫</h2>
+          <p class="sec-intro">
+            示意一條<strong style="color:var(--ink);font-weight:500;">工業 company 路徑</strong>的 tool trace：路由 → 記憶/OPC → 工具呼叫 → LLM → 預算閘門 → 封存。
+            左側為步驟狀態，右側為即時 log（非真實 API，僅動畫演示）。
+          </p>
+          <div class="tool-sim-grid" id="tool-sim-stage">
+            <div class="tool-sim-rail" aria-label="工具鏈步驟">
+              <div class="tool-step" data-tool-step="0">
+                <span class="tool-step-idx">01</span>
+                <div class="tool-step-body">
+                  <div class="tool-step-name">路由解析</div>
+                  <div class="tool-step-sub">resolve_execution_path</div>
+                </div>
+              </div>
+              <div class="tool-step" data-tool-step="1">
+                <span class="tool-step-idx">02</span>
+                <div class="tool-step-body">
+                  <div class="tool-step-name">記憶檢索</div>
+                  <div class="tool-step-sub">chroma.query</div>
+                </div>
+              </div>
+              <div class="tool-step" data-tool-step="2">
+                <span class="tool-step-idx">03</span>
+                <div class="tool-step-body">
+                  <div class="tool-step-name">OPC 讀取</div>
+                  <div class="tool-step-sub">opc.read · guard</div>
+                </div>
+              </div>
+              <div class="tool-step" data-tool-step="3">
+                <span class="tool-step-idx">04</span>
+                <div class="tool-step-body">
+                  <div class="tool-step-name">整合召回</div>
+                  <div class="tool-step-sub">WeKnora · skip</div>
+                </div>
+              </div>
+              <div class="tool-step" data-tool-step="4">
+                <span class="tool-step-idx">05</span>
+                <div class="tool-step-body">
+                  <div class="tool-step-name">量化工具</div>
+                  <div class="tool-step-sub">quant.fetch_yahoo</div>
+                </div>
+              </div>
+              <div class="tool-step" data-tool-step="5">
+                <span class="tool-step-idx">06</span>
+                <div class="tool-step-body">
+                  <div class="tool-step-name">LLM 生成</div>
+                  <div class="tool-step-sub">call_llm · LiteLLM</div>
+                </div>
+              </div>
+              <div class="tool-step" data-tool-step="6">
+                <span class="tool-step-idx">07</span>
+                <div class="tool-step-body">
+                  <div class="tool-step-name">預算閘門</div>
+                  <div class="tool-step-sub">L03 hard stop</div>
+                </div>
+              </div>
+              <div class="tool-step" data-tool-step="7">
+                <span class="tool-step-idx">08</span>
+                <div class="tool-step-body">
+                  <div class="tool-step-name">產出封存</div>
+                  <div class="tool-step-sub">CID · hash chain</div>
+                </div>
+              </div>
+            </div>
+            <div class="tool-sim-panel">
+              <div class="tool-sim-bar idle" id="tool-sim-bar">
+                <span><span class="live-dot">LIVE</span> run-a3f9c2 · industrial_ops</span>
+                <span id="tool-sim-elapsed">0.0s</span>
+              </div>
+              <div class="tool-sim-progress" aria-hidden="true">
+                <div class="tool-sim-progress-fill" id="tool-sim-progress"></div>
+              </div>
+              <div class="tool-sim-viewport" id="tool-sim-viewport" aria-live="polite" aria-label="工具操作 log">
+                <div id="tool-log"></div>
+              </div>
+              <div class="tool-sim-foot">
+                <span class="status" id="tool-sim-status">狀態：<strong>idle</strong> · 捲動至此自動播放</span>
+                <button type="button" class="btn mono" id="tool-sim-rerun" style="padding:6px 12px;font-size:10px;">RE-RUN 工具鏈</button>
               </div>
             </div>
           </div>
@@ -2013,6 +2264,11 @@
               <p>ScrollTrigger 入場 · <code>.is-visible</code> · reduced-motion 關閉</p>
               <div class="demo demo-chip-row"><span class="chip">gs-reveal</span></div>
             </article>
+            <article class="ui-specimen">
+              <h4>.tool-sim-grid</h4>
+              <p>0x03B 工具鏈動畫 · <code>.tool-step.active</code> · log 逐行淡入</p>
+              <div class="demo demo-chip-row"><span class="chip">#tool-sim-rerun</span></div>
+            </article>
           </div>
 
           <div class="component-index" aria-label="組件與 Linkin 模組對照索引">
@@ -2042,6 +2298,7 @@
                 <tr><td>Lenis + GSAP</td><td>Pages</td><td class="mono">index.html</td><td>官網捲動與 reveal</td></tr>
                 <tr><td>Chart.js</td><td>Pages</td><td class="mono">#evidence-chart</td><td>0x04 示意圖</td></tr>
                 <tr><td>.tile 系統</td><td>Pages</td><td class="mono">#integrations</td><td>80+ OSS 條目</td></tr>
+                <tr><td>.tool-sim</td><td>Pages</td><td class="mono">#tool-sim</td><td>8 步工具 trace 動畫</td></tr>
               </tbody>
             </table>
           </div>
@@ -2289,6 +2546,200 @@
       });
       runTrace();
 
+      var toolSimSteps = [
+        {
+          logs: [
+            { ts: '+0ms', cls: 'sys', text: 'POST /chat/stream  trace_id=run-a3f9c2' },
+            { ts: '+12ms', cls: 'sys', text: 'resolve_execution_path → company (industrial_ops template)' }
+          ]
+        },
+        {
+          logs: [
+            { ts: '+84ms', cls: 'tool', text: 'tool chroma.query  top_k=8  collection=session_mem' },
+            { ts: '+96ms', cls: 'ok', text: '← 6 chunks · 2.1k tokens (injected)' }
+          ]
+        },
+        {
+          logs: [
+            { ts: '+142ms', cls: 'tool', text: 'tool opc.read  nodes=[Temperature,Pressure,ValvePosition]' },
+            { ts: '+158ms', cls: 'ok', text: '← OPC guard read-only · sim :4840' }
+          ]
+        },
+        {
+          logs: [
+            { ts: '+201ms', cls: 'sys', text: 'integration_recall WeKnora · explicit=false → skip' }
+          ]
+        },
+        {
+          logs: [
+            { ts: '+240ms', cls: 'tool', text: 'tool quant.fetch_yahoo  symbol=2330.TW' },
+            { ts: '+318ms', cls: 'ok', text: '← spot +1.2% · injected to company goal' }
+          ]
+        },
+        {
+          logs: [
+            { ts: '+340ms', cls: 'llm', text: 'call_llm  model=gpt-4o  tier=routine  tokens≈842', delay: 920 },
+            { ts: '+1.84s', cls: 'ok', text: '← draft answer len=1.2k · cross_eval=off' }
+          ]
+        },
+        {
+          logs: [
+            { ts: '+1.86s', cls: 'gate', text: 'budget_gate  tokens=84,320/128,000  cost=$8.42/$12.00' },
+            { ts: '+1.87s', cls: 'ok', text: 'L03 PASS · rate 38/60 req·min⁻¹' }
+          ]
+        },
+        {
+          logs: [
+            { ts: '+1.92s', cls: 'tool', text: 'archive.write  final_answer.md + tool_trace.json' },
+            { ts: '+1.95s', cls: 'ok', text: 'CID bafybei…k7m2  sha256=9f2c…a1  h₃←h₂ append-only' }
+          ]
+        }
+      ];
+      var toolSimTimer = null;
+      var toolSimLoopTimer = null;
+      var toolSimStarted = false;
+
+      function resetToolSimUI() {
+        if (toolSimTimer) clearTimeout(toolSimTimer);
+        toolSimTimer = null;
+        document.querySelectorAll('[data-tool-step]').forEach(function (el) {
+          el.classList.remove('active', 'done');
+        });
+        var log = document.getElementById('tool-log');
+        if (log) log.innerHTML = '';
+        var prog = document.getElementById('tool-sim-progress');
+        if (prog) prog.style.width = '0%';
+        var bar = document.getElementById('tool-sim-bar');
+        if (bar) bar.classList.add('idle');
+        var elapsed = document.getElementById('tool-sim-elapsed');
+        if (elapsed) elapsed.textContent = '0.0s';
+        setToolSimStatus('running');
+      }
+
+      function setToolSimStatus(mode) {
+        var el = document.getElementById('tool-sim-status');
+        if (!el) return;
+        var labels = {
+          idle: 'idle · 可 RE-RUN',
+          running: 'running · 工具鏈執行中',
+          done: 'complete · trace 可重播'
+        };
+        el.innerHTML = '狀態：<strong>' + (labels[mode] || mode) + '</strong>';
+      }
+
+      function appendToolLogLine(entry) {
+        var log = document.getElementById('tool-log');
+        var viewport = document.getElementById('tool-sim-viewport');
+        if (!log) return;
+        var line = document.createElement('div');
+        line.className = 'tool-log-line';
+        line.innerHTML = '<span class="ts">' + entry.ts + '</span><span class="lvl-' + entry.cls + '">' + entry.text + '</span>';
+        log.appendChild(line);
+        requestAnimationFrame(function () {
+          line.classList.add('show');
+          if (viewport) viewport.scrollTop = viewport.scrollHeight;
+        });
+      }
+
+      function runToolSim(autoLoop) {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          resetToolSimUI();
+          toolSimSteps.forEach(function (step, idx) {
+            var el = document.querySelector('[data-tool-step="' + idx + '"]');
+            if (el) el.classList.add('done');
+            step.logs.forEach(appendToolLogLine);
+          });
+          var prog = document.getElementById('tool-sim-progress');
+          if (prog) prog.style.width = '100%';
+          setToolSimStatus('done');
+          return;
+        }
+        resetToolSimUI();
+        var bar = document.getElementById('tool-sim-bar');
+        if (bar) bar.classList.remove('idle');
+        var stepIdx = 0;
+        var logIdx = 0;
+        var t0 = performance.now();
+
+        function tickElapsed() {
+          var elapsed = document.getElementById('tool-sim-elapsed');
+          if (elapsed) elapsed.textContent = ((performance.now() - t0) / 1000).toFixed(1) + 's';
+        }
+
+        function finishToolSim() {
+          document.querySelectorAll('[data-tool-step]').forEach(function (el, idx) {
+            el.classList.remove('active');
+            el.classList.add('done');
+          });
+          var prog = document.getElementById('tool-sim-progress');
+          if (prog) prog.style.width = '100%';
+          if (bar) bar.classList.add('idle');
+          setToolSimStatus('done');
+          if (autoLoop !== false) {
+            if (toolSimLoopTimer) clearTimeout(toolSimLoopTimer);
+            toolSimLoopTimer = setTimeout(function () { runToolSim(true); }, 4200);
+          }
+        }
+
+        function runStep() {
+          tickElapsed();
+          document.querySelectorAll('[data-tool-step]').forEach(function (el, idx) {
+            el.classList.toggle('active', idx === stepIdx);
+            el.classList.toggle('done', idx < stepIdx);
+          });
+          var prog = document.getElementById('tool-sim-progress');
+          if (prog) {
+            prog.style.width = ((stepIdx + 0.35) / toolSimSteps.length * 100) + '%';
+          }
+          logIdx = 0;
+          nextLogInStep();
+        }
+
+        function nextLogInStep() {
+          if (stepIdx >= toolSimSteps.length) {
+            finishToolSim();
+            return;
+          }
+          var step = toolSimSteps[stepIdx];
+          if (logIdx >= step.logs.length) {
+            stepIdx++;
+            toolSimTimer = setTimeout(runStep, 280);
+            return;
+          }
+          var entry = step.logs[logIdx];
+          appendToolLogLine(entry);
+          logIdx++;
+          var delay = entry.delay != null ? entry.delay : 380;
+          toolSimTimer = setTimeout(nextLogInStep, delay);
+        }
+
+        runStep();
+      }
+
+      var toolRerun = document.getElementById('tool-sim-rerun');
+      if (toolRerun) {
+        toolRerun.addEventListener('click', function () {
+          if (toolSimLoopTimer) clearTimeout(toolSimLoopTimer);
+          runToolSim(false);
+        });
+      }
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.create({
+          trigger: '#tool-sim',
+          start: 'top 78%',
+          once: true,
+          onEnter: function () {
+            if (!toolSimStarted) {
+              toolSimStarted = true;
+              runToolSim(true);
+            }
+          }
+        });
+      } else {
+        runToolSim(true);
+        toolSimStarted = true;
+      }
+
       var meters = { token: 65.9, gpu: 60, cost: 70.2, rate: 63.3 };
       function animateMeters() {
         Object.keys(meters).forEach(function (k) {
@@ -2350,7 +2801,7 @@
         });
       }
 
-      var sections = ['#hero', '#product', '#engine-budget', '#engine-consensus', '#integrations'];
+      var sections = ['#hero', '#product', '#engine-budget', '#engine-consensus', '#integrations', '#ui-atlas'];
       var railNodes = document.querySelectorAll('.rail-node');
       function updateRail() {
         var y = window.scrollY + 120;
