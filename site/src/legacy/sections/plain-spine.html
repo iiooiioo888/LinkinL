@@ -40,23 +40,34 @@
             <button type="button" role="tab" class="on" data-path="company" aria-selected="true">查產線<small>多步驟工作</small></button>
             <button type="button" role="tab" data-path="minecraft" aria-selected="false">玩 Minecraft<small>一次一個動作</small></button>
           </div>
-          <div class="tool-sim-grid" id="tool-sim-stage">
-            <div class="tool-sim-rail" id="tool-sim-rail" aria-label="步驟"></div>
-            <div class="tool-sim-panel">
-              <div class="tool-sim-bar idle" id="tool-sim-bar">
-                <span><span class="live-dot">示範</span> <span id="tool-sim-run">查產線 · 示範中</span></span>
-                <span id="tool-sim-elapsed">0.0s</span>
+          <div class="tool-sim-outcome" id="tool-sim-stage">
+            <div class="tool-sim-bar idle" id="tool-sim-bar">
+              <span><span class="live-dot">示範</span> <span id="tool-sim-run">查產線 · 示範中</span></span>
+              <span id="tool-sim-elapsed">0.0s</span>
+            </div>
+            <div class="tool-sim-progress" aria-hidden="true">
+              <div class="tool-sim-progress-fill" id="tool-sim-progress"></div>
+            </div>
+            <ol class="tool-plain-steps" id="tool-plain-steps" aria-label="過程（白話）"></ol>
+            <article class="tool-result-card" id="tool-result-card" aria-live="polite">
+              <p class="tool-result-kicker">成果摘要</p>
+              <h3 class="tool-result-title" id="tool-result-title">完成後會顯示在這裡</h3>
+              <p class="tool-result-artifact" id="tool-result-artifact">產出物：—</p>
+              <p class="tool-result-desc" id="tool-result-desc">示範跑完後，會用一句話說明你拿到什麼。</p>
+              <p class="tool-result-status" id="tool-result-status"></p>
+            </article>
+            <details class="tool-log-fold">
+              <summary>查看完整過程（技術紀錄）</summary>
+              <div class="tool-sim-tech">
+                <div class="tool-sim-rail tool-sim-rail--tech" id="tool-sim-rail" aria-hidden="true"></div>
+                <div class="tool-sim-viewport" id="tool-sim-viewport" aria-live="polite">
+                  <div id="tool-log"></div>
+                </div>
               </div>
-              <div class="tool-sim-progress" aria-hidden="true">
-                <div class="tool-sim-progress-fill" id="tool-sim-progress"></div>
-              </div>
-              <div class="tool-sim-viewport" id="tool-sim-viewport" aria-live="polite" aria-label="示意過程">
-                <div id="tool-log"></div>
-              </div>
-              <div class="tool-sim-foot">
-                <span class="status" id="tool-sim-status">狀態：<strong>準備好了，進入此區會自動示範</strong></span>
-                <button type="button" class="btn mono" id="tool-sim-rerun" style="padding:6px 12px;font-size:10px;">再看一次</button>
-              </div>
+            </details>
+            <div class="tool-sim-foot">
+              <span class="status" id="tool-sim-status">狀態：<strong>準備好了，進入此區會自動示範</strong></span>
+              <button type="button" class="btn mono" id="tool-sim-rerun" style="padding:6px 12px;font-size:10px;">再看一次</button>
             </div>
           </div>
         </section>
