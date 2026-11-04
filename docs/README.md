@@ -26,7 +26,7 @@ LinkinL 是 Linkin 的本機執行版**產品敘事**；可執行程式碼在 [L
 | [getting-started.html](getting-started.html) | 同上（HTML） |
 | [four-layers.md](four-layers.md) | 四層架構摘要（L04→L01） |
 | [four-layers.html](four-layers.html) | 同上（HTML） |
-| [design/linkinl-four-layers.html](design/linkinl-four-layers.html) | 完整行銷／設計 HTML 深連結 |
+| [design/linkinl-four-layers.html](design/linkinl-four-layers.html) | 深連結轉址至互動首頁（保留 hash → xNN） |
 
 ## Linkin 主倉文件
 
