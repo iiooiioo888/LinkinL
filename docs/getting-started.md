@@ -1,23 +1,78 @@
 # 本機執行 Linkin
 
-LinkinL 官網說明**產品與架構**；實際運行時請使用 [Linkin 主倉](https://github.com/iiooiioo888/Linkin)。
+LinkinL 官網（[iiooiioo888.github.io/LinkinL](https://iiooiioo888.github.io/LinkinL/)）說明**產品與架構**；實際運行時使用 [Linkin 主倉](https://github.com/iiooiioo888/Linkin)（`master`）。本頁說明如何用 **LinkinL 腳本**安裝與更新，以及啟動服務。
 
-## 1. Clone 主倉
+## 平台
+
+| 環境 | 建議 |
+|------|------|
+| macOS | 原生 bash，直接執行下方腳本 |
+| Linux | 同上 |
+| Windows | 請使用 **WSL2**（Ubuntu 等）clone LinkinL 與 Linkin；PowerShell 未正式支援 `install.sh` |
+
+## 0. Clone LinkinL（官網倉）
 
 ```bash
-git clone https://github.com/iiooiioo888/Linkin.git
-cd Linkin
+git clone https://github.com/iiooiioo888/LinkinL.git
+cd LinkinL
+chmod +x scripts/install.sh scripts/update.sh
 ```
 
-## 2. 環境需求
+## 1. 安裝 Linkin 主倉（`install.sh`）
+
+腳本會：
+
+- 將 Linkin clone 到可設定目錄（**預設** `<LinkinL>/linkin-runtime`；亦可用 `LINKIN_DIR=~/Linkin`）
+- 可選 `--shallow` 淺 clone
+- 檢查 **git、Python 3.12+、Node 20+、Docker**（後者為提示，非強制）
+- 在 LinkinL 根目錄寫入 **`linkinl.json`**（紀錄 branch、commit、安裝時間）
+
+```bash
+./scripts/install.sh
+
+# 範例：家目錄 + 淺 clone
+LINKIN_DIR=~/Linkin ./scripts/install.sh --shallow
+
+# 僅檢查工具（CI / 無網路時不 clone）
+./scripts/install.sh --check-only
+```
+
+複製 LinkinL 編排用環境範本（路徑、埠號，**不含 API 金鑰**）：
+
+```bash
+cp .env.linkinl.example .env.linkinl
+```
+
+在 **Linkin 工作目錄**建立真正的執行設定：
+
+```bash
+cd linkin-runtime   # 或你的 LINKIN_DIR
+cp .env.example .env
+# 填入 OPENAI_API_KEY、LINKIN_GATE_*、REDIS_PASSWORD 等（見主倉 .env.example）
+```
+
+## 2. 更新 Linkin（`update.sh`）
+
+```bash
+cd /path/to/LinkinL
+./scripts/update.sh           # 依 linkinl.json fetch + pull master
+./scripts/update.sh --npm     # 另在 frontend/ 執行 npm install
+```
+
+終端會印出 **commit 差異**（舊 SHA → 新 SHA）與最近變更 log。
+
+## 3. 環境需求
 
 | 工具 | 版本 |
 |------|------|
 | Python | **3.12+** |
 | Node.js | **20+** |
 | Docker | 可選（Redis、Chroma 或整棧） |
+| git | 任意近期版本 |
 
-## 3. 方式 A — Docker Compose
+## 4. 方式 A — Docker Compose
+
+在 Linkin 目錄（例如 `linkin-runtime`）：
 
 | 情境 | 指令 |
 |------|------|
@@ -26,15 +81,15 @@ cd Linkin
 
 詳見主倉 [docs/deployment/guide.md](https://github.com/iiooiioo888/Linkin/blob/master/docs/deployment/guide.md) 與 [DEPLOYMENT.md](https://github.com/iiooiioo888/Linkin/blob/master/DEPLOYMENT.md)。
 
-## 4. 方式 B — 本機 Python + 前端
+## 5. 方式 B — 本機 Python + 前端
 
 ```bash
+cd linkin-runtime
 python3 -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\Activate.ps1
+source .venv/bin/activate   # Windows WSL: 同上；原生 Windows 請用 WSL
 pip install -r requirements.txt
 
-cp .env.example .env
-# 填入 API 金鑰
+# .env 已於上一節建立
 
 # 後端 http://localhost:8000
 python -m backend.main
@@ -43,14 +98,14 @@ python -m backend.main
 cd frontend && npm install && npm run dev
 ```
 
-可選：先起依賴再跑後端（與官網 terminal 區塊一致）：
+可選：先起依賴再跑後端：
 
 ```bash
 docker compose up -d redis chroma
 python -m backend.main
 ```
 
-## 5. 埠號速查
+## 6. 埠號速查
 
 | 服務 | 埠 |
 |------|-----|
@@ -60,7 +115,9 @@ python -m backend.main
 | Redis | 6379 |
 | Chroma | 8100 |
 
-## 6. 下一步（主倉文件）
+`.env.linkinl.example` 內有 `OPC_SIM_*` 等開發用註解，對照 Linkin 主倉設定即可。
+
+## 7. 下一步（主倉文件）
 
 | 你要做的事 | 打開 |
 |------------|------|
@@ -69,9 +126,9 @@ python -m backend.main
 | API / 環境變數 | [docs/api/reference.md](https://github.com/iiooiioo888/Linkin/blob/master/docs/api/reference.md) · [docs/config/reference.md](https://github.com/iiooiioo888/Linkin/blob/master/docs/config/reference.md) |
 | 常見問題 | [docs/faq.md](https://github.com/iiooiioo888/Linkin/blob/master/docs/faq.md) |
 
-## 7. LinkinL 與 Linkin
+## 8. LinkinL 與 Linkin
 
-- **LinkinL**（本 repo）：GitHub Pages 官網、四層敘事、getting-started 捷徑。
+- **LinkinL**（本 repo）：GitHub Pages 官網、四層敘事、**install/update 腳本**、`linkinl.json` manifest。
 - **Linkin**（主倉）：LangGraph 管線、控制台、部署與全部運行時程式碼。
 
 架構摘要：[four-layers.md](four-layers.md)

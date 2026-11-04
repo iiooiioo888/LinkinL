@@ -1,0 +1,4 @@
+# LinkinL 本機執行產物（勿提交路徑或金鑰）
+linkinl.json
+.env.linkinl
+linkin-runtime/
