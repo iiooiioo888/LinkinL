@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
-import mainHtml from '@/legacy/main-content.html?raw';
+import { TechFabricSection } from '@/components/tech/TechFabricSection';
+import heroHtml from '@/legacy/sections/x00-hero.html?raw';
+import afterHeroHtml from '@/legacy/main-content-after-hero.html?raw';
 import { runLegacyBootstrap } from '@/runtime/legacyBootstrap';
 
 export function LegacyMainContent() {
@@ -8,10 +10,18 @@ export function LegacyMainContent() {
   }, []);
 
   return (
-    <div
-      className="legacy-main-host"
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: mainHtml }}
-    />
+    <>
+      <div
+        className="legacy-main-host"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: heroHtml }}
+      />
+      <TechFabricSection />
+      <div
+        className="legacy-main-host"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: afterHeroHtml }}
+      />
+    </>
   );
 }
