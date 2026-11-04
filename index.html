@@ -1508,7 +1508,7 @@
                 <div id="tool-log"></div>
               </div>
               <div class="tool-sim-foot">
-                <span class="status" id="tool-sim-status">狀態：<strong>idle</strong> · 捲動至此自動播放</span>
+                <span class="status" id="tool-sim-status">狀態：<strong>idle</strong> · 進入頁面即播放</span>
                 <button type="button" class="btn mono" id="tool-sim-rerun" style="padding:6px 12px;font-size:10px;">RE-RUN 工具鏈</button>
               </div>
             </div>
@@ -2863,13 +2863,10 @@ cp .env.linkinl.example .env.linkinl</pre>
         var viewport = document.getElementById('tool-sim-viewport');
         if (!log) return;
         var line = document.createElement('div');
-        line.className = 'tool-log-line';
+        line.className = 'tool-log-line show';
         line.innerHTML = '<span class="ts">' + entry.ts + '</span><span class="lvl-' + entry.cls + '">' + entry.text + '</span>';
         log.appendChild(line);
-        requestAnimationFrame(function () {
-          line.classList.add('show');
-          if (viewport) viewport.scrollTop = viewport.scrollHeight;
-        });
+        if (viewport) viewport.scrollTop = viewport.scrollHeight;
       }
 
       function runToolSim(autoLoop) {
@@ -2972,22 +2969,8 @@ cp .env.linkinl.example .env.linkinl</pre>
         });
       });
       renderToolRail();
-      if (typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.create({
-          trigger: '#x03-tool-sim',
-          start: 'top 78%',
-          once: true,
-          onEnter: function () {
-            if (!toolSimStarted) {
-              toolSimStarted = true;
-              runToolSim(true);
-            }
-          }
-        });
-      } else {
-        runToolSim(true);
-        toolSimStarted = true;
-      }
+      runToolSim(true);
+      toolSimStarted = true;
 
       var meters = { token: 65.9, gpu: 60, cost: 70.2, rate: 63.3 };
       function animateMeters() {
