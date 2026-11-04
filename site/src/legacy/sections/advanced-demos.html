@@ -1,0 +1,131 @@
+<div class="advanced-demos-host">
+            <div class="trace-stage" id="trace-stage">
+              <div class="trace-head">
+                <span>示意 · 一次任務走過哪些步驟</span>
+                <button type="button" class="btn mono" id="trace-rerun" style="padding:4px 10px;font-size:9px;">再看一次</button>
+              </div>
+              <div class="trace-body">
+                <svg class="dag" id="hero-dag" viewBox="0 0 880 148" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="執行步驟示意">
+                  <defs>
+                    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                      <path d="M0,0 L6,3 L0,6 Z" fill="#25262c" />
+                    </marker>
+                    <marker id="arrow-lime" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                      <path d="M0,0 L6,3 L0,6 Z" fill="#c6ff3d" />
+                    </marker>
+                  </defs>
+                  <g class="dag-edges">
+                    <path class="dag-edge" data-edge="0" d="M 98 74 L 118 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="1" d="M 198 74 L 218 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="2" d="M 298 74 L 318 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="3" d="M 398 74 L 418 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="4" d="M 498 74 L 518 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="5" d="M 598 74 L 618 74" marker-end="url(#arrow)" />
+                    <path class="dag-edge" data-edge="6" d="M 698 74 L 718 74" marker-end="url(#arrow)" />
+                  </g>
+                  <g class="dag-node" data-stage="0" transform="translate(8,52)"><rect width="90" height="44" /><text x="45" y="26" text-anchor="middle">理解問題</text></g>
+                  <g class="dag-node" data-stage="1" transform="translate(118,52)"><rect width="80" height="44" /><text x="40" y="26" text-anchor="middle">查資料</text></g>
+                  <g class="dag-node" data-stage="2" transform="translate(218,52)"><rect width="80" height="44" /><text x="40" y="26" text-anchor="middle">用工具</text></g>
+                  <g class="dag-node" data-stage="3" transform="translate(318,52)"><rect width="80" height="44" /><text x="40" y="26" text-anchor="middle">快取</text></g>
+                  <g class="dag-node" data-stage="4" transform="translate(418,52)"><rect width="80" height="44" /><text x="40" y="26" text-anchor="middle">檢查上限</text></g>
+                  <g class="dag-node" data-stage="5" transform="translate(518,52)"><rect width="96" height="44" /><text x="48" y="26" text-anchor="middle">存結果</text></g>
+                  <g class="dag-node" data-stage="6" transform="translate(628,52)"><rect width="72" height="44" /><text x="36" y="26" text-anchor="middle">完成</text></g>
+                </svg>
+              </div>
+            </div>
+            <button type="button" class="btn mono sr-only" id="hero-rerun">RE-RUN</button>
+<section id="x02-product" data-label="0x02 / PRODUCT" class="reveal">
+          <h2 class="h-sec">四層怎麼「穿」在身上</h2>
+          <p class="sec-intro">
+            順序 <strong style="color:var(--lime);font-family:'JetBrains Mono',monospace;">L04 → L03 → L02 → L01</strong>：
+            執行 → 預算護欄 → 封存帳本 → OSS 落地。Hero 橫向 trace 看<strong>一跳</strong>；這裡縱向堆疊看<strong>一請求穿層</strong>（示意，非即時 API）。
+          </p>
+          <div class="layer-stack-sim reveal" id="layer-stack-sim" aria-labelledby="lss-heading">
+            <div class="lss-head">
+              <span class="lss-kicker">0x02 · LIVE TRACE</span>
+              <h3 class="lss-title" id="lss-heading">四層堆疊 <span class="grad">L04 → L03 → L02 → L01</span></h3>
+              <p class="lss-sub">光點 = 一次請求。由上而下：執行 → 預算閘門 → 封存稽核 → OSS 落地（示意，非即時 trace）。</p>
+            </div>
+            <div class="lss-stage">
+              <div class="lss-stack" id="lss-stack">
+                <div class="lss-layer" data-l="l04">
+                  <div class="lss-badge"><span class="id">L04</span><span class="tag">AI 執行層</span></div>
+                  <div>
+                    <h3>AI 執行層 · Agent / Graph</h3>
+                    <p class="lss-desc">決定任務怎麼跑：路由、呼叫 LLM、必要時進入反思迴圈。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">管線 <b>LangGraph</b></span>
+                      <span class="lss-chip">路由 <b>simple / company</b></span>
+                      <span class="lss-chip">LLM 閘道 <b>call_llm</b></span>
+                      <span class="lss-chip">反思 <b>EvoLoop</b></span>
+                      <span class="lss-chip">本機埠 <b>:8000</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l03">
+                  <div class="lss-badge"><span class="id">L03</span><span class="tag">預算層</span></div>
+                  <div>
+                    <h3>預算層 · Token / GPU</h3>
+                    <p class="lss-desc">執行前閘門檢查，成本與速率是硬約束，超限直接停止。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">Token 池 <b>128k / run</b></span>
+                      <span class="lss-chip">GPU 配額 <b>4h / day</b></span>
+                      <span class="lss-chip">成本上限 <b>$12.00</b></span>
+                      <span class="lss-chip">速率閘門 <b>60 req/min</b></span>
+                      <span class="lss-chip stop">超限 <b>hard stop</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l02">
+                  <div class="lss-badge"><span class="id">L02</span><span class="tag">共識層</span></div>
+                  <div>
+                    <h3>共識層 · CID / Hash</h3>
+                    <p class="lss-desc">結果與中介產物封存、簽章、稽核，可用 trace id 回放。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">封存 <b>IPFS CID</b></span>
+                      <span class="lss-chip">雜湊鏈 <b>sha256∥prev</b></span>
+                      <span class="lss-chip">簽章 <b>ed25519</b></span>
+                      <span class="lss-chip">稽核 <b>append-only</b></span>
+                      <span class="lss-chip">回放 <b>trace id</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-layer" data-l="l01">
+                  <div class="lss-badge"><span class="id">L01</span><span class="tag">組件層</span></div>
+                  <div>
+                    <h3>組件層 · OSS 整合</h3>
+                    <p class="lss-desc">實際跑在開源堆疊上：推理、注意力、編排、分散式、向量、快取、API。</p>
+                    <div class="lss-chips">
+                      <span class="lss-chip">推理 <b>vLLM / SGLang</b></span>
+                      <span class="lss-chip">注意力 <b>FlashAttn</b></span>
+                      <span class="lss-chip">編排 <b>LangGraph</b></span>
+                      <span class="lss-chip">分散式 <b>Ray</b></span>
+                      <span class="lss-chip">向量 <b>Chroma</b></span>
+                      <span class="lss-chip">快取 <b>Redis</b></span>
+                      <span class="lss-chip">API <b>FastAPI</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lss-packet" id="lss-packet" aria-hidden="true"></div>
+              </div>
+              <aside class="lss-console" aria-label="四層 trace log">
+                <div class="lss-console-head">
+                  <span class="lss-dot r"></span><span class="lss-dot y"></span><span class="lss-dot g"></span>
+                  <span style="margin-left:6px;">TRACE LOG · run #0x7f3a</span>
+                </div>
+                <div class="lss-log" id="lss-log"></div>
+              </aside>
+            </div>
+            <div class="lss-controls">
+              <button type="button" class="btn mono" id="lss-replay">↻ 重播</button>
+              <div class="lss-progress-track" aria-hidden="true"><div class="lss-progress" id="lss-progress"></div></div>
+            </div>
+            <div class="lss-legend">
+              <div class="lss-legend-item" data-l="l04"><h4>L04 · 執行</h4><p>光點代表一次請求進入管線，先被路由再呼叫 LLM。</p></div>
+              <div class="lss-legend-item" data-l="l03"><h4>L03 · 閘門</h4><p>四個指標逐一打勾才放行；任一超限即 hard stop，不再往下。</p></div>
+              <div class="lss-legend-item" data-l="l02"><h4>L02 · 帳本</h4><p>結果上鏈封存，CID＋雜湊鏈＋簽章，append-only 可回放。</p></div>
+              <div class="lss-legend-item" data-l="l01"><h4>L01 · 落地</h4><p>真正跑在 OSS 堆疊上，推理、檢索、快取、API 一次到位。</p></div>
+            </div>
+          </div>
+        </section>
+</div>
