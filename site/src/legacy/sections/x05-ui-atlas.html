@@ -1,0 +1,125 @@
+<section id="x05-ui-atlas" data-label="0x05B / UI COMPONENTS" class="reveal">
+          <h2 class="h-sec">官網 HTML 組件圖鑑 · Convultra DOM 模式</h2>
+          <p class="sec-intro">
+            下列為 <code>index.html</code> 內實際使用的 UI 組件（非 React）；Linkin 控制台 npm 依賴見 <a href="#x05-integrations" style="color:var(--lime);">#x05-integrations</a>。
+            官網 CDN：<strong style="color:var(--ink);font-weight:500;">Lenis 1.1.18 · GSAP 3.12.5 · Chart.js 4.4.6 · Noto Sans TC · JetBrains Mono</strong>（自 jsdelivr / Google Fonts 載入，非 Linkin runtime）。
+          </p>
+          <div class="ui-atlas">
+            <article class="ui-specimen">
+              <h4>.topbar + .nav</h4>
+              <p>固定頂欄 · 72px 執行軸留白 · 錨點導覽 <code>.on</code> 狀態</p>
+              <div class="demo demo-chip-row">
+                <span class="chip lime">0x00</span><span class="chip">nav.on</span>
+              </div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.timeline-rail</h4>
+              <p>左側全頁錨點（00、L4–L1、分工、FAQ）· <code>.rail-node.active</code> lime 邊框</p>
+              <div class="demo demo-chip-row"><span class="chip">72px rail</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.trace-stage + .dag</h4>
+              <p>Hero SVG DAG · <code>.dag-node.active</code> · RE-RUN 動畫</p>
+              <div class="demo demo-chip-row"><span class="chip">880×148 viewBox</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.pain-card</h4>
+              <p>0x01 三欄痛點 · <code>.tag</code> 色碼 · 等高 grid</p>
+              <div class="demo demo-chip-row"><span class="chip" style="color:var(--red);border-color:var(--bd);">不可稽核</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.layer-stack-sim</h4>
+              <p>0x02 LIVE TRACE · <code>.lss-packet</code> 穿層 · <code>#lss-replay</code></p>
+              <div class="demo demo-chip-row"><span class="chip">minmax(152px)</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.panel + .meter</h4>
+              <p>0x03 預算量表 · <code>.meter-fill.warn</code> 閾值色</p>
+              <div class="demo demo-meter">
+                <div class="meter-track"><div class="meter-fill"></div></div>
+              </div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.ledger-row</h4>
+              <p>共識帳本 · CID · hash 鏈 · <code>.meta</code> 全寬列</p>
+              <div class="demo demo-chip-row"><span class="chip lime" style="font-size:9px;">bafybei…</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.chart-wrap</h4>
+              <p>0x04 Chart.js canvas · 280px 固定高度容器</p>
+              <div class="demo demo-chip-row"><span class="chip">#evidence-chart</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.tile + .stack-block</h4>
+              <p>0x05 整合 tile · <code>.tile-cat</code> · <code>.tile-ver</code> · static 變體</p>
+              <div class="demo demo-chip-row"><span class="chip">compact grid</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.compare-table</h4>
+              <p>0x06 對照 · <code>.yes/.no</code> · 橫向 scroll wrapper</p>
+              <div class="demo demo-chip-row"><span class="chip">✓ lime</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.trust-item · .voice</h4>
+              <p>0x07–0x08 信任格與引述 · 2×2 / 2 欄 RWD</p>
+              <div class="demo demo-chip-row"><span class="chip">blockquote</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.price-card.featured</h4>
+              <p>0x09 定價 · inset lime 邊 · <code>.amt</code> mono 大字</p>
+              <div class="demo demo-chip-row"><span class="chip lime">$0</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.terminal + details</h4>
+              <p>0x0A FAQ <code>&lt;details&gt;</code> · terminal <code>.prompt</code></p>
+              <div class="demo demo-chip-row"><span class="chip" style="font-family:'JetBrains Mono',monospace;">$ install.sh</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.reveal · GSAP</h4>
+              <p>ScrollTrigger 入場 · <code>.is-visible</code> · reduced-motion 關閉</p>
+              <div class="demo demo-chip-row"><span class="chip">gs-reveal</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.l01-map-sim</h4>
+              <p>0x05 五分類節點流 · tab 同步單一 <code>stack-block</code> · 可展開全部</p>
+              <div class="demo demo-chip-row"><span class="chip">#l01-map-tabs</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.tool-sim-grid</h4>
+              <p>0x03B 工具鏈動畫 · <code>.tool-step.active</code> · log 逐行淡入</p>
+              <div class="demo demo-chip-row"><span class="chip">#tool-sim-rerun</span></div>
+            </article>
+          </div>
+
+          <div class="component-index" aria-label="組件與 Linkin 模組對照索引">
+            <table>
+              <thead>
+                <tr>
+                  <th>組件 / 函式庫</th>
+                  <th>層級</th>
+                  <th>Linkin 路徑或埠</th>
+                  <th>說明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>LangGraph</td><td>L04</td><td class="mono">backend/core/graph</td><td>build_graph · route_by_complexity</td></tr>
+                <tr><td>LiteLLM</td><td>L04</td><td class="mono">call_llm</td><td>唯一 LLM 出口</td></tr>
+                <tr><td>FastAPI</td><td>Runtime</td><td class="mono">:8000</td><td>/chat/stream · /tasks · WS</td></tr>
+                <tr><td>React + Vite</td><td>UI</td><td class="mono">:3001</td><td>frontend/ · npm run dev</td></tr>
+                <tr><td>Redis</td><td>L01</td><td class="mono">:6379</td><td>REDIS_URL 密碼</td></tr>
+                <tr><td>Chroma</td><td>L01</td><td class="mono">:8100</td><td>CHROMA_HOST/PORT</td></tr>
+                <tr><td>opc_service</td><td>L01</td><td class="mono">:8001</td><td>asyncua · guard 寫入</td></tr>
+                <tr><td>MineMCP</td><td>L04</td><td class="mono">:3000</td><td>minecraft_ops 輕量路徑</td></tr>
+                <tr><td>Monaco</td><td>UI</td><td class="mono">#/monitor</td><td>編輯器面板</td></tr>
+                <tr><td>XYFlow</td><td>UI</td><td class="mono">實驗室</td><td>策略/管線圖</td></tr>
+                <tr><td>ECharts</td><td>UI</td><td class="mono">#/monitor</td><td>Hub · billing 圖表</td></tr>
+                <tr><td>skills.json</td><td>Integrations</td><td class="mono">backend/data/</td><td>同步 .agents/skills</td></tr>
+                <tr><td>linkinl.json</td><td>LinkinL</td><td class="mono">install.sh</td><td>pin Linkin commit</td></tr>
+                <tr><td>Lenis + GSAP</td><td>Pages</td><td class="mono">index.html</td><td>官網捲動與 reveal</td></tr>
+                <tr><td>Chart.js</td><td>Pages</td><td class="mono">#evidence-chart</td><td>0x04 示意圖</td></tr>
+                <tr><td>.tile 系統</td><td>Pages</td><td class="mono">#x05-integrations</td><td>80+ OSS 條目</td></tr>
+                <tr><td>.tool-sim</td><td>Pages</td><td class="mono">#x03-tool-sim</td><td>8 步工具 trace 動畫</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>

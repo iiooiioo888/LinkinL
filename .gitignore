@@ -2,3 +2,5 @@
 linkinl.json
 .env.linkinl
 linkin-runtime/
+site/node_modules/
+site/dist/

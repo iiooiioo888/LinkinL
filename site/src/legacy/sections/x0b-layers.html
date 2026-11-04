@@ -1,0 +1,33 @@
+<section id="x0b-layers" data-label="0x0B / LAYERS" class="reveal">
+          <h2 class="h-sec">四層架構詳解 · 與子頁同步</h2>
+          <p class="sec-intro">
+            內容摘錄自 <a href="docs/four-layers.html" style="color:var(--lime);">docs/four-layers.html</a>；
+            錨點 <code>x0b-layers</code> 可從子頁直連回本區。
+          </p>
+          <table class="compare-table">
+            <thead>
+              <tr><th>層級</th><th>名稱</th><th>職責</th><th>首頁錨點</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>L04</strong></td><td>AI 執行層</td><td>LangGraph 管線、Agent 反思閉環、Hero DAG 七節點</td><td class="mono" style="font-family:'JetBrains Mono',monospace;font-size:10px;"><a href="#x00-hero" style="color:var(--lime);">#x00-hero</a> · <a href="#x03-tool-sim" style="color:var(--lime);">#x03-tool-sim</a></td></tr>
+              <tr><td><strong>L03</strong></td><td>預算層</td><td>Token / GPU / 成本 metering · 超限 hard stop</td><td class="mono" style="font-family:'JetBrains Mono',monospace;font-size:10px;"><a href="#x03-budget" style="color:var(--lime);">#x03-budget</a></td></tr>
+              <tr><td><strong>L02</strong></td><td>共識層</td><td>CID + hash chain · append-only 產出物帳本</td><td class="mono" style="font-family:'JetBrains Mono',monospace;font-size:10px;"><a href="#x03-consensus" style="color:var(--lime);">#x03-consensus</a></td></tr>
+              <tr><td><strong>L01</strong></td><td>組件層</td><td>vLLM · Chroma · Redis · FastAPI · 80+ OSS tile</td><td class="mono" style="font-family:'JetBrains Mono',monospace;font-size:10px;"><a href="#x05-integrations" style="color:var(--lime);">#x05-integrations</a></td></tr>
+            </tbody>
+          </table>
+          <div class="guide-block">
+            <h3>Hero 執行 DAG（L04 語意）</h3>
+            <p class="sec-intro" style="margin-bottom:var(--u2);">一次 run 的節點順序：意圖解析 → 檢索 → 工具呼叫 → KV 快取 → 預算檢查 → 產出物封存 → 輸出。<code>RE-RUN</code> 會依序點亮邊與節點。四層穿層動畫見 <a href="#x02-product" style="color:var(--lime);">#x02-product · LIVE TRACE</a>。</p>
+            <div class="guide-links">
+              <a href="#x00-hero">回到 Hero DAG</a>
+              <a href="#layer-stack-sim">LIVE TRACE</a>
+              <a href="docs/four-layers.html">four-layers.html</a>
+              <a href="docs/design/linkinl-four-layers.html" class="nav-ext" target="_blank" rel="noopener noreferrer">設計 HTML 深連結</a>
+              <a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/architecture/overview.md" class="nav-ext" target="_blank" rel="noopener noreferrer">Linkin 架構總覽</a>
+            </div>
+          </div>
+          <div class="guide-block">
+            <h3>視覺系統（Convultra）</h3>
+            <p class="sec-intro" style="margin:0;">畫布 <code>#07080A</code> · accent <code>#C6FF3D</code> · 0px 圓角 · 1px hairline · Noto Sans TC + JetBrains Mono · Lenis + GSAP + Chart.js（見 <a href="#x05-ui-atlas" style="color:var(--lime);">#x05-ui-atlas</a>）。</p>
+          </div>
+        </section>

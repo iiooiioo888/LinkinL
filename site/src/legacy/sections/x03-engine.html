@@ -1,0 +1,52 @@
+<section id="x03-engine" data-label="0x03 / ENGINE" class="reveal">
+          <h2 class="h-sec">執行引擎 · 預算與共識分離</h2>
+          <div class="engine-cols">
+            <div class="panel" id="x03-budget">
+              <div class="panel-head">L03 預算層 · 資源量表</div>
+              <div class="panel-body">
+                <div class="meter">
+                  <div class="meter-top"><span class="lbl">Token 用量</span><span class="val">84,320 / 128,000</span></div>
+                  <div class="meter-track"><div class="meter-fill" data-meter="token" style="width:0%"></div></div>
+                </div>
+                <div class="meter">
+                  <div class="meter-top"><span class="lbl">GPU 時數（今日）</span><span class="val">2.4h / 4.0h</span></div>
+                  <div class="meter-track"><div class="meter-fill warn" data-meter="gpu" style="width:0%"></div></div>
+                </div>
+                <div class="meter">
+                  <div class="meter-top"><span class="lbl">成本上限（USD）</span><span class="val">$8.42 / $12.00</span></div>
+                  <div class="meter-track"><div class="meter-fill warn" data-meter="cost" style="width:0%"></div></div>
+                </div>
+                <div class="meter">
+                  <div class="meter-top"><span class="lbl">速率閘門</span><span class="val">38 / 60 req·min⁻¹</span></div>
+                  <div class="meter-track"><div class="meter-fill" data-meter="rate" style="width:0%"></div></div>
+                </div>
+                <p style="margin-top:14px;font-size:10px;color:var(--faint);">對接 <code>backend/company/</code> 預算池與 Hub 探針；數值為設計稿占位。</p>
+              </div>
+            </div>
+            <div class="panel" id="x03-consensus">
+              <div class="panel-head">L02 共識層 · 產出物帳本</div>
+              <div class="panel-body ledger">
+                <div class="ledger-row">
+                  <span class="cid">bafybei…k7m2 · final_answer.md</span>
+                  <span class="hash">h₃ ← h₂</span>
+                  <span class="meta">run-a3f9c2 · sha256:9f2c…a1 · append-only</span>
+                </div>
+                <div class="ledger-row">
+                  <span class="cid">bafybeig…p4nq · tool_trace.json</span>
+                  <span class="hash">h₂ ← h₁</span>
+                  <span class="meta">run-a3f9c2 · sha256:4b8d…c0</span>
+                </div>
+                <div class="ledger-row">
+                  <span class="cid">bafybeih…x1rw · retrieval_pack</span>
+                  <span class="hash">h₁ ← genesis</span>
+                  <span class="meta">run-a3f9c2 · sha256:1aa3…7f</span>
+                </div>
+                <div class="ledger-row">
+                  <span class="cid">bafybeid…m8ts · budget_decision.log</span>
+                  <span class="hash">h₀ ← ∅</span>
+                  <span class="meta">L03 閘門通過紀錄 · 與圖表分離</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>

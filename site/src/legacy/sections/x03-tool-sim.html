@@ -1,0 +1,33 @@
+<section id="x03-tool-sim" data-label="0x03B / TOOL SIM" class="reveal">
+          <h2 class="h-sec">工具過程模擬 · 三條執行路徑</h2>
+          <p class="sec-intro">
+            對齊 <code>resolve_execution_path</code>：<strong style="color:var(--ink);font-weight:500;">simple</strong> 短問答、
+            <strong style="color:var(--ink);font-weight:500;">company</strong> 任務經理（含工業）、
+            <strong style="color:var(--ink);font-weight:500;">minecraft_ops</strong> 單步控制。
+            切換後左側步驟與右側 log 一起重播（演示，不呼叫 API）。
+          </p>
+          <div class="path-switch" id="path-switch" role="tablist" aria-label="執行路徑">
+            <button type="button" role="tab" data-path="simple" aria-selected="false">simple<small>SSE · 多維評估</small></button>
+            <button type="button" role="tab" class="on" data-path="company" aria-selected="true">company<small>任務 · industrial_ops</small></button>
+            <button type="button" role="tab" data-path="minecraft" aria-selected="false">minecraft_ops<small>MineMCP · 評估一次</small></button>
+          </div>
+          <div class="tool-sim-grid" id="tool-sim-stage">
+            <div class="tool-sim-rail" id="tool-sim-rail" aria-label="工具鏈步驟"></div>
+            <div class="tool-sim-panel">
+              <div class="tool-sim-bar idle" id="tool-sim-bar">
+                <span><span class="live-dot">LIVE</span> <span id="tool-sim-run">run-a3f9c2 · industrial_ops</span></span>
+                <span id="tool-sim-elapsed">0.0s</span>
+              </div>
+              <div class="tool-sim-progress" aria-hidden="true">
+                <div class="tool-sim-progress-fill" id="tool-sim-progress"></div>
+              </div>
+              <div class="tool-sim-viewport" id="tool-sim-viewport" aria-live="polite" aria-label="工具操作 log">
+                <div id="tool-log"></div>
+              </div>
+              <div class="tool-sim-foot">
+                <span class="status" id="tool-sim-status">狀態：<strong>idle</strong> · 進入頁面即播放</span>
+                <button type="button" class="btn mono" id="tool-sim-rerun" style="padding:6px 12px;font-size:10px;">RE-RUN 工具鏈</button>
+              </div>
+            </div>
+          </div>
+        </section>
