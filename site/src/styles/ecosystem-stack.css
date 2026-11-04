@@ -357,3 +357,217 @@
 .eco-decision-chain .ms {
   color: var(--blue);
 }
+
+/* —— 四段流程動畫 pipeline-sim —— */
+.eco-pipeline {
+  margin: var(--u3) 0;
+  border: 1px solid var(--bd);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lime) 4%, transparent);
+}
+
+.eco-pipeline-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 10px;
+  color: var(--sub);
+}
+
+.eco-pipeline-replay {
+  padding: 4px 10px;
+  font-size: 9px;
+}
+
+.eco-pipeline-rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2px;
+  padding: var(--u);
+  border-bottom: 1px solid var(--line);
+  background: var(--canvas);
+}
+
+@media (max-width: 720px) {
+  .eco-pipeline-rail {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.eco-pipeline-step {
+  font-family: inherit;
+  font-size: 10px;
+  padding: 10px 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--sub);
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
+}
+
+.eco-pipeline-step.done {
+  color: var(--faint);
+  border-color: var(--line);
+}
+
+.eco-pipeline-step.active {
+  color: var(--ink);
+  border-color: var(--lime-dk);
+  background: var(--lime-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lime) 25%, transparent);
+}
+
+.eco-pipeline-step.linkin.active {
+  color: var(--lime);
+}
+
+.eco-pipeline-beacon {
+  display: none;
+}
+
+.eco-pipeline-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: var(--gap);
+  padding: var(--u2);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .eco-pipeline-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+.eco-pipeline-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.eco-pipeline-blurb {
+  font-size: 11px;
+  color: var(--sub);
+  line-height: 1.5;
+}
+
+.eco-stage-view {
+  min-height: 100px;
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  padding: var(--u2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eco-dag-node.pulse {
+  animation: eco-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes eco-pulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 1px var(--lime-soft);
+  }
+  50% {
+    box-shadow: 0 0 14px color-mix(in srgb, var(--lime) 35%, transparent);
+  }
+}
+
+.eco-org-node.on {
+  border-color: var(--lime-dk);
+  color: var(--lime);
+}
+
+.eco-linkin-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 220px;
+}
+
+.eco-linkin-layer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  font-size: 10px;
+  color: var(--faint);
+  background: var(--panel);
+  transition:
+    border-color 0.25s,
+    color 0.25s;
+}
+
+.eco-linkin-layer.active {
+  border-color: var(--lime-dk);
+  color: var(--lime);
+}
+
+.eco-linkin-layer.done {
+  color: var(--sub);
+  opacity: 0.75;
+}
+
+.eco-linkin-packet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 10px var(--lime);
+  animation: eco-pulse 0.8s ease-in-out infinite;
+}
+
+.eco-decision-chain-anim li.dim {
+  opacity: 0.45;
+}
+
+.eco-decision-chain-anim li.done {
+  opacity: 0.85;
+}
+
+.eco-pipeline-log {
+  margin: 0 var(--u2) var(--u2);
+  max-height: 120px;
+}
+
+.eco-pipeline-log pre {
+  margin: 0;
+  padding: var(--u2);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.eco-log-line {
+  display: block;
+  animation: eco-log-in 0.35s ease-out both;
+}
+
+@keyframes eco-log-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ecosystem-card.pipeline-active {
+  border-color: var(--lime-dk);
+  box-shadow:
+    inset 3px 0 0 var(--lime),
+    0 0 0 1px color-mix(in srgb, var(--lime) 12%, transparent);
+}
