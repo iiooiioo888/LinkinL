@@ -1287,6 +1287,125 @@
       font-weight: 500;
     }
     .path-switch button.on small { color: var(--lime-dk); }
+    .l01-map-sim {
+      border: 1px solid var(--bd);
+      background: var(--surface);
+      margin-bottom: var(--u3);
+    }
+    .l01-map-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--u);
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-hi);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--faint);
+    }
+    .l01-map-bar .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--lime);
+    }
+    .l01-map-bar .live-dot::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lime);
+      animation: pulse-dot 1.2s ease-in-out infinite;
+    }
+    .l01-map-bar.idle .live-dot::before { animation: none; opacity: 0.35; }
+    .l01-map-bar.idle .live-dot { color: var(--faint); }
+    .l01-map-flow {
+      display: flex;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      padding: var(--u2);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      gap: 0;
+    }
+    .l01-map-node {
+      flex: 0 0 auto;
+      min-width: 108px;
+      max-width: 148px;
+      border: 1px solid var(--bd);
+      background: var(--panel);
+      padding: 10px 11px;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .l01-map-node.active {
+      border-color: var(--lime);
+      background: color-mix(in srgb, var(--lime) 7%, var(--panel));
+    }
+    .l01-map-node.done { border-color: var(--lime-dk); }
+    .l01-map-node .n-label {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .l01-map-node .n-sub {
+      display: block;
+      margin-top: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--faint);
+      line-height: 1.45;
+    }
+    .l01-map-link {
+      flex: 0 0 26px;
+      align-self: center;
+      position: relative;
+      height: 1px;
+      background: var(--bd);
+      margin: 0 1px;
+    }
+    .l01-map-link.active { background: var(--lime-dk); }
+    .l01-map-link.active::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lime);
+      animation: l01-flow 0.9s ease-in-out infinite;
+    }
+    @keyframes l01-flow {
+      from { left: 0; opacity: 0.35; }
+      to { left: calc(100% - 6px); opacity: 1; }
+    }
+    .l01-map-branch {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--u);
+      padding: 0 var(--u2) var(--u2);
+    }
+    .l01-map-branch[hidden] { display: none; }
+    .l01-map-branch .l01-map-node { min-width: 120px; max-width: 180px; }
+    .l01-map-caption {
+      margin: 0;
+      padding: var(--u2) var(--u2) var(--u3);
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--sub);
+      min-height: 4.2em;
+    }
+    .l01-map-caption strong { color: var(--lime); font-weight: 600; }
+    .stack-block.l01-lane-highlight {
+      border-color: var(--lime-dk);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lime) 14%, transparent);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .l01-map-link.active::after { animation: none; left: 50%; }
+      .l01-map-bar .live-dot::before { animation: none; }
+    }
   </style>
 </head>
 <body>
@@ -1619,9 +1738,20 @@
           <p class="sec-intro">
             下列條目對齊 Linkin 主倉 <code>requirements.txt</code>、<code>frontend/package.json</code> 與 README 技術棧；
             每張 tile 含<strong style="color:var(--ink);font-weight:500;">版本底線／目錄／行為</strong>，方便對照本機部署。
+            上方<strong style="color:var(--lime);font-weight:600;">依賴地圖動畫</strong>用節點流示意各分類在執行鏈上的作用（非即時監控）。
           </p>
+          <div class="l01-map-sim" id="l01-map-sim" aria-labelledby="l01-map-heading">
+            <div class="l01-map-bar" id="l01-map-bar">
+              <span id="l01-map-heading"><span class="live-dot">L01 MAP</span> 依賴流向示意</span>
+              <span id="l01-map-step">step 1/4</span>
+            </div>
+            <div class="path-switch" id="l01-map-tabs" role="tablist" aria-label="L01 分類"></div>
+            <div class="l01-map-flow" id="l01-map-flow" aria-hidden="false"></div>
+            <div class="l01-map-branch" id="l01-map-branch" hidden></div>
+            <p class="l01-map-caption" id="l01-map-caption">選擇分類以查看 OSS 在鏈路上的角色。</p>
+          </div>
           <div class="stack-blocks">
-            <div class="stack-block">
+            <div class="stack-block" data-l01-lane="infer">
               <div class="stack-block-head">
                 <h3>推理 · 編排 · 注意力 · 供應商路由</h3>
                 <span class="count">18 libs</span>
@@ -1756,7 +1886,7 @@
               </div>
             </div>
 
-            <div class="stack-block">
+            <div class="stack-block" data-l01-lane="runtime">
               <div class="stack-block-head">
                 <h3>Python 執行時 · API · 資料 · 安全</h3>
                 <span class="count">16 packages</span>
@@ -1894,7 +2024,7 @@
               </div>
             </div>
 
-            <div class="stack-block">
+            <div class="stack-block" data-l01-lane="frontend">
               <div class="stack-block-head">
                 <h3>前端控制台 · React 19 組件庫</h3>
                 <span class="count">17 npm deps</span>
@@ -2040,7 +2170,7 @@
               </div>
             </div>
 
-            <div class="stack-block">
+            <div class="stack-block" data-l01-lane="edge">
               <div class="stack-block-head">
                 <h3>工業 · 遊戲 · MCP · 部署</h3>
                 <span class="count">10 組件</span>
@@ -2126,7 +2256,7 @@
               </div>
             </div>
 
-            <div class="stack-block">
+            <div class="stack-block" data-l01-lane="recall">
               <div class="stack-block-head">
                 <h3>整合召回 · 量化 · 外部資料（主倉可選）</h3>
                 <span class="count">14 connectors</span>
@@ -2238,7 +2368,7 @@
               </div>
             </div>
 
-            <div class="stack-block">
+            <div class="stack-block" data-l01-lane="pages">
               <div class="stack-block-head">
                 <h3>LinkinL 官網 · 頁面 CDN 與字體</h3>
                 <span class="count">6 assets</span>
@@ -2377,6 +2507,11 @@
               <h4>.reveal · GSAP</h4>
               <p>ScrollTrigger 入場 · <code>.is-visible</code> · reduced-motion 關閉</p>
               <div class="demo demo-chip-row"><span class="chip">gs-reveal</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.l01-map-sim</h4>
+              <p>0x05 六分類節點流 · <code>.l01-map-link.active</code> · 對應 <code>data-l01-lane</code> 高亮</p>
+              <div class="demo demo-chip-row"><span class="chip">#l01-map-tabs</span></div>
             </article>
             <article class="ui-specimen">
               <h4>.tool-sim-grid</h4>
@@ -3139,6 +3274,293 @@ cp .env.linkinl.example .env.linkinl</pre>
       renderToolRail();
       runToolSim(true);
       toolSimStarted = true;
+
+      var L01_MAP_LANES = [
+        {
+          id: 'infer',
+          label: '推理編排',
+          hint: 'L04 管線',
+          nodes: [
+            { label: '意圖輸入', sub: 'POST /chat/stream' },
+            { label: 'LangGraph', sub: 'build_graph()' },
+            { label: 'LiteLLM', sub: 'call_llm 唯一入口' },
+            { label: '推理端點', sub: 'Ollama · vLLM · API' }
+          ],
+          branch: { label: 'AI Hub', sub: '探針 · 熔斷 · 模型池' },
+          captions: [
+            '前端或 CLI 送出 SSE 請求，帶 <strong>execution_path</strong>（simple / company / minecraft_ops）。',
+            '<strong>LangGraph</strong> 依路徑編排節點：檢索、工具、反思；checkpoint 序列化可重播狀態。',
+            '<strong>LiteLLM</strong> 統一路由模型與金鑰；應用禁止繞過直接 import OpenAI SDK。',
+            '推理可在本機 <strong>Ollama</strong>、叢集 <strong>vLLM/SGLang</strong> 或雲端 API——L01 整包可替換。',
+            '分支：<strong>AI Hub</strong> 背景探針模型池，熔斷異常端點，避免整條鏈卡在壞路由。'
+          ]
+        },
+        {
+          id: 'runtime',
+          label: '執行時 API',
+          hint: 'FastAPI :8000',
+          nodes: [
+            { label: 'HTTP/SSE', sub: 'FastAPI routes' },
+            { label: 'Uvicorn', sub: 'ASGI :8000' },
+            { label: 'Pydantic', sub: 'schema · settings' },
+            { label: 'pytest', sub: 'monkeypatch 隔離' }
+          ],
+          branch: { label: 'Redis · Chroma', sub: ':6379 · :8100' },
+          captions: [
+            '<strong>FastAPI</strong> 暴露 /chat/stream、任務與工具 API，是 L01 對外的 HTTP 邊界。',
+            '<strong>Uvicorn</strong> 跑 async 事件迴圈，本機預設 0.0.0.0:8000。',
+            '<strong>Pydantic v2</strong> 驗證請求/設定，與 docs/config/reference.md 對齊。',
+            '<strong>pytest</strong> + monkeypatch 測試圖與工具，不連真 Redis/OPC。',
+            '分支：<strong>redis-py</strong> 快取會話；<strong>Chroma</strong> 向量召回——docker compose 一鍵起。'
+          ]
+        },
+        {
+          id: 'frontend',
+          label: '前端控制台',
+          hint: 'Vite :3001',
+          nodes: [
+            { label: 'Vite 8', sub: 'npm run dev' },
+            { label: 'React 19', sub: '#/chat · 三欄' },
+            { label: 'Zustand', sub: 'session store' },
+            { label: 'ECharts', sub: '監控 · Token' }
+          ],
+          branch: { label: 'xyflow · Monaco', sub: '圖 · 編輯器' },
+          captions: [
+            '<strong>Vite</strong> 提供 HMR 與 production build，開發埠 <strong>3001</strong>。',
+            '<strong>React 19</strong> 渲染對話、靈境/Minecraft 模組；窄屏底部 Tab、寬屏三欄一屏。',
+            '<strong>Zustand</strong> 輕量全域狀態，避免 Redux 式樣板。',
+            '<strong>ECharts</strong> 畫 Hub/billing 圖表；<strong>react-markdown</strong> 渲染 Agent 產出。',
+            '分支：<strong>@xyflow/react</strong> 策略圖；<strong>Monaco</strong> 編輯提示詞與 JSON。'
+          ]
+        },
+        {
+          id: 'edge',
+          label: '工業 · MCP',
+          hint: 'OPC :8001',
+          nodes: [
+            { label: 'Agent 工具', sub: 'opc.read / write' },
+            { label: 'opc_service', sub: '微服務 :8001' },
+            { label: 'asyncua', sub: 'OPC UA 協定' },
+            { label: 'guard.py', sub: '寫入護欄 #4' }
+          ],
+          branch: { label: 'MineMCP', sub: ':3000 遊戲' },
+          captions: [
+            'LangGraph 節點以工具形式呼叫 OPC/MCP，不是硬編碼在 UI。',
+            '<strong>opc_service</strong> 獨立進程，六階段 sense→act，與主 API 以 token 互信。',
+            '<strong>asyncua</strong> 讀寫感測；模擬伺服器 OPC_SIM 可在 :4840 練習。',
+            '<strong>guard.py</strong> 攔截危險寫入；正式/模擬由 runtime .env 切換。',
+            '分支：<strong>MCP</strong> 註冊 Figma/Linear；<strong>MineMCP</strong> 對接 Minecraft 操作面。'
+          ]
+        },
+        {
+          id: 'recall',
+          label: '召回 · 量化',
+          hint: 'opt-in',
+          nodes: [
+            { label: '前置 RC', sub: 'Recall Chain' },
+            { label: 'WeKnora 等', sub: '結構化檢索' },
+            { label: 'Yahoo 行情', sub: 'quant 預設' },
+            { label: 'Skills 106', sub: '.agents/skills' }
+          ],
+          branch: { label: 'MemOS · OpenViking', sub: '長期記憶' },
+          captions: [
+            '整合召回在圖的<strong>前置鏈</strong>才注入上下文，避免每輪都塞滿 token。',
+            '<strong>WeKnora / OpenViking</strong> 等為可選適配器，README 標 opt-in。',
+            '量化角色預設 <strong>Yahoo/Stooq</strong> 免 Key；Tushare/Finnhub 需 .env。',
+            '<strong>106 skills</strong> 從 mattpocock/anthropic/openai 同步，供 Agent 選技能。',
+            '分支：<strong>MemOS</strong> 長期記憶僅在明確召回時寫入，不偷偷 webhook。'
+          ]
+        },
+        {
+          id: 'pages',
+          label: '官網 CDN',
+          hint: 'LinkinL',
+          nodes: [
+            { label: 'index.html', sub: 'GitHub Pages' },
+            { label: 'Lenis', sub: '平滑捲動' },
+            { label: 'GSAP', sub: 'reveal · 動畫' },
+            { label: 'Chart.js', sub: '0x04 圖表' }
+          ],
+          branch: { label: 'Noto · JetBrains', sub: '繁中 · mono' },
+          captions: [
+            'LinkinL 倉只放<strong>產品敘事與 install.sh</strong>，不含 API 金鑰與 runtime 原始碼。',
+            '<strong>Lenis</strong> 平滑捲動；錨點與左軌 scroll spy 對齊 xNN section。',
+            '<strong>GSAP ScrollTrigger</strong> 做區塊 reveal；reduced-motion 時改靜態顯示。',
+            '<strong>Chart.js</strong> 畫 0x04 示意曲線；工具/L01 動畫為純前端 demo。',
+            '分支：Convultra 字體與 72px 執行軸——與 Linkin 控制台視覺語言呼應但<strong>不共用 bundle</strong>。'
+          ]
+        }
+      ];
+
+      var l01MapLane = 'infer';
+      var l01MapStep = 0;
+      var l01MapTimer = null;
+      var l01MapStarted = false;
+
+      function getL01Lane(id) {
+        for (var i = 0; i < L01_MAP_LANES.length; i++) {
+          if (L01_MAP_LANES[i].id === id) return L01_MAP_LANES[i];
+        }
+        return L01_MAP_LANES[0];
+      }
+
+      function highlightL01StackBlock(laneId) {
+        document.querySelectorAll('[data-l01-lane]').forEach(function (block) {
+          block.classList.toggle('l01-lane-highlight', block.getAttribute('data-l01-lane') === laneId);
+        });
+      }
+
+      function renderL01MapTabs() {
+        var tabs = document.getElementById('l01-map-tabs');
+        if (!tabs) return;
+        tabs.innerHTML = '';
+        L01_MAP_LANES.forEach(function (lane) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.setAttribute('role', 'tab');
+          btn.setAttribute('data-l01-lane', lane.id);
+          btn.setAttribute('aria-selected', lane.id === l01MapLane ? 'true' : 'false');
+          btn.classList.toggle('on', lane.id === l01MapLane);
+          btn.innerHTML = lane.label + '<small>' + lane.hint + '</small>';
+          btn.addEventListener('click', function () {
+            selectL01MapLane(lane.id, false);
+          });
+          tabs.appendChild(btn);
+        });
+      }
+
+      function renderL01MapFlow(lane) {
+        var flow = document.getElementById('l01-map-flow');
+        var branchEl = document.getElementById('l01-map-branch');
+        if (!flow || !lane) return;
+        flow.innerHTML = '';
+        lane.nodes.forEach(function (node, idx) {
+          if (idx > 0) {
+            var link = document.createElement('div');
+            link.className = 'l01-map-link';
+            link.setAttribute('data-l01-link', String(idx - 1));
+            flow.appendChild(link);
+          }
+          var box = document.createElement('div');
+          box.className = 'l01-map-node';
+          box.setAttribute('data-l01-node', String(idx));
+          box.innerHTML = '<span class="n-label">' + node.label + '</span><span class="n-sub">' + node.sub + '</span>';
+          flow.appendChild(box);
+        });
+        if (branchEl) {
+          if (lane.branch) {
+            branchEl.hidden = false;
+            branchEl.innerHTML = '';
+            var branchNode = document.createElement('div');
+            branchNode.className = 'l01-map-node';
+            branchNode.setAttribute('data-l01-branch', '1');
+            branchNode.innerHTML = '<span class="n-label">' + lane.branch.label + '</span><span class="n-sub">' + lane.branch.sub + '</span>';
+            branchEl.appendChild(branchNode);
+          } else {
+            branchEl.hidden = true;
+            branchEl.innerHTML = '';
+          }
+        }
+      }
+
+      function paintL01MapStep(lane, step) {
+        var nodes = document.querySelectorAll('#l01-map-flow [data-l01-node]');
+        var links = document.querySelectorAll('#l01-map-flow [data-l01-link]');
+        var branch = document.querySelector('#l01-map-branch [data-l01-branch]');
+        var branchStep = lane.nodes.length;
+        var onBranch = step >= branchStep;
+        nodes.forEach(function (el, idx) {
+          if (onBranch) {
+            el.classList.remove('active');
+            el.classList.add('done');
+            return;
+          }
+          el.classList.toggle('active', idx === step);
+          el.classList.toggle('done', idx < step);
+        });
+        links.forEach(function (el, idx) {
+          if (onBranch) {
+            el.classList.remove('active');
+            return;
+          }
+          el.classList.toggle('active', idx === step - 1 && step > 0);
+        });
+        if (branch) {
+          branch.classList.toggle('active', onBranch);
+          branch.classList.toggle('done', false);
+        }
+        var cap = document.getElementById('l01-map-caption');
+        if (cap && lane.captions[step]) cap.innerHTML = lane.captions[step];
+        var stepEl = document.getElementById('l01-map-step');
+        if (stepEl) {
+          if (onBranch && lane.branch) {
+            stepEl.textContent = '分支 · ' + lane.branch.label;
+          } else {
+            stepEl.textContent = 'step ' + (step + 1) + '/' + lane.nodes.length;
+          }
+        }
+      }
+
+      function runL01MapAnim(autoLoop) {
+        var lane = getL01Lane(l01MapLane);
+        var bar = document.getElementById('l01-map-bar');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          if (bar) bar.classList.add('idle');
+          paintL01MapStep(lane, lane.nodes.length - 1);
+          var cap = document.getElementById('l01-map-caption');
+          if (cap) cap.innerHTML = lane.captions[lane.captions.length - 1];
+          return;
+        }
+        if (bar) bar.classList.remove('idle');
+        if (l01MapTimer) clearTimeout(l01MapTimer);
+        paintL01MapStep(lane, l01MapStep);
+        l01MapTimer = setTimeout(function () {
+          l01MapStep++;
+          if (l01MapStep >= lane.captions.length) {
+            l01MapStep = 0;
+            if (autoLoop !== false) {
+              runL01MapAnim(true);
+            } else if (bar) {
+              bar.classList.add('idle');
+            }
+            return;
+          }
+          runL01MapAnim(autoLoop);
+        }, l01MapStep >= lane.nodes.length ? 2200 : 2400);
+      }
+
+      function selectL01MapLane(id, autoLoop) {
+        l01MapLane = id;
+        l01MapStep = 0;
+        var lane = getL01Lane(id);
+        renderL01MapTabs();
+        renderL01MapFlow(lane);
+        highlightL01StackBlock(id);
+        runL01MapAnim(autoLoop);
+      }
+
+      function startL01MapSim() {
+        if (l01MapStarted) return;
+        l01MapStarted = true;
+        renderL01MapTabs();
+        selectL01MapLane('infer', true);
+      }
+
+      if (document.getElementById('l01-map-sim')) {
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.create({
+            trigger: '#l01-map-sim',
+            start: 'top 88%',
+            once: true,
+            onEnter: startL01MapSim
+          });
+          if (document.getElementById('l01-map-sim').getBoundingClientRect().top < window.innerHeight * 0.88) {
+            startL01MapSim();
+          }
+        } else {
+          startL01MapSim();
+        }
+      }
 
       var meters = { token: 65.9, gpu: 60, cost: 70.2, rate: 63.3 };
       function animateMeters() {
