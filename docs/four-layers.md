@@ -58,5 +58,5 @@ LinkinL 將多 Agent 編排敘事為**由上而下**四層堆疊；頁面左側 
 ## 深入閱讀
 
 - 互動首頁：<https://iiooiioo888.github.io/LinkinL/>
-- 設計 HTML 深連結：[design/linkinl-four-layers.html](design/linkinl-four-layers.html)
+- 設計深連結（轉址至首頁）：[design/linkinl-four-layers.html](design/linkinl-four-layers.html)
 - Linkin 主倉架構：[docs/architecture/overview.md](https://github.com/iiooiioo888/Linkin/blob/master/docs/architecture/overview.md)
