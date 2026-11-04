@@ -14,10 +14,10 @@ export function EcosystemStackSection() {
       <p className="sec-label">
         <em>Ecosystem</em> · 與 LinkinL 互補的開源棧
       </p>
-      <h2 className="h-sec">程式智能 × 組隊 × 決策溯源 · 疊在 Linkin 運行時之上</h2>
+      <h2 className="h-sec">生態夥伴 · 一屏看懂分工</h2>
       <p className="sec-intro">
-        上方 <strong>pipeline-sim</strong> 用一段動畫說明四步協作（改碼 → 組隊 → Linkin 執行 → 溯源）。
-        下方卡片只做<strong>安裝指令與連結</strong>，不再重複 UI 示意；LinkinL 仍負責本機可證明的 Agent runtime。
+        外骨骼本體仍是 LinkinL runtime；GitNexus / ATM / Semantica 是<strong>可選協作層</strong>。
+        動畫 <strong>pipeline-sim</strong> 說明四步；下方僅保留安裝指令與連結。
       </p>
 
       <div className="ecosystem-slot-banner" role="note">

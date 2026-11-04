@@ -26,6 +26,10 @@ export function TelemetryRibbon() {
         <span className="telemetry-stat">
           session <strong className="mono">{m.sessionSec}s</strong>
         </span>
+        <span className="telemetry-stat">
+          API :8000{' '}
+          <strong className="mono">{m.linkinBackendReachable ? 'reachable' : 'offline'}</strong>
+        </span>
         <div className="telemetry-marquee" aria-hidden="true">
           <div className="telemetry-marquee-track">
             {[...ledgerHints, ...ledgerHints].map((h, i) => (

@@ -1,0 +1,74 @@
+.site-fold {
+  border: 1px solid var(--bd);
+  background: var(--panel);
+  margin: var(--section-pad);
+  margin-top: 0;
+}
+
+.site-fold-tech {
+  margin-top: var(--u3);
+}
+
+.site-fold-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--u) var(--u2);
+  padding: var(--u2) var(--u3);
+  cursor: pointer;
+  list-style: none;
+  border-bottom: 1px solid transparent;
+  color: var(--sub);
+  font-size: 12px;
+}
+
+.site-fold-summary::-webkit-details-marker {
+  display: none;
+}
+
+.site-fold[open] > .site-fold-summary {
+  border-bottom-color: var(--line);
+  background: var(--surface);
+}
+
+.site-fold-summary .mono:first-child {
+  color: var(--lime);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.site-fold-title {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.site-fold-hint {
+  font-size: 10px;
+  color: var(--faint);
+  flex: 1 1 100%;
+}
+
+@media (min-width: 720px) {
+  .site-fold-hint {
+    flex: 1 1 auto;
+    text-align: right;
+  }
+}
+
+.site-fold-body {
+  padding: 0;
+}
+
+.site-fold-nested {
+  margin: var(--u2);
+  border-color: var(--line);
+}
+
+.site-fold-nested .site-fold-summary {
+  padding: var(--u) var(--u2);
+  font-size: 11px;
+}
+
+.site-appendix .site-fold-body > section {
+  border-top: 1px solid var(--line);
+}

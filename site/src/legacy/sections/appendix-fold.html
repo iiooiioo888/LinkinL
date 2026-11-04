@@ -1,0 +1,1041 @@
+<details class="site-fold site-appendix" id="x-appendix-deep">
+  <summary class="site-fold-summary">
+    <span class="mono">DEEP DIVE</span>
+    <span class="site-fold-title">引擎細節 · 整合地圖 · 延伸區塊（預設收合）</span>
+    <span class="site-fold-hint">理解外骨骼主線後再展開；避免首屏被 OSS 磚淹沒</span>
+  </summary>
+  <div class="site-fold-body">
+<section id="x03-engine" data-label="0x03 / ENGINE" class="reveal">
+          <h2 class="h-sec">執行引擎 · 預算與共識分離</h2>
+          <div class="engine-cols">
+            <div class="panel" id="x03-budget">
+              <div class="panel-head">L03 預算層 · 資源量表</div>
+              <div class="panel-body">
+                <div class="meter">
+                  <div class="meter-top"><span class="lbl">Token 用量</span><span class="val">84,320 / 128,000</span></div>
+                  <div class="meter-track"><div class="meter-fill" data-meter="token" style="width:0%"></div></div>
+                </div>
+                <div class="meter">
+                  <div class="meter-top"><span class="lbl">GPU 時數（今日）</span><span class="val">2.4h / 4.0h</span></div>
+                  <div class="meter-track"><div class="meter-fill warn" data-meter="gpu" style="width:0%"></div></div>
+                </div>
+                <div class="meter">
+                  <div class="meter-top"><span class="lbl">成本上限（USD）</span><span class="val">$8.42 / $12.00</span></div>
+                  <div class="meter-track"><div class="meter-fill warn" data-meter="cost" style="width:0%"></div></div>
+                </div>
+                <div class="meter">
+                  <div class="meter-top"><span class="lbl">速率閘門</span><span class="val">38 / 60 req·min⁻¹</span></div>
+                  <div class="meter-track"><div class="meter-fill" data-meter="rate" style="width:0%"></div></div>
+                </div>
+                <p style="margin-top:14px;font-size:10px;color:var(--faint);">對接 <code>backend/company/</code> 預算池與 Hub 探針；數值為設計稿占位。</p>
+              </div>
+            </div>
+            <div class="panel" id="x03-consensus">
+              <div class="panel-head">L02 共識層 · 產出物帳本</div>
+              <div class="panel-body ledger">
+                <div class="ledger-row">
+                  <span class="cid">bafybei…k7m2 · final_answer.md</span>
+                  <span class="hash">h₃ ← h₂</span>
+                  <span class="meta">run-a3f9c2 · sha256:9f2c…a1 · append-only</span>
+                </div>
+                <div class="ledger-row">
+                  <span class="cid">bafybeig…p4nq · tool_trace.json</span>
+                  <span class="hash">h₂ ← h₁</span>
+                  <span class="meta">run-a3f9c2 · sha256:4b8d…c0</span>
+                </div>
+                <div class="ledger-row">
+                  <span class="cid">bafybeih…x1rw · retrieval_pack</span>
+                  <span class="hash">h₁ ← genesis</span>
+                  <span class="meta">run-a3f9c2 · sha256:1aa3…7f</span>
+                </div>
+                <div class="ledger-row">
+                  <span class="cid">bafybeid…m8ts · budget_decision.log</span>
+                  <span class="hash">h₀ ← ∅</span>
+                  <span class="meta">L03 閘門通過紀錄 · 與圖表分離</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+<section id="x04-evidence" data-label="0x04 / EVIDENCE" class="reveal">
+          <h2 class="h-sec">可重播的執行實證</h2>
+          <div class="chart-wrap">
+            <canvas id="evidence-chart" aria-label="近七日本機 run 延遲與成功率"></canvas>
+          </div>
+        </section>
+
+
+<section id="x06-compare" data-label="0x06 / COMPARE" class="reveal">
+          <h2 class="h-sec">與典型方案對照</h2>
+          <div class="compare-scroll">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>能力</th>
+                <th>LinkinL</th>
+                <th>純聊天 SDK</th>
+                <th>僅雲端 Agent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>本機 LangGraph 閉環</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>預算 hard stop</td><td class="yes">✓</td><td class="no">—</td><td class="yes">部分</td></tr>
+              <tr><td>CID + hash 產出物帳本</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>OPC / Minecraft 護欄</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>可替換 OSS 推理棧</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </section>
+
+
+<section id="x07-trust" data-label="0x07 / TRUST" class="reveal">
+          <h2 class="h-sec">信任與護欄</h2>
+          <div class="trust-grid">
+            <div class="trust-item">
+              <h4>LLM 單一閘道</h4>
+              <p>一律經 <code>call_llm</code>，禁止直連供應商 SDK。</p>
+            </div>
+            <div class="trust-item">
+              <h4>OPC 寫入護欄</h4>
+              <p>工業寫入必經 <code>opc_service/guard.py</code>。</p>
+            </div>
+            <div class="trust-item">
+              <h4>Minecraft MCP</h4>
+              <p>工具寫入經 MCP 鐵律，不暴露檔案系統寫入。</p>
+            </div>
+            <div class="trust-item">
+              <h4>測試隔離</h4>
+              <p>pytest monkeypatch 無需真實 API 金鑰即可驗收。</p>
+            </div>
+          </div>
+        </section>
+
+
+<section id="x08-voices" data-label="0x08 / VOICES" class="reveal">
+          <h2 class="h-sec">使用者聲音</h2>
+          <div class="voices">
+            <figure class="voice">
+              <blockquote>「終於能在本機重播整條 Agent run，而不只是複製貼上 Chat 紀錄。」</blockquote>
+              <cite>— 平台工程 · 製造業 POC</cite>
+            </figure>
+            <figure class="voice">
+              <blockquote>「預算層與帳本分開後，財務與資安各看各的儀表，開會時間砍半。」</blockquote>
+              <cite>— SRE · 多 Agent 內部工具</cite>
+            </figure>
+          </div>
+        </section>
+
+
+<section id="x09-pricing" data-label="0x09 / PRICING" class="reveal">
+          <h2 class="h-sec">定價敘事（設計稿）</h2>
+          <div class="pricing-grid">
+            <div class="price-card">
+              <h3>本機社群</h3>
+              <div class="amt">$0</div>
+              <ul>
+                <li>完整 EvoLoop 圖</li>
+                <li>單機 Docker Compose</li>
+                <li>社群支援</li>
+              </ul>
+            </div>
+            <div class="price-card featured">
+              <h3>LinkinL Pro</h3>
+              <div class="amt">待定</div>
+              <ul>
+                <li>席位預算池與稽核匯出</li>
+                <li>Hub 探針與熔斷</li>
+                <li>優先安全更新</li>
+              </ul>
+            </div>
+            <div class="price-card">
+              <h3>企業本地</h3>
+              <div class="amt">洽詢</div>
+              <ul>
+                <li>OPC 產線護欄</li>
+                <li>離線推理棧</li>
+                <li>SLA 與客製整合</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+
+<section id="x0b-layers" data-label="0x0B / LAYERS" class="reveal">
+          <h2 class="h-sec">四層架構詳解 · 與子頁同步</h2>
+          <p class="sec-intro">
+            內容摘錄自 <a href="docs/four-layers.html" style="color:var(--lime);">docs/four-layers.html</a>；
+            錨點 <code>x0b-layers</code> 可從子頁直連回本區。
+          </p>
+          <table class="compare-table">
+            <thead>
+              <tr><th>層級</th><th>名稱</th><th>職責</th><th>首頁錨點</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>L04</strong></td><td>AI 執行層</td><td>LangGraph 管線、Agent 反思閉環、Hero DAG 七節點</td><td class="mono" style="font-family:'JetBrains Mono',monospace;font-size:10px;"><a href="#x00-hero" style="color:var(--lime);">#x00-hero</a> · <a href="#x03-tool-sim" style="color:var(--lime);">#x03-tool-sim</a></td></tr>
+              <tr><td><strong>L03</strong></td><td>預算層</td><td>Token / GPU / 成本 metering · 超限 hard stop</td><td class="mono" style="font-family:'JetBrains Mono',monospace;font-size:10px;"><a href="#x03-budget" style="color:var(--lime);">#x03-budget</a></td></tr>
+              <tr><td><strong>L02</strong></td><td>共識層</td><td>CID + hash chain · append-only 產出物帳本</td><td class="mono" style="font-family:'JetBrains Mono',monospace;font-size:10px;"><a href="#x03-consensus" style="color:var(--lime);">#x03-consensus</a></td></tr>
+              <tr><td><strong>L01</strong></td><td>組件層</td><td>vLLM · Chroma · Redis · FastAPI · 80+ OSS tile</td><td class="mono" style="font-family:'JetBrains Mono',monospace;font-size:10px;"><a href="#x05-integrations" style="color:var(--lime);">#x05-integrations</a></td></tr>
+            </tbody>
+          </table>
+          <div class="guide-block">
+            <h3>Hero 執行 DAG（L04 語意）</h3>
+            <p class="sec-intro" style="margin-bottom:var(--u2);">一次 run 的節點順序：意圖解析 → 檢索 → 工具呼叫 → KV 快取 → 預算檢查 → 產出物封存 → 輸出。<code>RE-RUN</code> 會依序點亮邊與節點。四層穿層動畫見 <a href="#x02-product" style="color:var(--lime);">#x02-product · LIVE TRACE</a>。</p>
+            <div class="guide-links">
+              <a href="#x00-hero">回到 Hero DAG</a>
+              <a href="#layer-stack-sim">LIVE TRACE</a>
+              <a href="docs/four-layers.html">four-layers.html</a>
+              <a href="docs/design/linkinl-four-layers.html" class="nav-ext" target="_blank" rel="noopener noreferrer">設計 HTML 深連結</a>
+              <a href="https://github.com/iiooiioo888/Linkin/blob/master/docs/architecture/overview.md" class="nav-ext" target="_blank" rel="noopener noreferrer">Linkin 架構總覽</a>
+            </div>
+          </div>
+          <div class="guide-block">
+            <h3>視覺系統（Convultra）</h3>
+            <p class="sec-intro" style="margin:0;">畫布 <code>#07080A</code> · accent <code>#C6FF3D</code> · 0px 圓角 · 1px hairline · Noto Sans TC + JetBrains Mono · Lenis + GSAP + Chart.js（見 <a href="#x05-ui-atlas" style="color:var(--lime);">#x05-ui-atlas</a>）。</p>
+          </div>
+        </section>
+
+<details class="site-fold site-fold-nested" id="x05-integrations-fold">
+  <summary class="site-fold-summary"><span class="mono">L01</span><span class="site-fold-title">OSS / 依賴地圖</span></summary>
+  <div class="site-fold-body">
+<section id="x05-integrations" data-label="0x05 / INTEGRATIONS" class="reveal">
+          <h2 class="h-sec">完整 OSS / 依賴地圖 · Linkin 運行時</h2>
+          <p class="sec-intro">
+            對齊 Linkin 主倉 <code>requirements.txt</code>、<code>frontend/package.json</code> 與 README（含 L04 推理棧至 L01 組件，<strong style="color:var(--ink);font-weight:500;">非僅 L01 一層</strong>）。
+            上方 tab 動畫與下方 tile <strong style="color:var(--lime);font-weight:600;">同一分類</strong>，預設只顯示一組，避免六段內容重複刷屏。
+            官網 Pages CDN（Lenis / GSAP 等）改在 <a href="#x05-ui-atlas" style="color:var(--lime);">#x05-ui-atlas 組件圖鑑</a>，不在此重列。
+          </p>
+          <div class="l01-map-sim" id="l01-map-sim" aria-labelledby="l01-map-heading">
+            <div class="l01-map-bar" id="l01-map-bar">
+              <span id="l01-map-heading"><span class="live-dot">L01 MAP</span> 依賴流向示意</span>
+              <span id="l01-map-step">step 1/4</span>
+            </div>
+            <div class="path-switch" id="l01-map-tabs" role="tablist" aria-label="L01 分類"></div>
+            <div class="l01-map-flow" id="l01-map-flow" aria-hidden="false"></div>
+            <div class="l01-map-branch" id="l01-map-branch" hidden></div>
+            <p class="l01-map-caption" id="l01-map-caption">選擇分類以查看 OSS 在鏈路上的角色。</p>
+            <div class="l01-map-actions">
+              <button type="button" class="btn mono" id="l01-map-expand" aria-pressed="false">展開全部 tile</button>
+              <a class="btn mono" href="#x05-ui-atlas">官網 CDN → 組件圖鑑</a>
+              <span class="l01-map-hint">預設只顯示目前 tab 對應的 tile 區塊</span>
+            </div>
+          </div>
+          <div class="stack-blocks l01-filtered" id="l01-stack-blocks">
+            <div class="stack-block l01-lane-visible" data-l01-lane="infer">
+              <div class="stack-block-head">
+                <h3>推理 · 編排 · 注意力 · 供應商路由</h3>
+                <span class="count">18 libs</span>
+              </div>
+              <p class="stack-block-desc">LLM 一律經 <code>backend.core.llm.call_llm</code>（LiteLLM）；圖結構只改 <code>build_graph()</code>，不 patch 編譯產物。</p>
+              <div class="tiles compact">
+                <a class="tile" href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">L04 管線</span>
+                  <div class="tile-head"><span class="tile-name">LangGraph</span><span class="tile-ver">≥1.0.10</span></div>
+                  <span class="tile-role">反思閉環 · simple / company / minecraft_ops</span>
+                  <span class="tile-meta">checkpoint ≥3.0 · CVE 安全底線</span>
+                  <span class="tile-detail">backend/core/ · resolve_execution_path</span>
+                  <span class="tile-gh">langchain-ai/langgraph</span>
+                </a>
+                <a class="tile" href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Checkpoint</span>
+                  <div class="tile-head"><span class="tile-name">langgraph-checkpoint</span><span class="tile-ver">≥3.0</span></div>
+                  <span class="tile-role">執行狀態序列化 · 無 SQLite checkpointer</span>
+                  <span class="tile-meta">msgpack 安全 · 無 SqliteSaver 站點</span>
+                  <span class="tile-detail">requirements.txt 釘選底線</span>
+                  <span class="tile-gh">langgraph-checkpoint</span>
+                </a>
+                <a class="tile" href="https://github.com/langchain-ai/langchain" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Adapter</span>
+                  <div class="tile-head"><span class="tile-name">LangChain</span><span class="tile-ver">≥0.3</span></div>
+                  <span class="tile-role">工具、提示詞、整合適配</span>
+                  <span class="tile-meta">langchain-core ≥0.3 同批</span>
+                  <span class="tile-detail">backend/tools/ · integrations/</span>
+                  <span class="tile-gh">langchain-ai/langchain</span>
+                </a>
+                <a class="tile" href="https://github.com/langchain-ai/langchain" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Core</span>
+                  <div class="tile-head"><span class="tile-name">langchain-core</span><span class="tile-ver">≥0.3</span></div>
+                  <span class="tile-role">Runnable · message 型別</span>
+                  <span class="tile-meta">與 LangGraph 節點契約</span>
+                  <span class="tile-detail">圖節點與工具邊界</span>
+                  <span class="tile-gh">langchain-ai/langchain</span>
+                </a>
+                <a class="tile" href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">LLM 閘道</span>
+                  <div class="tile-head"><span class="tile-name">LiteLLM</span><span class="tile-ver">≥1.52</span></div>
+                  <span class="tile-role">OpenAI / DeepSeek / OpenRouter / Ollama</span>
+                  <span class="tile-meta">模型池 clamp · Hub 探針</span>
+                  <span class="tile-detail">backend/core/llm.py · call_llm</span>
+                  <span class="tile-gh">BerriAI/litellm</span>
+                </a>
+                <a class="tile" href="https://github.com/vllm-project/vllm" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Serving</span>
+                  <div class="tile-head"><span class="tile-name">vLLM</span><span class="tile-ver">optional</span></div>
+                  <span class="tile-role">PagedAttention · OpenAI 相容端點</span>
+                  <span class="tile-meta">L01 可替換推理後端</span>
+                  <span class="tile-detail">OPENAI_API_BASE 指向本機</span>
+                  <span class="tile-gh">vllm-project/vllm</span>
+                </a>
+                <a class="tile" href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Serving</span>
+                  <div class="tile-head"><span class="tile-name">SGLang</span><span class="tile-ver">optional</span></div>
+                  <span class="tile-role">RadixAttention · 結構化生成</span>
+                  <span class="tile-meta">高吞吐 batch 推理</span>
+                  <span class="tile-detail">與 vLLM 二選或並存</span>
+                  <span class="tile-gh">sgl-project/sglang</span>
+                </a>
+                <a class="tile" href="https://github.com/huggingface/text-generation-inference" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Serving</span>
+                  <div class="tile-head"><span class="tile-name">TGI</span><span class="tile-ver">optional</span></div>
+                  <span class="tile-role">HF 權重 · gRPC/HTTP</span>
+                  <span class="tile-meta">企業 GPU 叢集常見</span>
+                  <span class="tile-detail">LiteLLM 路由至 TGI URL</span>
+                  <span class="tile-gh">huggingface/TGI</span>
+                </a>
+                <a class="tile" href="https://github.com/ollama/ollama" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">本機</span>
+                  <div class="tile-head"><span class="tile-name">Ollama</span><span class="tile-ver">dev</span></div>
+                  <span class="tile-role">本機 GGUF · 免雲端金鑰</span>
+                  <span class="tile-meta">:11434 OpenAI 相容</span>
+                  <span class="tile-detail">.env OPENAI_API_BASE</span>
+                  <span class="tile-gh">ollama/ollama</span>
+                </a>
+                <a class="tile" href="https://github.com/Dao-AILab/flash-attention" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Kernel</span>
+                  <div class="tile-head"><span class="tile-name">FlashAttention</span><span class="tile-ver">GPU</span></div>
+                  <span class="tile-role">IO 感知注意力 · 降 VRAM</span>
+                  <span class="tile-meta">推理棧底層加速</span>
+                  <span class="tile-detail">vLLM / 自架 trainer 常用</span>
+                  <span class="tile-gh">Dao-AILab/flash-attention</span>
+                </a>
+                <a class="tile" href="https://github.com/ray-project/ray" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">分散式</span>
+                  <div class="tile-head"><span class="tile-name">Ray</span><span class="tile-ver">optional</span></div>
+                  <span class="tile-role">Actor · 排程 · 多機 GPU</span>
+                  <span class="tile-meta">L01 橫向擴展敘事</span>
+                  <span class="tile-detail">batch 推理 / 評估叢集</span>
+                  <span class="tile-gh">ray-project/ray</span>
+                </a>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Vendor API</span>
+                  <div class="tile-head"><span class="tile-name">OpenAI API</span><span class="tile-ver">cloud</span></div>
+                  <span class="tile-role">gpt-4o 等 · EVOL_MODEL</span>
+                  <span class="tile-meta">經 LiteLLM · 禁直連 SDK</span>
+                  <span class="tile-detail">OPENAI_API_KEY · .env.example</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Vendor API</span>
+                  <div class="tile-head"><span class="tile-name">DeepSeek</span><span class="tile-ver">cloud</span></div>
+                  <span class="tile-role">api.deepseek.com 相容端點</span>
+                  <span class="tile-meta">OPENAI_API_BASE 覆寫</span>
+                  <span class="tile-detail">單一廠商需配對模型名</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Vendor API</span>
+                  <div class="tile-head"><span class="tile-name">OpenRouter</span><span class="tile-ver">cloud</span></div>
+                  <span class="tile-role">多模型聚合 · /models 爬取</span>
+                  <span class="tile-meta">EVOL_LLM_OPS 背景同步</span>
+                  <span class="tile-detail">Hub 目錄與熔斷</span>
+                </div>
+                <a class="tile" href="https://github.com/openai/openai-python" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">SDK</span>
+                  <div class="tile-head"><span class="tile-name">openai-python</span><span class="tile-ver">transitive</span></div>
+                  <span class="tile-role">LiteLLM 底層適配</span>
+                  <span class="tile-meta">應用程式禁止 import 直連</span>
+                  <span class="tile-detail">AGENTS.md 約束 #1</span>
+                  <span class="tile-gh">openai/openai-python</span>
+                </a>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin/tree/master/backend/hub" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Hub</span>
+                  <div class="tile-head"><span class="tile-name">AI Hub</span><span class="tile-ver">runtime</span></div>
+                  <span class="tile-role">探針 · 熔斷 · 模型池鎖定</span>
+                  <span class="tile-meta">EVOL_LLM_OPS_INTERVAL_SEC</span>
+                  <span class="tile-detail">backend/hub/ · quant 探針</span>
+                  <span class="tile-gh">Linkin/backend/hub</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="stack-block" data-l01-lane="runtime">
+              <div class="stack-block-head">
+                <h3>Python 執行時 · API · 資料 · 安全</h3>
+                <span class="count">16 packages</span>
+              </div>
+              <p class="stack-block-desc">後端預設 <code>python -m backend.main</code> · ASGI :8000；測試 <code>pytest backend/tests/</code> 以 monkeypatch 隔離外部服務。</p>
+              <div class="tiles compact">
+                <a class="tile" href="https://github.com/fastapi/fastapi" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">HTTP</span>
+                  <div class="tile-head"><span class="tile-name">FastAPI</span><span class="tile-ver">≥0.115</span></div>
+                  <span class="tile-role">REST · SSE · WebSocket</span>
+                  <span class="tile-meta">/chat/stream · /tasks</span>
+                  <span class="tile-detail">backend/main.py · BACKEND_PORT</span>
+                  <span class="tile-gh">fastapi/fastapi</span>
+                </a>
+                <a class="tile" href="https://github.com/encode/uvicorn" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">ASGI</span>
+                  <div class="tile-head"><span class="tile-name">Uvicorn</span><span class="tile-ver">≥0.32</span></div>
+                  <span class="tile-role">standard extras · HTTP/WS</span>
+                  <span class="tile-meta">asyncio event loop</span>
+                  <span class="tile-detail">0.0.0.0:8000 本機</span>
+                  <span class="tile-gh">encode/uvicorn</span>
+                </a>
+                <a class="tile" href="https://github.com/pydantic/pydantic" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Schema</span>
+                  <div class="tile-head"><span class="tile-name">Pydantic v2</span><span class="tile-ver">≥2.9</span></div>
+                  <span class="tile-role">設定 · 請求/回應模型</span>
+                  <span class="tile-meta">docs/config/reference.md</span>
+                  <span class="tile-detail">backend/core/ · API schemas</span>
+                  <span class="tile-gh">pydantic/pydantic</span>
+                </a>
+                <a class="tile" href="https://github.com/encode/httpx" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">HTTP client</span>
+                  <div class="tile-head"><span class="tile-name">httpx</span><span class="tile-ver">≥0.27</span></div>
+                  <span class="tile-role">async 出站 · 整合探針</span>
+                  <span class="tile-meta">測試 AsyncClient</span>
+                  <span class="tile-detail">backend/tests/ · hub 探針</span>
+                  <span class="tile-gh">encode/httpx</span>
+                </a>
+                <a class="tile" href="https://github.com/redis/redis-py" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Memory</span>
+                  <div class="tile-head"><span class="tile-name">redis-py</span><span class="tile-ver">≥5.2</span></div>
+                  <span class="tile-role">快取 · 會話 · 任務狀態</span>
+                  <span class="tile-meta">REDIS_URL · 密碼必填</span>
+                  <span class="tile-detail">docker compose :6379</span>
+                  <span class="tile-gh">redis/redis-py</span>
+                </a>
+                <a class="tile" href="https://github.com/chroma-core/chroma" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Vector</span>
+                  <div class="tile-head"><span class="tile-name">ChromaDB</span><span class="tile-ver">≥0.5</span></div>
+                  <span class="tile-role">向量召回 · 記憶索引</span>
+                  <span class="tile-meta">CHROMA_HOST :8100</span>
+                  <span class="tile-detail">backend/memory/ · 整合召回</span>
+                  <span class="tile-gh">chroma-core/chroma</span>
+                </a>
+                <a class="tile" href="https://github.com/Tinche/aiofiles" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">IO</span>
+                  <div class="tile-head"><span class="tile-name">aiofiles</span><span class="tile-ver">≥24.2</span></div>
+                  <span class="tile-role">非同步檔案讀寫</span>
+                  <span class="tile-meta">產出物 · archive</span>
+                  <span class="tile-detail">EVOL_ARCHIVE_DIR 選填</span>
+                  <span class="tile-gh">Tinche/aiofiles</span>
+                </a>
+                <a class="tile" href="https://github.com/theskumar/python-dotenv" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Config</span>
+                  <div class="tile-head"><span class="tile-name">python-dotenv</span><span class="tile-ver">≥1.0</span></div>
+                  <span class="tile-role">.env 載入 · 本機秘密</span>
+                  <span class="tile-meta">勿提交真實金鑰</span>
+                  <span class="tile-detail">cp .env.example .env</span>
+                  <span class="tile-gh">theskumar/python-dotenv</span>
+                </a>
+                <a class="tile" href="https://github.com/Kludex/python-multipart" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Upload</span>
+                  <div class="tile-head"><span class="tile-name">python-multipart</span><span class="tile-ver">≥0.0.12</span></div>
+                  <span class="tile-role">表單 · 檔案上傳</span>
+                  <span class="tile-meta">FastAPI File/Form</span>
+                  <span class="tile-detail">控制台附件 API</span>
+                  <span class="tile-gh">Kludex/python-multipart</span>
+                </a>
+                <a class="tile" href="https://github.com/giampaolo/psutil" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Ops</span>
+                  <div class="tile-head"><span class="tile-name">psutil</span><span class="tile-ver">≥6.0</span></div>
+                  <span class="tile-role">CPU/RAM 監控 · 本機 metering</span>
+                  <span class="tile-meta">L03 預算敘事對齊</span>
+                  <span class="tile-detail">監控控制台數據源</span>
+                  <span class="tile-gh">giampaolo/psutil</span>
+                </a>
+                <a class="tile" href="https://github.com/pyca/cryptography" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Crypto</span>
+                  <div class="tile-head"><span class="tile-name">cryptography</span><span class="tile-ver">≥43</span></div>
+                  <span class="tile-role">TLS · 簽章 · 秘密處理</span>
+                  <span class="tile-meta">LINKIN_GATE_* 登入</span>
+                  <span class="tile-detail">Cookie · HTTPS 終止</span>
+                  <span class="tile-gh">pyca/cryptography</span>
+                </a>
+                <a class="tile" href="https://github.com/docker/docker-py" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Docker SDK</span>
+                  <div class="tile-head"><span class="tile-name">docker-py</span><span class="tile-ver">≥7.0</span></div>
+                  <span class="tile-role">容器生命週期 · 計費 v6</span>
+                  <span class="tile-meta">按時 Docker 計費池</span>
+                  <span class="tile-detail">backend/billing/</span>
+                  <span class="tile-gh">docker/docker-py</span>
+                </a>
+                <a class="tile" href="https://github.com/vberlier/nbtlib" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Game data</span>
+                  <div class="tile-head"><span class="tile-name">nbtlib</span><span class="tile-ver">≥2.0.4</span></div>
+                  <span class="tile-role">Minecraft NBT 讀寫</span>
+                  <span class="tile-meta">靈境 · 世界狀態</span>
+                  <span class="tile-detail">backend/linkin/minecraft.py</span>
+                  <span class="tile-gh">vberlier/nbtlib</span>
+                </a>
+                <a class="tile" href="https://github.com/HKUDS/CLI-Anything" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">CLI Hub</span>
+                  <div class="tile-head"><span class="tile-name">cli-anything-hub</span><span class="tile-ver">0.4.1</span></div>
+                  <span class="tile-role">cli-hub 軟體目錄查詢</span>
+                  <span class="tile-meta">Linkin 只查目錄不執行 harness</span>
+                  <span class="tile-detail">.agents/skills/cli-anything/</span>
+                  <span class="tile-gh">HKUDS/CLI-Anything</span>
+                </a>
+                <a class="tile" href="https://github.com/pytest-dev/pytest" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Test</span>
+                  <div class="tile-head"><span class="tile-name">pytest</span><span class="tile-ver">≥8.3</span></div>
+                  <span class="tile-role">backend/tests 單元與整合</span>
+                  <span class="tile-meta">CI test.yml</span>
+                  <span class="tile-detail">monkeypatch 無需真 Key</span>
+                  <span class="tile-gh">pytest-dev/pytest</span>
+                </a>
+                <a class="tile" href="https://github.com/pytest-dev/pytest-asyncio" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Test</span>
+                  <div class="tile-head"><span class="tile-name">pytest-asyncio</span><span class="tile-ver">≥0.24</span></div>
+                  <span class="tile-role">async def 測試 · SSE/WS</span>
+                  <span class="tile-meta">FastAPI TestClient 搭配</span>
+                  <span class="tile-detail">backend/tests/async</span>
+                  <span class="tile-gh">pytest-dev/pytest-asyncio</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="stack-block" data-l01-lane="frontend">
+              <div class="stack-block-head">
+                <h3>前端控制台 · React 19 組件庫</h3>
+                <span class="count">17 npm deps</span>
+              </div>
+              <p class="stack-block-desc">Vite dev <strong style="color:var(--ink);">:3001</strong> · Linear dense 三欄 · 768px 以下底部 Tab · ≥1440 桌面三欄一屏。</p>
+              <div class="tiles compact">
+                <a class="tile" href="https://github.com/facebook/react" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">UI core</span>
+                  <div class="tile-head"><span class="tile-name">React</span><span class="tile-ver">^19.2</span></div>
+                  <span class="tile-role">控制台 · 對話 · 靈境/Minecraft 頁</span>
+                  <span class="tile-meta">react-dom 同版本</span>
+                  <span class="tile-detail">frontend/src/ · #/chat</span>
+                  <span class="tile-gh">facebook/react</span>
+                </a>
+                <a class="tile" href="https://github.com/vitejs/vite" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Bundler</span>
+                  <div class="tile-head"><span class="tile-name">Vite</span><span class="tile-ver">^8.2</span></div>
+                  <span class="tile-role">HMR · npm run dev</span>
+                  <span class="tile-meta">@vitejs/plugin-react ^6</span>
+                  <span class="tile-detail">frontend/vite.config.ts</span>
+                  <span class="tile-gh">vitejs/vite</span>
+                </a>
+                <a class="tile" href="https://github.com/microsoft/TypeScript" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Lang</span>
+                  <div class="tile-head"><span class="tile-name">TypeScript</span><span class="tile-ver">~6.0</span></div>
+                  <span class="tile-role">tsc -b · 嚴格型別</span>
+                  <span class="tile-meta">build 前型別檢查</span>
+                  <span class="tile-detail">frontend/tsconfig</span>
+                  <span class="tile-gh">microsoft/TypeScript</span>
+                </a>
+                <a class="tile" href="https://github.com/tailwindlabs/tailwindcss" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">CSS</span>
+                  <div class="tile-head"><span class="tile-name">Tailwind CSS</span><span class="tile-ver">^4.3</span></div>
+                  <span class="tile-role">@tailwindcss/vite 插件</span>
+                  <span class="tile-meta">utility-first dense UI</span>
+                  <span class="tile-detail">frontend 全域樣式</span>
+                  <span class="tile-gh">tailwindlabs/tailwindcss</span>
+                </a>
+                <a class="tile" href="https://github.com/pmndrs/zustand" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">State</span>
+                  <div class="tile-head"><span class="tile-name">Zustand</span><span class="tile-ver">^5.0</span></div>
+                  <span class="tile-role">輕量全域 store</span>
+                  <span class="tile-meta">控制台/session 狀態</span>
+                  <span class="tile-detail">frontend stores</span>
+                  <span class="tile-gh">pmndrs/zustand</span>
+                </a>
+                <a class="tile" href="https://github.com/xyflow/xyflow" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Graph UI</span>
+                  <div class="tile-head"><span class="tile-name">@xyflow/react</span><span class="tile-ver">^12.11</span></div>
+                  <span class="tile-role">策略圖 · 管線可視化</span>
+                  <span class="tile-meta">React Flow 後繼</span>
+                  <span class="tile-detail">實驗室 / 架構檢視</span>
+                  <span class="tile-gh">xyflow/xyflow</span>
+                </a>
+                <a class="tile" href="https://github.com/suren-atoyan/monaco-react" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Editor</span>
+                  <div class="tile-head"><span class="tile-name">Monaco Editor</span><span class="tile-ver">^4.7</span></div>
+                  <span class="tile-role">提示詞 · JSON · 程式片段</span>
+                  <span class="tile-meta">@monaco-editor/react</span>
+                  <span class="tile-detail">控制台程式編輯區</span>
+                  <span class="tile-gh">suren-atoyan/monaco-react</span>
+                </a>
+                <a class="tile" href="https://github.com/apache/echarts" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Chart</span>
+                  <div class="tile-head"><span class="tile-name">ECharts</span><span class="tile-ver">^6.1</span></div>
+                  <span class="tile-role">監控 · 量化 · Token 圖</span>
+                  <span class="tile-meta">Hub / billing 儀表</span>
+                  <span class="tile-detail">#/monitor</span>
+                  <span class="tile-gh">apache/echarts</span>
+                </a>
+                <a class="tile" href="https://github.com/mermaid-js/mermaid" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Diagram</span>
+                  <div class="tile-head"><span class="tile-name">Mermaid</span><span class="tile-ver">^11.17</span></div>
+                  <span class="tile-role">文件內嵌圖 · 架構預覽</span>
+                  <span class="tile-meta">markdown 渲染管線</span>
+                  <span class="tile-detail">react-markdown 搭配</span>
+                  <span class="tile-gh">mermaid-js/mermaid</span>
+                </a>
+                <a class="tile" href="https://github.com/remarkjs/react-markdown" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Markdown</span>
+                  <div class="tile-head"><span class="tile-name">react-markdown</span><span class="tile-ver">^10.1</span></div>
+                  <span class="tile-role">對話 · 任務產出渲染</span>
+                  <span class="tile-meta">GFM · 程式碼高亮</span>
+                  <span class="tile-detail">#/chat 訊息氣泡</span>
+                  <span class="tile-gh">remarkjs/react-markdown</span>
+                </a>
+                <a class="tile" href="https://github.com/petyosi/react-virtuoso" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">List</span>
+                  <div class="tile-head"><span class="tile-name">react-virtuoso</span><span class="tile-ver">^4.18</span></div>
+                  <span class="tile-role">長列表虛擬捲動</span>
+                  <span class="tile-meta">任務/日誌萬行級</span>
+                  <span class="tile-detail">Linear dense 一屏</span>
+                  <span class="tile-gh">petyosi/react-virtuoso</span>
+                </a>
+                <a class="tile" href="https://github.com/mrdoob/three.js" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">3D</span>
+                  <div class="tile-head"><span class="tile-name">Three.js</span><span class="tile-ver">^0.180</span></div>
+                  <span class="tile-role">靈境 3D 預覽 · WebGL</span>
+                  <span class="tile-meta">#/modules 視覺化</span>
+                  <span class="tile-detail">frontend 3D 場景</span>
+                  <span class="tile-gh">mrdoob/three.js</span>
+                </a>
+                <a class="tile" href="https://github.com/i18next/i18next" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">i18n</span>
+                  <div class="tile-head"><span class="tile-name">i18next</span><span class="tile-ver">^26.4</span></div>
+                  <span class="tile-role">繁中預設 · 多語切換</span>
+                  <span class="tile-meta">react-i18next ^17</span>
+                  <span class="tile-detail">frontend/locales/</span>
+                  <span class="tile-gh">i18next/i18next</span>
+                </a>
+                <a class="tile" href="https://github.com/tt-a1i/archify" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Strategy</span>
+                  <div class="tile-head"><span class="tile-name">archify</span><span class="tile-ver">vendor</span></div>
+                  <span class="tile-role">策略圖 CLI · doctor/render</span>
+                  <span class="tile-meta">file:../vendor/archify</span>
+                  <span class="tile-detail">npm run archify:doctor</span>
+                  <span class="tile-gh">tt-a1i/archify</span>
+                </a>
+                <a class="tile" href="https://github.com/microsoft/playwright" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">E2E</span>
+                  <div class="tile-head"><span class="tile-name">Playwright</span><span class="tile-ver">^1.62</span></div>
+                  <span class="tile-role">npm run test:e2e</span>
+                  <span class="tile-meta">E2E_GATE_* 登入夾具</span>
+                  <span class="tile-detail">frontend e2e/</span>
+                  <span class="tile-gh">microsoft/playwright</span>
+                </a>
+                <a class="tile" href="https://github.com/vitest-dev/vitest" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Unit</span>
+                  <div class="tile-head"><span class="tile-name">Vitest</span><span class="tile-ver">^3.2</span></div>
+                  <span class="tile-role">npm run test:unit</span>
+                  <span class="tile-meta">Vite 原生測試</span>
+                  <span class="tile-detail">frontend *.test.ts</span>
+                  <span class="tile-gh">vitest-dev/vitest</span>
+                </a>
+                <a class="tile" href="https://github.com/oxc-project/oxlint" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Lint</span>
+                  <div class="tile-head"><span class="tile-name">oxlint</span><span class="tile-ver">^1.75</span></div>
+                  <span class="tile-role">npm run lint · 極速靜態分析</span>
+                  <span class="tile-meta">CI 前端門檻</span>
+                  <span class="tile-detail">frontend package.json</span>
+                  <span class="tile-gh">oxc-project/oxlint</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="stack-block" data-l01-lane="edge">
+              <div class="stack-block-head">
+                <h3>工業 · 遊戲 · MCP · 部署</h3>
+                <span class="count">10 組件</span>
+              </div>
+              <div class="tiles compact">
+                <a class="tile" href="https://github.com/FreeOpcUa/opcua-asyncio" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">OPC UA</span>
+                  <div class="tile-head"><span class="tile-name">asyncua</span><span class="tile-ver">≥1.1</span></div>
+                  <span class="tile-role">感測讀數 · 模擬伺服器</span>
+                  <span class="tile-meta">OPC_SIM · :4840</span>
+                  <span class="tile-detail">opc_service/ · :8001</span>
+                  <span class="tile-gh">FreeOpcUa/opcua-asyncio</span>
+                </a>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin/tree/master/opc_service" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Microservice</span>
+                  <div class="tile-head"><span class="tile-name">opc_service</span><span class="tile-ver">runtime</span></div>
+                  <span class="tile-role">OPC UA 微服務 · 六階段 sense→act</span>
+                  <span class="tile-meta">OPC_INTERNAL_TOKEN</span>
+                  <span class="tile-detail">guard.py 寫入護欄 #4</span>
+                  <span class="tile-gh">Linkin/opc_service</span>
+                </a>
+                <a class="tile" href="https://github.com/modelcontextprotocol/specification" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">MCP</span>
+                  <div class="tile-head"><span class="tile-name">MCP Spec</span><span class="tile-ver">2025</span></div>
+                  <span class="tile-role">mcp_servers.json 註冊</span>
+                  <span class="tile-meta">Figma · Linear 可選</span>
+                  <span class="tile-detail">#/monitor/skills</span>
+                  <span class="tile-gh">modelcontextprotocol</span>
+                </a>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin/blob/master/docs/linkin/minecraft-mcp.md" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">MineMCP</span>
+                  <div class="tile-head"><span class="tile-name">Paper 插件</span><span class="tile-ver">1.21</span></div>
+                  <span class="tile-role">JSON-RPC · minecraft_ops</span>
+                  <span class="tile-meta">:3000 · EVOL_MC_MCP_*</span>
+                  <span class="tile-detail">backend/tools/minecraft_mcp.py</span>
+                  <span class="tile-gh">docs/linkin/minecraft-mcp.md</span>
+                </a>
+                <a class="tile" href="https://github.com/docker/compose" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Deploy</span>
+                  <div class="tile-head"><span class="tile-name">Docker Compose</span><span class="tile-ver">v2</span></div>
+                  <span class="tile-role">redis · chroma · 全棧</span>
+                  <span class="tile-meta">docker-compose.dev.yml OPC</span>
+                  <span class="tile-detail">DEPLOYMENT.md</span>
+                  <span class="tile-gh">docker/compose</span>
+                </a>
+                <a class="tile" href="https://github.com/iiooiioo888/LinkinL" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Product</span>
+                  <div class="tile-head"><span class="tile-name">LinkinL</span><span class="tile-ver">install</span></div>
+                  <span class="tile-role">install.sh · update.sh</span>
+                  <span class="tile-meta">linkinl.json manifest</span>
+                  <span class="tile-detail">./linkin-runtime clone</span>
+                  <span class="tile-gh">iiooiioo888/LinkinL</span>
+                </a>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Gate</span>
+                  <div class="tile-head"><span class="tile-name">LINKIN_GATE</span><span class="tile-ver">auth</span></div>
+                  <span class="tile-role">ID + SECRET 登入閘門</span>
+                  <span class="tile-meta">未設定則拒絕登入</span>
+                  <span class="tile-detail">LINKIN_COOKIE_SECURE HTTPS</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Billing</span>
+                  <div class="tile-head"><span class="tile-name">積分 v6</span><span class="tile-ver">runtime</span></div>
+                  <span class="tile-role">多池錢包 · Docker 計時</span>
+                  <span class="tile-meta">阿里雲 BSS 唯讀對帳</span>
+                  <span class="tile-detail">backend/billing/</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Company</span>
+                  <div class="tile-head"><span class="tile-name">RAHO 80 席</span><span class="tile-ver">runtime</span></div>
+                  <span class="tile-role">任務經理 · industrial_ops</span>
+                  <span class="tile-meta">16 靈境子角色</span>
+                  <span class="tile-detail">backend/company/</span>
+                </div>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Monorepo</span>
+                  <div class="tile-head"><span class="tile-name">Linkin 主倉</span><span class="tile-ver">master</span></div>
+                  <span class="tile-role">EvoLoop · linkin_core 契約</span>
+                  <span class="tile-meta">AGENTS.md 五條護欄</span>
+                  <span class="tile-detail">python -m backend.main</span>
+                  <span class="tile-gh">iiooiioo888/Linkin</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="stack-block" data-l01-lane="recall">
+              <div class="stack-block-head">
+                <h3>整合召回 · 量化 · 外部資料（主倉可選）</h3>
+                <span class="count">14 connectors</span>
+              </div>
+              <div class="tiles compact">
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <div class="tile-head"><span class="tile-name">MemOS</span><span class="tile-ver">opt-in</span></div>
+                  <span class="tile-role">長期記憶 · 明確召回才注入</span>
+                  <span class="tile-meta">省 token · 無 auto webhook</span>
+                  <span class="tile-detail">backend/integrations/</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <div class="tile-head"><span class="tile-name">OpenViking</span><span class="tile-ver">opt-in</span></div>
+                  <span class="tile-role">知識庫整合召回</span>
+                  <span class="tile-meta">前置鏈 RC 節點</span>
+                  <span class="tile-detail">docs/config/reference.md</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <div class="tile-head"><span class="tile-name">WeKnora</span><span class="tile-ver">opt-in</span></div>
+                  <span class="tile-role">結構化檢索適配</span>
+                  <span class="tile-meta">整合召回四件套之一</span>
+                  <span class="tile-detail">README 核心能力表</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <div class="tile-head"><span class="tile-name">Yao</span><span class="tile-ver">opt-in</span></div>
+                  <span class="tile-role">Agent 工作流擴展</span>
+                  <span class="tile-meta">與 Ouroboros 同組</span>
+                  <span class="tile-detail">integrations 分類</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <div class="tile-head"><span class="tile-name">Ouroboros</span><span class="tile-ver">opt-in</span></div>
+                  <span class="tile-role">閉環擴展 · 自我改進敘事</span>
+                  <span class="tile-meta">非預設自動執行</span>
+                  <span class="tile-detail">docs/structure.md 整合</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Design</span>
+                  <div class="tile-head"><span class="tile-name">OpenPencil</span><span class="tile-ver">opt-in</span></div>
+                  <span class="tile-role">設計資產召回</span>
+                  <span class="tile-meta">協作稿 · 視覺上下文</span>
+                  <span class="tile-detail">整合 → 設計分類</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Quant</span>
+                  <div class="tile-head"><span class="tile-name">Yahoo / Stooq</span><span class="tile-ver">free</span></div>
+                  <span class="tile-role">量化角色預設行情</span>
+                  <span class="tile-meta">無 Key 即可用</span>
+                  <span class="tile-detail">backend/company/quant_*.py</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Quant</span>
+                  <div class="tile-head"><span class="tile-name">Tushare / Finnhub</span><span class="tile-ver">key</span></div>
+                  <span class="tile-role">EVOL_TUSHARE_TOKEN 等</span>
+                  <span class="tile-meta">.env 選填</span>
+                  <span class="tile-detail">AI Hub 價格探針</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Cloud cost</span>
+                  <div class="tile-head"><span class="tile-name">阿里雲 BSS</span><span class="tile-ver">read-only</span></div>
+                  <span class="tile-role">費用對帳 · CNY/USD 匯率</span>
+                  <span class="tile-meta">ALIYUN_* .env</span>
+                  <span class="tile-detail">Agent 雲資源預算</span>
+                </div>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin/blob/master/docs/mcp/agent-skills.md" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Skills canon</span>
+                  <div class="tile-head"><span class="tile-name">.agents/skills</span><span class="tile-ver">106</span></div>
+                  <span class="tile-role">mattpocock · anthropic · openai…</span>
+                  <span class="tile-meta">skills-lock.json</span>
+                  <span class="tile-detail">sync_agent_skills → skills.json</span>
+                  <span class="tile-gh">docs/mcp/agent-skills.md</span>
+                </a>
+                <a class="tile" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Skills</span>
+                  <div class="tile-head"><span class="tile-name">mattpocock/skills</span><span class="tile-ver">×37</span></div>
+                  <span class="tile-role">TDD · spec→tickets · grill</span>
+                  <span class="tile-meta">setup-matt-pocock-skills</span>
+                  <span class="tile-detail">npx skills experimental_install</span>
+                  <span class="tile-gh">mattpocock/skills</span>
+                </a>
+                <a class="tile" href="https://github.com/anthropics/skills" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Skills</span>
+                  <div class="tile-head"><span class="tile-name">anthropics/skills</span><span class="tile-ver">×20</span></div>
+                  <span class="tile-role">PDF · 前端設計 · mcp-builder</span>
+                  <span class="tile-meta">anthropic-pdf 別名</span>
+                  <span class="tile-detail">.agents/skills/</span>
+                  <span class="tile-gh">anthropics/skills</span>
+                </a>
+                <a class="tile" href="https://github.com/openai/skills" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Skills</span>
+                  <div class="tile-head"><span class="tile-name">openai/skills</span><span class="tile-ver">×43</span></div>
+                  <span class="tile-role">Codex · Figma · Playwright</span>
+                  <span class="tile-meta">openai-pdf 別名</span>
+                  <span class="tile-detail">Cursor / Codex 副本忽略</span>
+                  <span class="tile-gh">openai/skills</span>
+                </a>
+                <a class="tile" href="https://github.com/vercel-labs/agent-browser" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">CLI skill</span>
+                  <div class="tile-head"><span class="tile-name">agent-browser</span><span class="tile-ver">CLI</span></div>
+                  <span class="tile-role">瀏覽器自動化 · 需 PATH</span>
+                  <span class="tile-meta">需 CLI 類型技能</span>
+                  <span class="tile-detail">cli_runtimes 探測</span>
+                  <span class="tile-gh">vercel-labs/agent-browser</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+  </div>
+</details>
+<details class="site-fold site-fold-nested" id="x05-ui-atlas-fold">
+  <summary class="site-fold-summary"><span class="mono">DOM</span><span class="site-fold-title">官網組件圖鑑（開發者選讀）</span></summary>
+  <div class="site-fold-body">
+<section id="x05-ui-atlas" data-label="0x05B / UI COMPONENTS" class="reveal">
+          <h2 class="h-sec">官網 HTML 組件圖鑑 · Convultra DOM 模式</h2>
+          <p class="sec-intro">
+            下列為 <code>index.html</code> 內實際使用的 UI 組件（非 React）；Linkin 控制台 npm 依賴見 <a href="#x05-integrations" style="color:var(--lime);">#x05-integrations</a>。
+            官網 CDN：<strong style="color:var(--ink);font-weight:500;">Lenis 1.1.18 · GSAP 3.12.5 · Chart.js 4.4.6 · Noto Sans TC · JetBrains Mono</strong>（自 jsdelivr / Google Fonts 載入，非 Linkin runtime）。
+          </p>
+          <div class="ui-atlas">
+            <article class="ui-specimen">
+              <h4>.topbar + .nav</h4>
+              <p>固定頂欄 · 72px 執行軸留白 · 錨點導覽 <code>.on</code> 狀態</p>
+              <div class="demo demo-chip-row">
+                <span class="chip lime">0x00</span><span class="chip">nav.on</span>
+              </div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.timeline-rail</h4>
+              <p>左側全頁錨點（00、L4–L1、分工、FAQ）· <code>.rail-node.active</code> lime 邊框</p>
+              <div class="demo demo-chip-row"><span class="chip">72px rail</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.trace-stage + .dag</h4>
+              <p>Hero SVG DAG · <code>.dag-node.active</code> · RE-RUN 動畫</p>
+              <div class="demo demo-chip-row"><span class="chip">880×148 viewBox</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.pain-card</h4>
+              <p>0x01 三欄痛點 · <code>.tag</code> 色碼 · 等高 grid</p>
+              <div class="demo demo-chip-row"><span class="chip" style="color:var(--red);border-color:var(--bd);">不可稽核</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.layer-stack-sim</h4>
+              <p>0x02 LIVE TRACE · <code>.lss-packet</code> 穿層 · <code>#lss-replay</code></p>
+              <div class="demo demo-chip-row"><span class="chip">minmax(152px)</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.panel + .meter</h4>
+              <p>0x03 預算量表 · <code>.meter-fill.warn</code> 閾值色</p>
+              <div class="demo demo-meter">
+                <div class="meter-track"><div class="meter-fill"></div></div>
+              </div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.ledger-row</h4>
+              <p>共識帳本 · CID · hash 鏈 · <code>.meta</code> 全寬列</p>
+              <div class="demo demo-chip-row"><span class="chip lime" style="font-size:9px;">bafybei…</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.chart-wrap</h4>
+              <p>0x04 Chart.js canvas · 280px 固定高度容器</p>
+              <div class="demo demo-chip-row"><span class="chip">#evidence-chart</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.tile + .stack-block</h4>
+              <p>0x05 整合 tile · <code>.tile-cat</code> · <code>.tile-ver</code> · static 變體</p>
+              <div class="demo demo-chip-row"><span class="chip">compact grid</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.compare-table</h4>
+              <p>0x06 對照 · <code>.yes/.no</code> · 橫向 scroll wrapper</p>
+              <div class="demo demo-chip-row"><span class="chip">✓ lime</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.trust-item · .voice</h4>
+              <p>0x07–0x08 信任格與引述 · 2×2 / 2 欄 RWD</p>
+              <div class="demo demo-chip-row"><span class="chip">blockquote</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.price-card.featured</h4>
+              <p>0x09 定價 · inset lime 邊 · <code>.amt</code> mono 大字</p>
+              <div class="demo demo-chip-row"><span class="chip lime">$0</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.terminal + details</h4>
+              <p>0x0A FAQ <code>&lt;details&gt;</code> · terminal <code>.prompt</code></p>
+              <div class="demo demo-chip-row"><span class="chip" style="font-family:'JetBrains Mono',monospace;">$ install.sh</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.reveal · GSAP</h4>
+              <p>ScrollTrigger 入場 · <code>.is-visible</code> · reduced-motion 關閉</p>
+              <div class="demo demo-chip-row"><span class="chip">gs-reveal</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.l01-map-sim</h4>
+              <p>0x05 五分類節點流 · tab 同步單一 <code>stack-block</code> · 可展開全部</p>
+              <div class="demo demo-chip-row"><span class="chip">#l01-map-tabs</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.tool-sim-grid</h4>
+              <p>0x03B 工具鏈動畫 · <code>.tool-step.active</code> · log 逐行淡入</p>
+              <div class="demo demo-chip-row"><span class="chip">#tool-sim-rerun</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.telemetry-ribbon</h4>
+              <p>React · 頂部 LIVE 儀表列 · hash marquee · Worker 刷新 metrics</p>
+              <div class="demo demo-chip-row"><span class="chip lime">LIVE TELEMETRY</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.tech-fabric + .tech-mesh</h4>
+              <p>0x00B 科技運維面 · 12×6 mesh 脈衝 · <code>.tech-mesh-cell.on</code></p>
+              <div class="demo demo-tech-mesh" aria-hidden="true">
+                <span class="on"></span><span></span><span class="on"></span><span></span><span></span><span class="on"></span><span></span><span></span>
+              </div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.tech-registry</h4>
+              <p>Capability 清單 · <code>.tech-led</code> · L04–L01 層標 · mono id</p>
+              <div class="demo demo-chip-row"><span class="chip" style="font-family:'JetBrains Mono',monospace;font-size:9px;">budget.gate.l03</span></div>
+            </article>
+            <article class="ui-specimen">
+              <h4>.ecosystem-stack</h4>
+              <p>0x00C <code>.eco-pipeline</code> + 精簡 partner 連結列 · 左軌「生」</p>
+              <div class="demo demo-chip-row"><span class="chip">eco-dag-row</span><span class="chip">eco-org-tree</span><span class="chip lime">eco-decision-chain</span></div>
+            </article>
+          </div>
+
+          <div class="component-index" aria-label="組件與 Linkin 模組對照索引">
+            <table>
+              <thead>
+                <tr>
+                  <th>組件 / 函式庫</th>
+                  <th>層級</th>
+                  <th>Linkin 路徑或埠</th>
+                  <th>說明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>LangGraph</td><td>L04</td><td class="mono">backend/core/graph</td><td>build_graph · route_by_complexity</td></tr>
+                <tr><td>LiteLLM</td><td>L04</td><td class="mono">call_llm</td><td>唯一 LLM 出口</td></tr>
+                <tr><td>FastAPI</td><td>Runtime</td><td class="mono">:8000</td><td>/chat/stream · /tasks · WS</td></tr>
+                <tr><td>React + Vite</td><td>UI</td><td class="mono">:3001</td><td>frontend/ · npm run dev</td></tr>
+                <tr><td>Redis</td><td>L01</td><td class="mono">:6379</td><td>REDIS_URL 密碼</td></tr>
+                <tr><td>Chroma</td><td>L01</td><td class="mono">:8100</td><td>CHROMA_HOST/PORT</td></tr>
+                <tr><td>opc_service</td><td>L01</td><td class="mono">:8001</td><td>asyncua · guard 寫入</td></tr>
+                <tr><td>MineMCP</td><td>L04</td><td class="mono">:3000</td><td>minecraft_ops 輕量路徑</td></tr>
+                <tr><td>Monaco</td><td>UI</td><td class="mono">#/monitor</td><td>編輯器面板</td></tr>
+                <tr><td>XYFlow</td><td>UI</td><td class="mono">實驗室</td><td>策略/管線圖</td></tr>
+                <tr><td>ECharts</td><td>UI</td><td class="mono">#/monitor</td><td>Hub · billing 圖表</td></tr>
+                <tr><td>skills.json</td><td>Integrations</td><td class="mono">backend/data/</td><td>同步 .agents/skills</td></tr>
+                <tr><td>linkinl.json</td><td>LinkinL</td><td class="mono">install.sh</td><td>pin Linkin commit</td></tr>
+                <tr><td>Lenis + GSAP</td><td>Pages</td><td class="mono">index.html</td><td>官網捲動與 reveal</td></tr>
+                <tr><td>Chart.js</td><td>Pages</td><td class="mono">#evidence-chart</td><td>0x04 示意圖</td></tr>
+                <tr><td>.tile 系統</td><td>Pages</td><td class="mono">#x05-integrations</td><td>80+ OSS 條目</td></tr>
+                <tr><td>.tool-sim</td><td>Pages</td><td class="mono">#x03-tool-sim</td><td>8 步工具 trace 動畫</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+  </div>
+</details>
+  </div>
+</details>
+
+<section id="x0a-faq" data-label="0x0A / FAQ" class="reveal">
+          <h2 class="h-sec">常見問題</h2>
+          <div class="faq-list">
+            <details open>
+              <summary>LinkinL 和 Linkin 有什麼不同？</summary>
+              <p>LinkinL 是本機執行版的產品代號與官網（此 GitHub Pages）；可執行的運行時、API 與前端請 clone <a href="https://github.com/iiooiioo888/Linkin" style="color:var(--lime);">Linkin 主倉</a>。詳見 <a href="#x0c-install" style="color:var(--lime);">#x0c-install</a> 或 <a href="docs/getting-started.html" style="color:var(--lime);">getting-started.html</a>。</p>
+            </details>
+            <details>
+              <summary>一定要 GPU 嗎？</summary>
+              <p>否。可接雲端 API 或本機 CPU 推理；GPU 時數由 L03 預算層 metering。</p>
+            </details>
+            <details>
+              <summary>產出物帳本存在哪？</summary>
+              <p>設計上為 append-only ledger（CID + hash chain）；實作可對接本機檔案或 IPFS 節點。</p>
+            </details>
+          </div>
+          <div class="terminal" id="terminal">
+            <div class="terminal-bar">0x0A / TERMINAL · 本機快速開始</div>
+            <pre><span class="prompt">$</span> git clone https://github.com/iiooiioo888/LinkinL.git && cd LinkinL
+<span class="prompt">$</span> ./scripts/install.sh              # → ./linkin-runtime + linkinl.json
+<span class="prompt">$</span> cd linkin-runtime && cp .env.example .env
+<span class="prompt">$</span> docker compose up -d redis chroma
+<span class="prompt">$</span> python -m backend.main
+<span class="prompt">$</span> cd frontend && npm run dev
+<span class="prompt">#</span> 後端 :8000 · 前端 :3001 · ./scripts/update.sh · docs/getting-started.html</pre>
+          </div>
+        </section>
+
+
+<p class="foot">
+          LinkinL 官網 · 運行時 <a href="https://github.com/iiooiioo888/Linkin" style="color:var(--sub);">Linkin 主倉</a><br />
+          錨點：<a href="#x0b-layers" style="color:var(--faint);">x0b-layers</a> ·
+          <a href="#x0c-install" style="color:var(--faint);">x0c-install</a> ·
+          <a href="#x0d-where" style="color:var(--faint);">x0d-where</a> ·
+          <a href="docs/getting-started.html" style="color:var(--faint);">getting-started</a><br />
+          Pages 建置 <span id="site-build-label">905f4fd</span> · 左軌應有 19 節點 ·
+          <a href="version.json" style="color:var(--faint);">version.json</a>
+        </p>
