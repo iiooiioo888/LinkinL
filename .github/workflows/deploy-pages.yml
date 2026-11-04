@@ -10,9 +10,10 @@ permissions:
   pages: write
   id-token: write
 
+# 佇列中的舊部署若晚於新 push 完成，會把 Pages 蓋回舊版。新 push 取消尚未開始的舊部署。
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
