@@ -566,6 +566,73 @@
       color: var(--sub);
       margin-top: auto;
     }
+    .tile.tile-static { cursor: default; }
+    .tile.tile-static:hover { background: var(--surface); }
+    .tile.tile-static:hover .tile-name { color: inherit; }
+    .tile-cat {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--lime-dk);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .stack-blocks {
+      display: flex;
+      flex-direction: column;
+      gap: var(--u3);
+    }
+    .stack-block {
+      border: 1px solid var(--bd);
+      background: var(--panel);
+      padding: var(--u2);
+      border-radius: var(--radius);
+    }
+    .stack-block-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--u);
+      padding: var(--u) var(--u) var(--u2);
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 1px;
+    }
+    .stack-block-head h3 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .stack-block-head .count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--faint);
+    }
+    .tiles.compact .tile {
+      padding: 12px;
+      min-height: 92px;
+    }
+    .hero-stack-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: var(--u3);
+      max-width: 38em;
+    }
+    .hero-stack-strip .pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      color: var(--sub);
+      background: var(--surface);
+      line-height: 1.3;
+    }
+    .hero-stack-strip .pill em {
+      color: var(--lime);
+      font-style: normal;
+    }
     .compare-table {
       width: 100%;
       border-collapse: collapse;
@@ -758,6 +825,8 @@
         flex-shrink: 0;
       }
       .tiles { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .stack-block-head h3 { font-size: 11px; }
+      .hero-stack-strip .pill { font-size: 9px; padding: 6px 8px; }
       .compare-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .pain-card p,
       .trust-item p,
@@ -830,10 +899,18 @@
                 在本機跑完整 LangGraph 反思閉環：每一跳工具呼叫、每一次預算閘門、每一筆產出物封存都可追溯。
                 不是黑箱聊天，而是可重播的執行證據鏈。
               </p>
+              <div class="hero-stack-strip" aria-label="Linkin 運行時核心組件">
+                <span class="pill"><em>LangGraph</em> · 反思管線</span>
+                <span class="pill"><em>LiteLLM</em> · call_llm</span>
+                <span class="pill"><em>FastAPI</em> · :8000</span>
+                <span class="pill"><em>React 19</em> · Vite :3001</span>
+                <span class="pill"><em>Redis</em> + <em>Chroma</em></span>
+                <span class="pill"><em>asyncua</em> · OPC</span>
+              </div>
               <div class="hero-chips">
-                <span class="chip lime">graphite #07080A</span>
-                <span class="chip">accent #C6FF3D</span>
-                <span class="chip">0px 圓角 · 1px hairline</span>
+                <span class="chip lime">Convultra · #C6FF3D</span>
+                <span class="chip">72px 執行軸</span>
+                <span class="chip">1px hairline grid</span>
               </div>
               <div style="display:flex;flex-wrap:wrap;gap:var(--u);">
                 <a class="btn primary" href="#product">看四層架構</a>
@@ -992,6 +1069,8 @@
                 <div class="spec-row"><span class="k">編排</span><span class="v">LangGraph</span></div>
                 <div class="spec-row"><span class="k">分散式</span><span class="v">Ray</span></div>
                 <div class="spec-row"><span class="k">向量</span><span class="v">Chroma</span></div>
+                <div class="spec-row"><span class="k">快取</span><span class="v">Redis</span></div>
+                <div class="spec-row"><span class="k">API</span><span class="v">FastAPI</span></div>
               </div>
             </div>
             </div>
@@ -1062,49 +1141,261 @@
 
         <!-- 0x05 INTEGRATIONS -->
         <section id="integrations" data-label="0x05 / INTEGRATIONS" class="reveal">
-          <h2 class="h-sec">L01 組件層 · GitHub OSS 推理與編排棧</h2>
-          <p class="sec-intro" style="font-size:13px;">可替換、可審計的開源底座；點擊直達 upstream repo。</p>
-          <div class="tiles">
-            <a class="tile" href="https://github.com/vllm-project/vllm" target="_blank" rel="noopener noreferrer">
-              <span class="tile-name">vLLM</span>
-              <span class="tile-role">高吞吐 LLM 推理服務</span>
-              <span class="tile-gh">github.com/vllm-project/vllm</span>
-            </a>
-            <a class="tile" href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener noreferrer">
-              <span class="tile-name">SGLang</span>
-              <span class="tile-role">結構化生成 · RadixAttention</span>
-              <span class="tile-gh">github.com/sgl-project/sglang</span>
-            </a>
-            <a class="tile" href="https://github.com/Dao-AILab/flash-attention" target="_blank" rel="noopener noreferrer">
-              <span class="tile-name">FlashAttention</span>
-              <span class="tile-role">IO 感知注意力核心</span>
-              <span class="tile-gh">github.com/Dao-AILab/flash-attention</span>
-            </a>
-            <a class="tile" href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">
-              <span class="tile-name">LangGraph</span>
-              <span class="tile-role">Linkin 統一反思管線</span>
-              <span class="tile-gh">github.com/langchain-ai/langgraph</span>
-            </a>
-            <a class="tile" href="https://github.com/ray-project/ray" target="_blank" rel="noopener noreferrer">
-              <span class="tile-name">Ray</span>
-              <span class="tile-role">分散式任務與 Actor</span>
-              <span class="tile-gh">github.com/ray-project/ray</span>
-            </a>
-            <a class="tile" href="https://github.com/huggingface/text-generation-inference" target="_blank" rel="noopener noreferrer">
-              <span class="tile-name">TGI</span>
-              <span class="tile-role">Hugging Face 推理伺服器</span>
-              <span class="tile-gh">github.com/huggingface/text-generation-inference</span>
-            </a>
-            <a class="tile" href="https://github.com/chroma-core/chroma" target="_blank" rel="noopener noreferrer">
-              <span class="tile-name">Chroma</span>
-              <span class="tile-role">本機向量召回 · 整合記憶</span>
-              <span class="tile-gh">github.com/chroma-core/chroma</span>
-            </a>
-            <a class="tile" href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener noreferrer">
-              <span class="tile-name">LiteLLM</span>
-              <span class="tile-role">call_llm 多供應商路由</span>
-              <span class="tile-gh">github.com/BerriAI/litellm</span>
-            </a>
+          <h2 class="h-sec">L01 組件層 · 推理、運行時與整合</h2>
+          <p class="sec-intro">
+            Linkin 主倉將下列 OSS 收斂成<strong style="color:var(--ink);font-weight:500;">可替換、可審計</strong>的本機棧；
+            官網頁面本身使用 Lenis / GSAP / Chart.js 做捲動與圖表（見最末區塊）。
+          </p>
+          <div class="stack-blocks">
+            <div class="stack-block">
+              <div class="stack-block-head">
+                <h3>推理 · 編排 · 注意力</h3>
+                <span class="count">10 upstream</span>
+              </div>
+              <div class="tiles compact">
+                <a class="tile" href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">L04 管線</span>
+                  <span class="tile-name">LangGraph</span>
+                  <span class="tile-role">統一反思閉環 · resolve_execution_path</span>
+                  <span class="tile-gh">langchain-ai/langgraph</span>
+                </a>
+                <a class="tile" href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">LLM 閘道</span>
+                  <span class="tile-name">LiteLLM</span>
+                  <span class="tile-role">call_llm · 多供應商 / 本機端點</span>
+                  <span class="tile-gh">BerriAI/litellm</span>
+                </a>
+                <a class="tile" href="https://github.com/vllm-project/vllm" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">推理</span>
+                  <span class="tile-name">vLLM</span>
+                  <span class="tile-role">PagedAttention · 高吞吐 serving</span>
+                  <span class="tile-gh">vllm-project/vllm</span>
+                </a>
+                <a class="tile" href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">推理</span>
+                  <span class="tile-name">SGLang</span>
+                  <span class="tile-role">RadixAttention · 結構化生成</span>
+                  <span class="tile-gh">sgl-project/sglang</span>
+                </a>
+                <a class="tile" href="https://github.com/huggingface/text-generation-inference" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">推理</span>
+                  <span class="tile-name">TGI</span>
+                  <span class="tile-role">Hugging Face 推理伺服器</span>
+                  <span class="tile-gh">huggingface/text-generation-inference</span>
+                </a>
+                <a class="tile" href="https://github.com/ollama/ollama" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">本機</span>
+                  <span class="tile-name">Ollama</span>
+                  <span class="tile-role">OpenAI 相容本機模型</span>
+                  <span class="tile-gh">ollama/ollama</span>
+                </a>
+                <a class="tile" href="https://github.com/Dao-AILab/flash-attention" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Kernel</span>
+                  <span class="tile-name">FlashAttention</span>
+                  <span class="tile-role">IO 感知注意力</span>
+                  <span class="tile-gh">Dao-AILab/flash-attention</span>
+                </a>
+                <a class="tile" href="https://github.com/ray-project/ray" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">分散式</span>
+                  <span class="tile-name">Ray</span>
+                  <span class="tile-role">Actor · 任務排程</span>
+                  <span class="tile-gh">ray-project/ray</span>
+                </a>
+                <a class="tile" href="https://github.com/openai/openai-python" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">SDK</span>
+                  <span class="tile-name">OpenAI SDK</span>
+                  <span class="tile-role">經 LiteLLM 適配，不直連供應商</span>
+                  <span class="tile-gh">openai/openai-python</span>
+                </a>
+                <a class="tile" href="https://github.com/langchain-ai/langchain" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">生態</span>
+                  <span class="tile-name">LangChain</span>
+                  <span class="tile-role">工具與整合適配層</span>
+                  <span class="tile-gh">langchain-ai/langchain</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="stack-block">
+              <div class="stack-block-head">
+                <h3>Linkin 運行時 · 後端 · 前端 · 資料</h3>
+                <span class="count">12 組件</span>
+              </div>
+              <div class="tiles compact">
+                <a class="tile" href="https://github.com/fastapi/fastapi" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Backend</span>
+                  <span class="tile-name">FastAPI</span>
+                  <span class="tile-role">REST · SSE · WebSocket</span>
+                  <span class="tile-gh">fastapi/fastapi</span>
+                </a>
+                <a class="tile" href="https://github.com/encode/uvicorn" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">ASGI</span>
+                  <span class="tile-name">Uvicorn</span>
+                  <span class="tile-role">asyncio 伺服器</span>
+                  <span class="tile-gh">encode/uvicorn</span>
+                </a>
+                <a class="tile" href="https://github.com/pydantic/pydantic" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Schema</span>
+                  <span class="tile-name">Pydantic</span>
+                  <span class="tile-role">設定與 API 契約</span>
+                  <span class="tile-gh">pydantic/pydantic</span>
+                </a>
+                <a class="tile" href="https://github.com/redis/redis" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Memory</span>
+                  <span class="tile-name">Redis</span>
+                  <span class="tile-role">:6379 · 快取與會話</span>
+                  <span class="tile-gh">redis/redis</span>
+                </a>
+                <a class="tile" href="https://github.com/chroma-core/chroma" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Vector</span>
+                  <span class="tile-name">Chroma</span>
+                  <span class="tile-role">:8100 · 向量召回</span>
+                  <span class="tile-gh">chroma-core/chroma</span>
+                </a>
+                <a class="tile" href="https://github.com/docker/compose" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Deploy</span>
+                  <span class="tile-name">Docker Compose</span>
+                  <span class="tile-role">redis · chroma · 全棧</span>
+                  <span class="tile-gh">docker/compose</span>
+                </a>
+                <a class="tile" href="https://github.com/facebook/react" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">UI</span>
+                  <span class="tile-name">React 19</span>
+                  <span class="tile-role">Linear dense 控制台</span>
+                  <span class="tile-gh">facebook/react</span>
+                </a>
+                <a class="tile" href="https://github.com/vitejs/vite" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Bundler</span>
+                  <span class="tile-name">Vite</span>
+                  <span class="tile-role">前端 dev :3001</span>
+                  <span class="tile-gh">vitejs/vite</span>
+                </a>
+                <a class="tile" href="https://github.com/microsoft/TypeScript" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Lang</span>
+                  <span class="tile-name">TypeScript</span>
+                  <span class="tile-role">frontend/ 型別安全</span>
+                  <span class="tile-gh">microsoft/TypeScript</span>
+                </a>
+                <a class="tile" href="https://github.com/i18next/i18next" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">i18n</span>
+                  <span class="tile-name">i18next</span>
+                  <span class="tile-role">繁中 / 多語 UI</span>
+                  <span class="tile-gh">i18next/i18next</span>
+                </a>
+                <a class="tile" href="https://github.com/pytest-dev/pytest" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Test</span>
+                  <span class="tile-name">pytest</span>
+                  <span class="tile-role">backend/tests · monkeypatch</span>
+                  <span class="tile-gh">pytest-dev/pytest</span>
+                </a>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Runtime</span>
+                  <span class="tile-name">Linkin 主倉</span>
+                  <span class="tile-role">EvoLoop · RAHO · Hub · billing</span>
+                  <span class="tile-gh">iiooiioo888/Linkin</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="stack-block">
+              <div class="stack-block-head">
+                <h3>工業 · 遊戲 · MCP</h3>
+                <span class="count">4 組件</span>
+              </div>
+              <div class="tiles compact">
+                <a class="tile" href="https://github.com/FreeOpcUa/opcua-asyncio" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">OPC</span>
+                  <span class="tile-name">asyncua</span>
+                  <span class="tile-role">OPC UA · opc_service :8001</span>
+                  <span class="tile-gh">FreeOpcUa/opcua-asyncio</span>
+                </a>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin/tree/master/opc_service" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Guard</span>
+                  <span class="tile-name">opc_service</span>
+                  <span class="tile-role">寫入必經 guard.py</span>
+                  <span class="tile-gh">Linkin/opc_service</span>
+                </a>
+                <a class="tile" href="https://github.com/modelcontextprotocol/specification" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">MCP</span>
+                  <span class="tile-name">Model Context Protocol</span>
+                  <span class="tile-role">技能 · MineMCP 橋接</span>
+                  <span class="tile-gh">modelcontextprotocol</span>
+                </a>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin/blob/master/docs/linkin/minecraft-mcp.md" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Game</span>
+                  <span class="tile-name">MineMCP</span>
+                  <span class="tile-role">Paper 插件 · minecraft_ops 路徑</span>
+                  <span class="tile-gh">docs/linkin/minecraft-mcp.md</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="stack-block">
+              <div class="stack-block-head">
+                <h3>整合召回 · Agent 技能（主倉可選）</h3>
+                <span class="count">6+ 連接器</span>
+              </div>
+              <div class="tiles compact">
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <span class="tile-name">MemOS</span>
+                  <span class="tile-role">長期記憶召回 · 明確觸發才注入</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <span class="tile-name">OpenViking</span>
+                  <span class="tile-role">知識庫整合召回</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <span class="tile-name">WeKnora</span>
+                  <span class="tile-role">結構化檢索適配</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Recall</span>
+                  <span class="tile-name">Yao · Ouroboros</span>
+                  <span class="tile-role">Agent 工作流與閉環擴展</span>
+                </div>
+                <div class="tile tile-static">
+                  <span class="tile-cat">Design</span>
+                  <span class="tile-name">OpenPencil</span>
+                  <span class="tile-role">設計資產與協作召回</span>
+                </div>
+                <a class="tile" href="https://github.com/iiooiioo888/Linkin/blob/master/docs/mcp/agent-skills.md" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Skills</span>
+                  <span class="tile-name">.agents/skills</span>
+                  <span class="tile-role">104+ Agent 包 · skills-lock.json</span>
+                  <span class="tile-gh">docs/mcp/agent-skills.md</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="stack-block">
+              <div class="stack-block-head">
+                <h3>LinkinL 官網 · 頁面 CDN</h3>
+                <span class="count">3 libs</span>
+              </div>
+              <div class="tiles compact">
+                <a class="tile" href="https://github.com/darkroomengineering/lenis" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Scroll</span>
+                  <span class="tile-name">Lenis</span>
+                  <span class="tile-role">平滑捲動 · 執行軸同步</span>
+                  <span class="tile-gh">darkroomengineering/lenis</span>
+                </a>
+                <a class="tile" href="https://github.com/greensock/GSAP" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Motion</span>
+                  <span class="tile-name">GSAP</span>
+                  <span class="tile-role">ScrollTrigger · reveal</span>
+                  <span class="tile-gh">greensock/GSAP</span>
+                </a>
+                <a class="tile" href="https://github.com/chartjs/Chart.js" target="_blank" rel="noopener noreferrer">
+                  <span class="tile-cat">Chart</span>
+                  <span class="tile-name">Chart.js</span>
+                  <span class="tile-role">0x04 實證區占位圖</span>
+                  <span class="tile-gh">chartjs/Chart.js</span>
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1223,11 +1514,13 @@
           </div>
           <div class="terminal" id="terminal">
             <div class="terminal-bar">0x0A / TERMINAL · 本機快速開始</div>
-            <pre><span class="prompt">$</span> git clone https://github.com/iiooiioo888/Linkin.git
-<span class="prompt">$</span> cd Linkin && docker compose up -d redis chroma
+            <pre><span class="prompt">$</span> git clone https://github.com/iiooiioo888/LinkinL.git && cd LinkinL
+<span class="prompt">$</span> ./scripts/install.sh              # → ./linkin-runtime + linkinl.json
+<span class="prompt">$</span> cd linkin-runtime && cp .env.example .env
+<span class="prompt">$</span> docker compose up -d redis chroma
 <span class="prompt">$</span> python -m backend.main
 <span class="prompt">$</span> cd frontend && npm run dev
-<span class="prompt">#</span> 後端 :8000 · 前端 :3001 · 完整步驟 docs/getting-started.md</pre>
+<span class="prompt">#</span> 後端 :8000 · 前端 :3001 · ./scripts/update.sh · docs/getting-started.html</pre>
           </div>
         </section>
 
