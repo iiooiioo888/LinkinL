@@ -36,12 +36,12 @@
 
 .ecosystem-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--gap);
   margin-top: var(--u2);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .ecosystem-grid {
     grid-template-columns: 1fr;
   }
@@ -63,6 +63,10 @@
 
 .ecosystem-card.accent-provenance {
   box-shadow: inset 3px 0 0 var(--lime);
+}
+
+.ecosystem-card.accent-team {
+  box-shadow: inset 3px 0 0 var(--amber);
 }
 
 .ecosystem-card-head {
