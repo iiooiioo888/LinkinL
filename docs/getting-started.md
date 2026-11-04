@@ -2,6 +2,8 @@
 
 LinkinL 官網（[iiooiioo888.github.io/LinkinL](https://iiooiioo888.github.io/LinkinL/)）說明**產品與架構**；實際運行時使用 [Linkin 主倉](https://github.com/iiooiioo888/Linkin)（`master`）。本頁說明如何用 **LinkinL 腳本**安裝與更新，以及啟動服務。
 
+> **首頁錨點：** 互動版摘要已合入首頁 [`#x0c-install`](../index.html#x0c-install)（安裝）、[`#x0b-layers`](../index.html#x0b-layers)（四層）、[`#x0a-faq`](../index.html#x0a-faq)（FAQ）。舊 `#hero` 等連結會自動轉到 `xNN-slug`。
+
 ## 平台
 
 | 環境 | 建議 |
@@ -131,4 +133,4 @@ python -m backend.main
 - **LinkinL**（本 repo）：GitHub Pages 官網、四層敘事、**install/update 腳本**、`linkinl.json` manifest。
 - **Linkin**（主倉）：LangGraph 管線、控制台、部署與全部運行時程式碼。
 
-架構摘要：[four-layers.md](four-layers.md)
+架構摘要：[four-layers.md](four-layers.md) · 首頁 [#x0b-layers](https://iiooiioo888.github.io/LinkinL/#x0b-layers)
