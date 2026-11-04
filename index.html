@@ -149,13 +149,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: var(--u2) 0;
+      padding: var(--u) 0;
       position: fixed;
       top: var(--topbar);
       bottom: 0;
       left: 0;
       z-index: 50;
+      overflow-y: auto;
+      scrollbar-width: none;
     }
+    .timeline-rail::-webkit-scrollbar { display: none; }
     .rail-node {
       width: 28px;
       height: 28px;
@@ -168,7 +171,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 9px;
       color: var(--sub);
-      margin: 6px 0;
+      margin: 4px 0;
       position: relative;
       text-decoration: none;
       transition: border-color 0.2s, color 0.2s;
@@ -184,7 +187,7 @@
       top: 100%;
       left: 50%;
       width: 1px;
-      height: 10px;
+      height: 8px;
       background: var(--bd);
       transform: translateX(-50%);
     }
@@ -327,7 +330,7 @@
       min-width: 0;
       margin-left: var(--rail);
       width: calc(100% - var(--rail));
-      max-width: min(1120px, calc(100vw - var(--rail)));
+      max-width: none;
       padding: var(--section-pad);
       padding-bottom: calc(var(--u6) * 2);
     }
@@ -470,11 +473,6 @@
         aspect-ratio: 880 / 148;
         height: auto;
         max-height: 200px;
-      }
-      .main {
-        margin-right: max(var(--u2), calc((100vw - var(--rail) - 1120px) / 2));
-        width: min(1120px, calc(100vw - var(--rail) - var(--u2)));
-        max-width: 1120px;
       }
     }
     .dag-node rect { fill: var(--surface-hi); stroke: var(--bd); stroke-width: 1; rx: 0; }
@@ -1285,14 +1283,25 @@
     </header>
 
     <div class="body-wrap">
-      <aside class="timeline-rail" aria-label="四層執行時間軸">
-        <a class="rail-node active" href="#x02-product" title="L04 · x02-product" data-rail="L4">L4</a>
-        <a class="rail-node" href="#x03-budget" title="L03 · x03-budget" data-rail="L3">L3</a>
-        <a class="rail-node" href="#x03-consensus" title="L02 · x03-consensus" data-rail="L2">L2</a>
-        <a class="rail-node" href="#x05-integrations" title="L01 · x05-integrations" data-rail="L1">L1</a>
-        <a class="rail-node rail-mini" href="#x0b-layers" title="四層詳解 · x0b-layers">📄</a>
-        <a class="rail-node rail-mini" href="#x0c-install" title="本機安裝 · x0c-install">⌘</a>
-        <div class="rail-label">72px · 執行軸</div>
+      <aside class="timeline-rail" aria-label="頁面錨點">
+        <a class="rail-node active" href="#x00-hero" title="首頁">00</a>
+        <a class="rail-node" href="#x01-pain" title="痛點">01</a>
+        <a class="rail-node" href="#x02-product" title="L04 四層">L4</a>
+        <a class="rail-node" href="#x03-engine" title="引擎">擎</a>
+        <a class="rail-node" href="#x03-budget" title="L03 預算">L3</a>
+        <a class="rail-node" href="#x03-consensus" title="L02 共識">L2</a>
+        <a class="rail-node" href="#x03-tool-sim" title="工具模擬">工</a>
+        <a class="rail-node" href="#x04-evidence" title="實證">證</a>
+        <a class="rail-node" href="#x05-integrations" title="L01 整合">L1</a>
+        <a class="rail-node" href="#x05-ui-atlas" title="組件圖鑑">件</a>
+        <a class="rail-node" href="#x06-compare" title="對照">對</a>
+        <a class="rail-node" href="#x07-trust" title="信任">信</a>
+        <a class="rail-node" href="#x08-voices" title="聲音">聲</a>
+        <a class="rail-node" href="#x09-pricing" title="定價">價</a>
+        <a class="rail-node" href="#x0b-layers" title="四層詳解">層</a>
+        <a class="rail-node" href="#x0c-install" title="本機安裝">裝</a>
+        <a class="rail-node" href="#x0d-where" title="分工">分</a>
+        <a class="rail-node" href="#x0a-faq" title="FAQ">問</a>
       </aside>
 
       <main class="main">
@@ -2286,7 +2295,7 @@
             </article>
             <article class="ui-specimen">
               <h4>.timeline-rail</h4>
-              <p>左側 L4→L1 圓形節點 · <code>.rail-node.active</code> lime 邊框</p>
+              <p>左側全頁錨點（00、L4–L1、分工、FAQ）· <code>.rail-node.active</code> lime 邊框</p>
               <div class="demo demo-chip-row"><span class="chip">72px rail</span></div>
             </article>
             <article class="ui-specimen">
@@ -3146,7 +3155,7 @@ cp .env.linkinl.example .env.linkinl</pre>
         });
       }
 
-      var RAIL_SECTIONS = ['#x02-product', '#x03-budget', '#x03-consensus', '#x05-integrations', '#x0b-layers', '#x0c-install'];
+      var RAIL_SECTIONS = ['#x00-hero', '#x01-pain', '#x02-product', '#x03-engine', '#x03-budget', '#x03-consensus', '#x03-tool-sim', '#x04-evidence', '#x05-integrations', '#x05-ui-atlas', '#x06-compare', '#x07-trust', '#x08-voices', '#x09-pricing', '#x0b-layers', '#x0c-install', '#x0d-where', '#x0a-faq'];
       var railNodes = document.querySelectorAll('.timeline-rail .rail-node');
       var navLinks = function () { return document.querySelectorAll('#site-nav a[data-nav-id]'); };
 
